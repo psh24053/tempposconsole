@@ -6,7 +6,7 @@ import org.apache.log4j.*;
 
 public class PosLogger {
 
-	public static Logger logger = Logger.getLogger("cn.panshihao.pos");
+	public static Logger log = Logger.getLogger("cn.panshihao.pos");
 	
 	private static String nowSeparator = File.separator;
 	
