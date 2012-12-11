@@ -29,7 +29,7 @@ CREATE TABLE `temp_category` (
   `category_id` int(6) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(32) NOT NULL,
   `category_desc` text NOT NULL,
-  `category_form` varchar(128) NOT NULL,
+  `category_form` varchar(128),
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
