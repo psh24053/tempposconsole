@@ -8,7 +8,9 @@ import cn.panshihao.pos.tools.PosLogger;
 //对user表的操作
 public class UserDAO extends SuperDAO {
 	
-	private String tablesName = "temp_users";
+	private final String tablesName = "temp_users";
+	
+	private final String primaryKeyName = "user_id";
 	
 	//添加用户操作
 	public boolean addUser(User user){
@@ -61,14 +63,78 @@ public class UserDAO extends SuperDAO {
 		
 	}
 	
+	//修改用户操作
+	public boolean updateUser(User user){
+		
+		boolean isSuccess = false;
+		
+		if (user == null) {
+
+			PosLogger.log.error("update user fail,user object is not exist");
+			return isSuccess;
+
+		}
+		
+		// 检查userid是否为空
+		if (user.getUser_id() <= 0) {
+
+			PosLogger.log.error("update user fail,user id is not exist");
+			return isSuccess;
+
+		}
+
+		// 检查密码是否为空
+		if (user.getUser_pass() == null) {
+
+			PosLogger.log.error("add user fail,user password is not exist");
+			return isSuccess;
+
+		}
+
+		// 检查用户级别是否合法
+		if (user.getUser_grade() > 2 || user.getUser_grade() < 0) {
+
+			PosLogger.log.error("add user fail,user grade is not legal");
+			return isSuccess;
+
+		}
+		
+		//构造添加数据集合
+		HashMap<String,Object> colunmsMap = new HashMap<String,Object>();
+		
+		
+		if (user.getUser_name() != null) {
+
+			colunmsMap.put("user_name",user.getUser_name());
+		}
+
+		if (user.getUser_pass() == null) {
+
+			colunmsMap.put("user_pass",user.getUser_pass());
+
+		}
+		
+		if (user.getUser_grade() < 3 || user.getUser_grade() > 0) {
+
+			colunmsMap.put("user_grade",user.getUser_grade());
+
+		}
+		
+		isSuccess = this.updateToDatabase(tablesName,primaryKeyName,user.getUser_id(),colunmsMap);
+		
+		return isSuccess;
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		UserDAO dao = new UserDAO();
 		User user = new User();
-		user.setUser_name("1");
-		user.setUser_pass("2");
+		user.setUser_id(1);
+		user.setUser_name("李姐和我");
+		user.setUser_pass("666888");
 		user.setUser_grade(1);
-		dao.addUser(user);
+		dao.updateUser(user);
 		
 	}
 	

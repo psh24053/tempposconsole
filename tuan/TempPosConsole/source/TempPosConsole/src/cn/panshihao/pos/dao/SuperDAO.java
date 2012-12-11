@@ -74,8 +74,6 @@ public class SuperDAO {
 			
 			String sql = sqlHead + sqltail;
 			
-			PosLogger.log.debug("insert sql is :" + sql);
-			
 			ps = conn.prepareStatement(sql);
 
 			int result = ps.executeUpdate();
@@ -125,5 +123,106 @@ public class SuperDAO {
 
 	}
 	
+	//更新操作
+	public boolean updateToDatabase(String tableName,String primaryKeyName,int primaryKeyValue,HashMap<String,Object> colunmsMap){
+		
+		boolean isSuccess = false;
+		
+		if (tableName == null) {
+
+			PosLogger.log.error("update hander,tablename is not exist");
+			return isSuccess;
+
+		}
+		
+		if (colunmsMap == null) {
+
+			PosLogger.log.error("update hander,colunmsList is not exist");
+			return isSuccess;
+
+		}
+		
+		if (primaryKeyValue <= 0) {
+
+			PosLogger.log.error("update hander,primaryKeyValue is not exist");
+			return isSuccess;
+
+		}
+		
+		try {
+
+			conn = SQLConn.getConnection();
+			
+			String sql = "update " + tableName + " set ";
+			
+			//构造添加语句
+			for(String colunmsName : colunmsMap.keySet()){
+				
+				sql += colunmsName + "=";
+				
+				if(colunmsMap.get(colunmsName) instanceof String){
+					
+					sql += "'" + colunmsMap.get(colunmsName) + "',";
+					
+				}else{
+					
+					sql += colunmsMap.get(colunmsName) + ",";
+					
+				}
+				
+			}
+			
+			sql = sql.substring(0, sql.length() - 1);
+			
+			sql += " where " + primaryKeyName + "=" + primaryKeyValue + ";";
+			
+			ps = conn.prepareStatement(sql);
+
+			int result = ps.executeUpdate();
+
+			if (result > 0) {
+
+				PosLogger.log.info("insert into " + tableName + " success");
+
+				isSuccess = true;
+
+			} else {
+
+				PosLogger.log.error("insert into database error");
+
+			}
+
+		} catch (SQLException e) {
+
+			PosLogger.log.error(e.getMessage());
+
+		} finally {
+
+			// 关闭资源
+
+			if (ps != null) {
+
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+
+			}
+
+			if (conn != null) {
+
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+			}
+
+		}
+		
+		return isSuccess;
+		
+	}
 	
 }
