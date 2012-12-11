@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `temp_key`;
 
 CREATE TABLE `temp_key` (
   `key_id` int(6) NOT NULL AUTO_INCREMENT,
-  `tuan_id` int(6) NOT NULL,
+  `tuan_id` int(6),
   `key_code` char(24) NOT NULL,
   `key_status` int(1) NOT NULL,
   PRIMARY KEY (`key_id`),
