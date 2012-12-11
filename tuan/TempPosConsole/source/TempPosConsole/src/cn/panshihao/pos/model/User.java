@@ -1,5 +1,9 @@
 package cn.panshihao.pos.model;
 
+/**
+ * @author 彭琅
+ */
+/*对应用户的实体类*/
 public class User {
 
 	private int user_id;
