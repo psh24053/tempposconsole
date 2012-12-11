@@ -7,15 +7,20 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -69,7 +74,9 @@ public class mainWindow {
 	 * 搜索区域 
 	 */
 	public Composite main_search = null;
-	
+	public Label main_search_label = null;
+	public Text main_search_text = null;
+	public Button main_search_button = null;
 	
 	/*
 	 * 间隔区域最小单位
@@ -77,6 +84,20 @@ public class mainWindow {
 	public int marginWidthValue = 0;
 	public int marginHeightValue = 0;
 	
+	
+	/*
+	 * Tab区域
+	 */
+	public TabFolder main_tab = null;
+	
+	
+	/*
+	 * Footer区域 
+	 */
+	public Composite main_footer = null;
+	public Label main_footer_version = null;
+	public Label main_footer_user = null;
+	public Label main_footer_time = null;
 	
 	/**
 	 * 构造方法
@@ -97,6 +118,9 @@ public class mainWindow {
 		
 		initSearch();
 		
+		initTabs();
+		
+		initFooter();
 		/*
 		 * 显示界面
 		 */
@@ -111,10 +135,76 @@ public class mainWindow {
 		
 	}
 	/**
+	 * 初始化footer
+	 */
+	private void initFooter(){
+		
+		main_footer = new Composite(main_shell, SWT.NONE);
+		
+		int footerWidth = main_shell.getBounds().width - marginWidthValue * 2;
+		int footerHeight = marginHeightValue * 4;
+		
+		main_footer.setBounds(marginWidthValue, main_tab.getBounds().y + main_tab.getBounds().height + marginHeightValue, footerWidth, footerHeight);
+//		main_footer.setBackground(new Color(main_shell.getDisplay(), new RGB(0xff, 0x00, 0x00)));
+		
+		main_footer_version = new Label(main_footer, SWT.NONE);
+		main_footer_version.setText("当前版本 Ver1.0.0");
+		main_footer_version.setBounds(0, marginHeightValue, marginWidthValue * 10, marginHeightValue * 2);
+		
+		main_footer_user = new Label(main_footer, SWT.NONE);
+		main_footer_user.setText("当前用户 操作员(01)");
+		main_footer_user.setBounds(main_footer_version.getBounds().x + main_footer_version.getBounds().width + marginWidthValue, marginHeightValue, marginWidthValue * 10, marginHeightValue * 2);
+		
+		main_footer_time = new Label(main_footer, SWT.NONE);
+		main_footer_time.setText("当前时间 2012-12-12 00:17:12");
+		main_footer_time.setBounds(main_footer_user.getBounds().x + main_footer_user.getBounds().width + marginWidthValue, marginHeightValue, marginWidthValue * 13, marginHeightValue * 2);
+		
+		
+		
+	}
+	
+	/**
+	 * 初始化tabs区域
+	 */
+	private void initTabs(){
+		
+		main_tab = new TabFolder(main_shell, SWT.NONE);
+		
+		int tabWidth = main_shell.getBounds().width - marginWidthValue * 2;
+		int tabHeight = marginHeightValue * 80;
+		
+		main_tab.setBounds(marginWidthValue, main_search.getBounds().y + main_search.getBounds().height + marginHeightValue, tabWidth, tabHeight);
+		
+		TabItem item = new TabItem(main_tab, SWT.NONE);
+		item.setText("Item 1");
+		
+		TabItem item2 = new TabItem(main_tab, SWT.NONE);
+		item2.setText("Item 2");
+	}
+	/**
 	 * 初始化搜索区域
 	 */
 	private void initSearch(){
 		
+		main_search = new Composite(main_shell, SWT.NONE);
+		
+		
+		int searchWidth = main_shell.getBounds().width - marginWidthValue * 2;
+		int searchHeight = marginHeightValue * 5;
+		
+		main_search.setBounds(marginWidthValue, main_button.getBounds().y + main_button.getBounds().height + marginHeightValue, searchWidth, searchHeight);
+//		main_search.setBackground(new Color(main_shell.getDisplay(), new RGB(0xff, 0x00, 0x00)));
+		
+		main_search_label = new Label(main_search, SWT.NONE);
+		main_search_label.setText("搜索内容");
+		main_search_label.setBounds(0, (int)(marginHeightValue * 1.5), marginWidthValue * 4, marginHeightValue * 2);
+		
+		main_search_text = new Text(main_search, SWT.BORDER);
+		main_search_text.setBounds(main_search_label.getBounds().width , main_search_label.getBounds().y - (int)(marginHeightValue * 0.5), marginWidthValue * 20, marginHeightValue * 3);
+		
+		main_search_button = new Button(main_search, SWT.NONE);
+		main_search_button.setText("搜索");
+		main_search_button.setBounds(main_search_text.getBounds().x + main_search_text.getBounds().width + marginWidthValue, (int)(marginHeightValue * 1), marginWidthValue * 5, marginHeightValue * 3);
 	}
 	
 	/**
@@ -127,7 +217,7 @@ public class mainWindow {
 		main_button = new Composite(main_shell, SWT.NONE);
 		
 		int buttonWidth = main_shell.getBounds().width - marginWidthValue * 2;
-		int buttonHeight = marginHeightValue * 10;
+		int buttonHeight = marginHeightValue * 5;
 		
 		main_button.setBounds(marginWidthValue, 0, buttonWidth, buttonHeight);
 		
@@ -187,7 +277,6 @@ public class mainWindow {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
