@@ -90,8 +90,8 @@ DROP TABLE IF EXISTS `temp_tuan`;
 
 CREATE TABLE `temp_tuan` (
   `tuan_id` int(6) NOT NULL AUTO_INCREMENT,
-  `category_id` int(6) NOT NULL,
-  `firm_id` int(6) NOT NULL,
+  `category_id` int(6),
+  `firm_id` int(6),
   `tuan_name` varchar(32) NOT NULL,
   `tuan_desc` text NOT NULL,
   `tuan_starttime` bigint(21) NOT NULL,
