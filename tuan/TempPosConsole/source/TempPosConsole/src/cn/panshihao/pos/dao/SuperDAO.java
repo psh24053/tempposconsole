@@ -2,6 +2,7 @@ package cn.panshihao.pos.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -19,6 +20,8 @@ public class SuperDAO {
 	private Connection conn = null;
 	
 	private PreparedStatement ps = null;
+	
+	private ResultSet rs = null;
 	
 	//添加操作
 	public boolean insertIntoDatabase(String tableName,HashMap<String,Object> colunmsMap) {
@@ -63,7 +66,7 @@ public class SuperDAO {
 				}
 				
 			}
-			
+
 			sqlHead = sqlHead.substring(0, sqlHead.length() - 1);
 			
 			sqlHead += ")";
@@ -182,13 +185,13 @@ public class SuperDAO {
 
 			if (result > 0) {
 
-				PosLogger.log.info("insert into " + tableName + " success");
+				PosLogger.log.info("update into " + tableName + " success");
 
 				isSuccess = true;
 
 			} else {
 
-				PosLogger.log.error("insert into database error");
+				PosLogger.log.error("update into database error");
 
 			}
 
@@ -222,6 +225,146 @@ public class SuperDAO {
 		}
 		
 		return isSuccess;
+		
+	}
+	
+	//删除操作
+	public boolean deleteToDatabase(String tableName,String primaryKeyName,int primaryKeyValue){
+		
+		boolean isSuccess = false;
+		
+		if (tableName == null) {
+
+			PosLogger.log.error("delete hander,tablename is not exist");
+			return isSuccess;
+
+		}
+		
+		if (primaryKeyValue <= 0) {
+
+			PosLogger.log.error("delete hander,primaryKeyValue is not exist");
+			return isSuccess;
+
+		}
+		
+		try {
+
+			conn = SQLConn.getConnection();
+			
+			String sql = "delete from " + tableName + " where " + primaryKeyName + "=" + primaryKeyValue;
+			
+			ps = conn.prepareStatement(sql);
+
+			int result = ps.executeUpdate();
+
+			if (result > 0) {
+
+				PosLogger.log.info("delete " + tableName + " success");
+
+				isSuccess = true;
+
+			} else {
+
+				PosLogger.log.error("delete database error");
+
+			}
+
+		} catch (SQLException e) {
+
+			PosLogger.log.error(e.getMessage());
+
+		} finally {
+
+			// 关闭资源
+
+			if (ps != null) {
+
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+
+			}
+
+			if (conn != null) {
+
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+			}
+
+		}
+		
+		return isSuccess;
+		
+	}
+	
+	//根据主键获取对象
+	public ResultSet selectFromDatabase(String tableName,String primaryKeyName,int primaryKeyValue){
+
+		if (tableName == null) {
+
+			PosLogger.log.error("select hander,tablename is not exist");
+			return null;
+
+		}
+		
+		if (primaryKeyValue <= 0) {
+
+			PosLogger.log.error("select hander,primaryKeyValue is not exist");
+			return null;
+
+		}
+		
+		try {
+
+			conn = SQLConn.getConnection();
+			
+			String sql = "select *  from " + tableName + " where " + primaryKeyName + "=" + primaryKeyValue;
+			
+			ps = conn.prepareStatement(sql);
+
+			rs = ps.executeQuery();
+
+			if(rs == null){
+				
+				PosLogger.log.error("have no data tableName=" + tableName + " primaryKeyValue=" + primaryKeyValue);
+				
+			}
+			
+		} catch (SQLException e) {
+
+			PosLogger.log.error(e.getMessage());
+
+		} finally {
+
+			// 关闭资源
+
+			if (ps != null) {
+
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+
+			}
+
+			if (conn != null) {
+
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+			}
+
+		}
+		
+		return rs;
 		
 	}
 	

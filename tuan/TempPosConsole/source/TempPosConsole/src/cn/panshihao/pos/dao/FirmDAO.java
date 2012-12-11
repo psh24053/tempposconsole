@@ -1,5 +1,7 @@
 package cn.panshihao.pos.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import cn.panshihao.pos.model.Firm;
@@ -8,7 +10,9 @@ import cn.panshihao.pos.tools.PosLogger;
 //对firm表的操作
 public class FirmDAO extends SuperDAO {
 	
-	private String tablesName = "temp_firm";
+	private final String tablesName = "temp_firm";
+	
+	private final String primaryKeyName = "firm_id";
 	
 	//添加企业操作
 	public boolean addFirm(Firm firm){
@@ -79,16 +83,148 @@ public class FirmDAO extends SuperDAO {
 		
 	}
 	
+	//修改企业操作
+	public boolean updateFirm(Firm firm){
+		
+		boolean isSuccess = false;
+		
+		if (firm == null) {
+
+			PosLogger.log.error("update firm fail,firm object is not exist");
+			return isSuccess;
+
+		}
+		
+		// 检查firmid是否为空
+		if (firm.getFirm_id() <= 0) {
+
+			PosLogger.log.error("update firm fail,firm id is not exist");
+			return isSuccess;
+
+		}
+		
+		//构造添加数据集合
+		HashMap<String,Object> colunmsMap = new HashMap<String,Object>();
+		
+		
+		if (firm.getFirm_name() != null) {
+
+			colunmsMap.put("firm_name",firm.getFirm_name());
+		}
+
+		if (firm.getFirm_desc() != null) {
+
+			colunmsMap.put("firm_desc",firm.getFirm_desc());
+
+		}
+		
+		if (firm.getFirm_address() != null) {
+
+			colunmsMap.put("firm_address",firm.getFirm_address());
+
+		}
+		
+		if (firm.getFirm_phone() != null) {
+
+			colunmsMap.put("firm_phone",firm.getFirm_phone());
+
+		}
+		
+		if (firm.getFirm_person() != null) {
+
+			colunmsMap.put("firm_person",firm.getFirm_person());
+
+		}
+		
+		isSuccess = this.updateToDatabase(tablesName,primaryKeyName,firm.getFirm_id(),colunmsMap);
+		
+		return isSuccess;
+		
+	}
+	
+	//删除企业
+	public boolean deleteFirm(int primaryKeyVaule){
+		
+		boolean isSuccess = false;
+		
+		// 检查primaryKeyVaule是否为空
+		if (primaryKeyVaule <= 0) {
+
+			PosLogger.log.error("delete firm fail,firm id is not exist");
+			return isSuccess;
+
+		}
+
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		
+		return isSuccess;
+		
+	}
+	
+	//根据主键获得Firm
+	public Firm getFirmFromDatabase(int primaryKeyVaule){
+		
+		Firm frim = new Firm();
+		
+		// 检查primaryKeyVaule是否为空
+		if (primaryKeyVaule <= 0) {
+
+			PosLogger.log.error("select frim fail,frim id is not exist");
+			return null;
+
+		}
+
+		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		
+		if(rs == null){
+			
+			PosLogger.log.error("result is null");
+			return null;
+			
+		}
+		
+		try {
+			
+			if(rs.next()){
+				
+				frim.setFirm_address(rs.getString("firm_address"));
+				frim.setFirm_desc(rs.getString("firm_desc"));
+				frim.setFirm_id(rs.getInt("firm_id"));
+				frim.setFirm_name(rs.getString("firm_name"));
+				frim.setFirm_person(rs.getString("firm_person"));
+				frim.setFirm_phone(rs.getString("firm_phone"));
+				
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+			}
+			
+		}
+		
+		return frim;
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		FirmDAO dao = new FirmDAO();
 		Firm f = new Firm();
+		f.setFirm_id(1);
 		f.setFirm_name("乐上天网吧");
 		f.setFirm_address("仁寿太富");
 		f.setFirm_desc("这个是很好的网吧");
 		f.setFirm_person("老王");
 		f.setFirm_phone("15008224403");
-		dao.addFirm(f);
+		dao.updateFirm(f);
 		
 	}
 	

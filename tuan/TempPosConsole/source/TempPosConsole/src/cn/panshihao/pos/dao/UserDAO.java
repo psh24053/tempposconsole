@@ -1,5 +1,7 @@
 package cn.panshihao.pos.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import cn.panshihao.pos.model.User;
@@ -83,22 +85,6 @@ public class UserDAO extends SuperDAO {
 
 		}
 
-		// 检查密码是否为空
-		if (user.getUser_pass() == null) {
-
-			PosLogger.log.error("add user fail,user password is not exist");
-			return isSuccess;
-
-		}
-
-		// 检查用户级别是否合法
-		if (user.getUser_grade() > 2 || user.getUser_grade() < 0) {
-
-			PosLogger.log.error("add user fail,user grade is not legal");
-			return isSuccess;
-
-		}
-		
 		//构造添加数据集合
 		HashMap<String,Object> colunmsMap = new HashMap<String,Object>();
 		
@@ -108,7 +94,7 @@ public class UserDAO extends SuperDAO {
 			colunmsMap.put("user_name",user.getUser_name());
 		}
 
-		if (user.getUser_pass() == null) {
+		if (user.getUser_pass() != null) {
 
 			colunmsMap.put("user_pass",user.getUser_pass());
 
@@ -123,6 +109,76 @@ public class UserDAO extends SuperDAO {
 		isSuccess = this.updateToDatabase(tablesName,primaryKeyName,user.getUser_id(),colunmsMap);
 		
 		return isSuccess;
+		
+	}
+	
+	public boolean deleteUser(int primaryKeyVaule){
+		
+		boolean isSuccess = false;
+		
+		// 检查primaryKeyVaule是否为空
+		if (primaryKeyVaule <= 0) {
+
+			PosLogger.log.error("delete user fail,user id is not exist");
+			return isSuccess;
+
+		}
+
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		
+		return isSuccess;
+		
+	}
+	
+	//根据主键获得user
+	public User getUserFromDatabase(int primaryKeyVaule){
+		
+		User user = new User();
+		
+		// 检查primaryKeyVaule是否为空
+		if (primaryKeyVaule <= 0) {
+
+			PosLogger.log.error("select user fail,user id is not exist");
+			return null;
+
+		}
+
+		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		
+		if(rs == null){
+			
+			PosLogger.log.error("result is null");
+			return null;
+			
+		}
+		
+		try {
+			
+			if(rs.next()){
+				
+				user.setUser_id(rs.getInt("user_id"));
+				user.setUser_name(rs.getString("user_name"));
+				user.setUser_pass(rs.getString("user_pass"));
+				user.setUser_grade(rs.getInt("user_grade"));
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+			}
+			
+		}
+		
+		return user;
 		
 	}
 	

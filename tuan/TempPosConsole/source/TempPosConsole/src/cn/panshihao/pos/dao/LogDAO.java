@@ -1,5 +1,7 @@
 package cn.panshihao.pos.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import cn.panshihao.pos.model.Log;
@@ -8,7 +10,9 @@ import cn.panshihao.pos.tools.PosLogger;
 //对Log表的操作
 public class LogDAO extends SuperDAO {
 	
-	private String tablesName = "temp_log";
+	private final String tablesName = "temp_log";
+	
+	private final String primaryKeyName = "log_id";
 	
 	//添加兑换码操作
 	public boolean addKey(Log log){
@@ -61,14 +65,132 @@ public class LogDAO extends SuperDAO {
 		
 	}
 	
+	//修改日志操作
+	public boolean updateLog(Log log){
+		
+		boolean isSuccess = false;
+		
+		if (log == null) {
+
+			PosLogger.log.error("update log fail,log object is not exist");
+			return isSuccess;
+
+		}
+		
+		// 检查logid是否为空
+		if (log.getLog_id() <= 0) {
+
+			PosLogger.log.error("update log fail,log id is not exist");
+			return isSuccess;
+
+		}
+		
+		//构造添加数据集合
+		HashMap<String,Object> colunmsMap = new HashMap<String,Object>();
+		
+		
+		if (log.getUser_id() > 0) {
+
+			colunmsMap.put("user_id",log.getUser_id());
+		}
+
+		if (log.getLog_content() != null) {
+
+			colunmsMap.put("log_content",log.getLog_content());
+
+		}
+		
+		if (log.getLog_time() > 0) {
+
+			colunmsMap.put("log_time",log.getLog_time());
+
+		}
+		
+		isSuccess = this.updateToDatabase(tablesName,primaryKeyName,log.getLog_id(),colunmsMap);
+		
+		return isSuccess;
+		
+	}
+	
+	//删除员工日志
+	public boolean deleteLog(int primaryKeyVaule){
+		
+		boolean isSuccess = false;
+		
+		// 检查primaryKeyVaule是否为空
+		if (primaryKeyVaule <= 0) {
+
+			PosLogger.log.error("delete log fail,log id is not exist");
+			return isSuccess;
+
+		}
+
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		
+		return isSuccess;
+		
+	}
+	
+	//根据主键获得Log
+	public Log getLogFromDatabase(int primaryKeyVaule){
+		
+		Log log = new Log();
+		
+		// 检查primaryKeyVaule是否为空
+		if (primaryKeyVaule <= 0) {
+
+			PosLogger.log.error("select log fail,log id is not exist");
+			return null;
+
+		}
+
+		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		
+		if(rs == null){
+			
+			PosLogger.log.error("result is null");
+			return null;
+			
+		}
+		
+		try {
+			
+			if(rs.next()){
+				
+				log.setLog_content(rs.getString("log_content"));
+				log.setLog_id(rs.getInt("log_id"));
+				log.setLog_time(rs.getLong("log_time"));
+				log.setUser_id(rs.getInt("user_id"));
+				
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+			}
+			
+		}
+		
+		return log;
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		LogDAO dao = new LogDAO();
 		Log f = new Log();
+		f.setLog_id(1);
 		f.setLog_content("这是第一个log");
 		f.setLog_time(System.currentTimeMillis());
 		f.setUser_id(1);
-		dao.addKey(f);
+		dao.updateLog(f);
 		
 	}
 	
