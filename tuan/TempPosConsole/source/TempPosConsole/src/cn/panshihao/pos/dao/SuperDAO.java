@@ -3,13 +3,8 @@ package cn.panshihao.pos.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import cn.panshihao.pos.model.Category;
-import cn.panshihao.pos.model.Firm;
-import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
 import cn.panshihao.pos.tools.SQLConn;
 
@@ -21,11 +16,11 @@ import cn.panshihao.pos.tools.SQLConn;
 //对数据库的基本操作
 public class SuperDAO {
 	
-	public Connection conn = null;
+	private Connection conn = null;
 	
-	public PreparedStatement ps = null;
+	private PreparedStatement ps = null;
 	
-	//增加User
+	//添加操作
 	public boolean insertIntoDatabase(String tableName,HashMap<String,Object> colunmsMap) {
 
 		boolean isSuccess = false;
@@ -52,11 +47,20 @@ public class SuperDAO {
 			
 			String sqltail = " values(";
 			
+			//构造添加语句
 			for(String colunmsName : colunmsMap.keySet()){
 				
 				sqlHead += colunmsName + ",";
 				
-				sqltail += colunmsMap.get(colunmsName) + ",";
+				if(colunmsMap.get(colunmsName) instanceof String){
+					
+					sqltail += "'" + colunmsMap.get(colunmsName) + "',";
+					
+				}else{
+					
+					sqltail += colunmsMap.get(colunmsName) + ",";
+					
+				}
 				
 			}
 			
@@ -70,7 +74,7 @@ public class SuperDAO {
 			
 			String sql = sqlHead + sqltail;
 			
-			PosLogger.log.debug("insert sql is " + sql);
+			PosLogger.log.debug("insert sql is :" + sql);
 			
 			ps = conn.prepareStatement(sql);
 

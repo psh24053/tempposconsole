@@ -1,8 +1,6 @@
 package cn.panshihao.pos.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
