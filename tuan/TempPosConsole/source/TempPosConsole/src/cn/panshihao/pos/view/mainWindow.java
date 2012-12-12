@@ -171,7 +171,7 @@ public class mainWindow {
 		main_tab = new TabFolder(main_shell, SWT.NONE);
 		
 		int tabWidth = main_shell.getBounds().width - marginWidthValue * 2;
-		int tabHeight = marginHeightValue * 80;
+		int tabHeight = marginHeightValue * 85;
 		
 		main_tab.setBounds(marginWidthValue, main_search.getBounds().y + main_search.getBounds().height + marginHeightValue, tabWidth, tabHeight);
 		
