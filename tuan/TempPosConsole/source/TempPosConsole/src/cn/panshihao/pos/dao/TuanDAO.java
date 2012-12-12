@@ -1,7 +1,5 @@
 package cn.panshihao.pos.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import cn.panshihao.pos.model.Tuan;
@@ -188,41 +186,42 @@ public class TuanDAO extends SuperDAO {
 
 		}
 
-		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		HashMap<String,Object> dataMap = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
 		
-		if(rs == null){
+		if(dataMap == null){
 			
 			PosLogger.log.error("result is null");
 			return null;
 			
 		}
 		
-		try {
+		if(dataMap.get("category_id") != null){
+			tuan.setCategory_id((int)dataMap.get("category_id"));
+		}
+		if(dataMap.get("firm_id") != null){
 			
-			if(rs.next()){
-				
-				tuan.setCategory_id(rs.getInt("category_id"));
-				tuan.setFirm_id(rs.getInt("firm_id"));
-				tuan.setTuan_desc(rs.getString("tuan_desc"));
-				tuan.setTuan_endtime(rs.getLong("tuan_endtime"));
-				tuan.setTuan_id(rs.getInt("tuan_id"));
-				tuan.setTuan_name(rs.getString("tuan_name"));
-				tuan.setTuan_starttime(rs.getLong("tuan_starttime"));
-				
-			}
+			tuan.setFirm_id((int)dataMap.get("firm_id"));
 			
-		} catch (SQLException e) {
-			PosLogger.log.error(e.getMessage());
-		} finally{
+		}
+		if(dataMap.get("tuan_desc") != null){
 			
-			if(rs != null){
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			tuan.setTuan_desc((String)dataMap.get("tuan_desc"));
+		}
+		if(dataMap.get("tuan_endtime") != null){
 			
+			tuan.setTuan_endtime((long)dataMap.get("tuan_endtime"));
+		}
+		if(dataMap.get("tuan_id") != null){
+			
+			tuan.setTuan_id((int)dataMap.get("tuan_id"));
+		}
+		if(dataMap.get("tuan_name") != null){
+			
+			tuan.setTuan_name((String)dataMap.get("tuan_name"));
+		}
+		if(dataMap.get("tuan_starttime") != null){
+			
+			tuan.setTuan_starttime((long)dataMap.get("tuan_starttime"));
 		}
 		
 		return tuan;
@@ -232,15 +231,19 @@ public class TuanDAO extends SuperDAO {
 	public static void main(String[] args) {
 		
 		TuanDAO dao = new TuanDAO();
-		Tuan f = new Tuan();
-		f.setTuan_id(1);
+//		Tuan f = new Tuan();
+//		f.setTuan_id(1);
 //		f.setCategory_id(1);
 //		f.setFirm_id(1);
-		f.setTuan_desc("这是团的网吧上网的团购");
-		f.setTuan_name("了上天网吧1.5元一小时团购票");
-		f.setTuan_starttime(System.currentTimeMillis());
-		f.setTuan_endtime(System.currentTimeMillis() - 2000);
-		dao.updateTuan(f);
+//		f.setTuan_desc("这是团的网吧上网的团购");
+//		f.setTuan_name("了上天网吧1.5元一小时团购票");
+//		f.setTuan_starttime(System.currentTimeMillis());
+//		f.setTuan_endtime(System.currentTimeMillis() - 2000);
+//		dao.updateTuan(f);
+		Tuan t = dao.getTuanFromDatabase(2);
+		System.out.println(t.getCategory_id());
+		System.out.println(t.getFirm_id());
+		System.out.println(t.getTuan_endtime());
 		
 	}
 	

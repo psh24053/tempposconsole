@@ -3,6 +3,7 @@ package cn.panshihao.pos.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
@@ -143,41 +144,28 @@ public class UserDAO extends SuperDAO {
 
 		}
 
-		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		HashMap<String,Object> dataMap = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
 		
-		if(rs == null){
+		if(dataMap == null){
 			
 			PosLogger.log.error("result is null");
 			return null;
 			
 		}
 		
-		try {
-			
-			if(rs.next()){
-				
-				user.setUser_id(rs.getInt("user_id"));
-				user.setUser_name(rs.getString("user_name"));
-				user.setUser_pass(rs.getString("user_pass"));
-				user.setUser_grade(rs.getInt("user_grade"));
-				
-				
-			}
-			
-		} catch (SQLException e) {
-			PosLogger.log.error(e.getMessage());
-		} finally{
-			
-			if(rs != null){
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
-			
+		//加入数据
+		if(dataMap.get("user_id") != null){
+			user.setUser_id((int)dataMap.get("user_id"));
 		}
-		
+		if(dataMap.get("user_grade") != null){
+			
+			user.setUser_grade((int)dataMap.get("user_grade"));
+		}
+		if(dataMap.get("user_name") != null){
+			
+			user.setUser_name((String)dataMap.get("user_name"));
+		}
+
 		return user;
 		
 	}
@@ -185,12 +173,14 @@ public class UserDAO extends SuperDAO {
 	public static void main(String[] args) {
 		
 		UserDAO dao = new UserDAO();
-		User user = new User();
-		user.setUser_id(1);
-		user.setUser_name("李姐和我");
-		user.setUser_pass("666888");
-		user.setUser_grade(1);
-		dao.updateUser(user);
+//		User user = new User();
+//		user.setUser_id(1);
+//		user.setUser_name("李姐和我");
+//		user.setUser_pass("666888");
+//		user.setUser_grade(1);
+//		dao.updateUser(user);
+		User user = dao.getUserFromDatabase(1);
+		System.out.println(user.getUser_name());
 		
 	}
 	

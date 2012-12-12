@@ -145,38 +145,31 @@ public class CategoryDAO extends SuperDAO {
 
 		}
 
-		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		HashMap<String,Object> dataMap = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
 		
-		if(rs == null){
+		if(dataMap == null){
 			
 			PosLogger.log.error("result is null");
 			return null;
 			
 		}
 		
-		try {
+		//加入数据
+		if(dataMap.get("category_id") != null){
 			
-			if(rs.next()){
-				
-				category.setCategory_id(rs.getInt("category_id"));
-				category.setCategory_form(rs.getString("category_form"));
-				category.setCategory_desc(rs.getString("category_desc"));
-				category.setCategory_name(rs.getString("category_name"));
-				
-			}
+			category.setCategory_id((int)dataMap.get("category_id"));
+		}
+		if(dataMap.get("category_form") != null){
 			
-		} catch (SQLException e) {
-			PosLogger.log.error(e.getMessage());
-		} finally{
+			category.setCategory_form((String)dataMap.get("category_form"));
+		}
+		if(dataMap.get("category_desc") != null){
 			
-			if(rs != null){
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			category.setCategory_desc((String)dataMap.get("category_desc"));
+		}
+		if(dataMap.get("category_name") != null){
 			
+			category.setCategory_name((String)dataMap.get("category_name"));
 		}
 		
 		return category;

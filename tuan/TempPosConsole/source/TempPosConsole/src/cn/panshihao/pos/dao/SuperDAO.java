@@ -3,8 +3,11 @@ package cn.panshihao.pos.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.panshihao.pos.tools.PosLogger;
 import cn.panshihao.pos.tools.SQLConn;
@@ -303,8 +306,10 @@ public class SuperDAO {
 	}
 	
 	//根据主键获取对象
-	public ResultSet selectFromDatabase(String tableName,String primaryKeyName,int primaryKeyValue){
-
+	public HashMap<String,Object> selectFromDatabase(String tableName,String primaryKeyName,int primaryKeyValue){
+		
+		HashMap<String,Object> dataMap = null;
+		
 		if (tableName == null) {
 
 			PosLogger.log.error("select hander,tablename is not exist");
@@ -334,6 +339,23 @@ public class SuperDAO {
 				PosLogger.log.error("have no data tableName=" + tableName + " primaryKeyValue=" + primaryKeyValue);
 				
 			}
+
+			//将rs转换为list
+			ResultSetMetaData metaData = rs.getMetaData();
+			
+			int columnCount = metaData.getColumnCount();
+
+			dataMap = new HashMap<String, Object>();
+			
+			if(rs.next()){
+				
+				for(int i = 1 ; i <= columnCount ; i++){
+
+					dataMap.put(metaData.getColumnName(i), rs.getObject(i));
+					
+				}
+				
+			}
 			
 		} catch (SQLException e) {
 
@@ -342,7 +364,17 @@ public class SuperDAO {
 		} finally {
 
 			// 关闭资源
-
+			
+			if(rs != null){
+				
+				try{
+					rs.close();
+				}catch(SQLException e){
+					PosLogger.log.error(e.getMessage());
+				}
+				
+			}
+			
 			if (ps != null) {
 
 				try {
@@ -364,7 +396,7 @@ public class SuperDAO {
 
 		}
 		
-		return rs;
+		return dataMap;
 		
 	}
 	

@@ -144,40 +144,33 @@ public class LogDAO extends SuperDAO {
 
 		}
 
-		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		HashMap<String,Object> dataMap = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
 		
-		if(rs == null){
+		if(dataMap == null){
 			
 			PosLogger.log.error("result is null");
 			return null;
 			
 		}
 		
-		try {
+		if(dataMap.get("log_content") != null){
 			
-			if(rs.next()){
-				
-				log.setLog_content(rs.getString("log_content"));
-				log.setLog_id(rs.getInt("log_id"));
-				log.setLog_time(rs.getLong("log_time"));
-				log.setUser_id(rs.getInt("user_id"));
-				
-			}
+			log.setLog_content((String)dataMap.get("log_content"));
+		}
+		if(dataMap.get("log_id") != null){
 			
-		} catch (SQLException e) {
-			PosLogger.log.error(e.getMessage());
-		} finally{
-			
-			if(rs != null){
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			log.setLog_id((int)dataMap.get("log_id"));
 			
 		}
-		
+		if(dataMap.get("log_time") != null){
+			log.setLog_time((long)dataMap.get("log_time"));
+			
+		}
+		if(dataMap.get("user_id") != null){
+			
+			log.setUser_id((int)dataMap.get("user_id"));
+		}
+
 		return log;
 		
 	}

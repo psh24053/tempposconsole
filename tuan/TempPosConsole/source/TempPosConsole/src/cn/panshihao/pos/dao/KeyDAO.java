@@ -144,40 +144,32 @@ public class KeyDAO extends SuperDAO {
 
 		}
 
-		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		HashMap<String,Object> dataMap = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
 		
-		if(rs == null){
+		if(dataMap == null){
 			
 			PosLogger.log.error("result is null");
 			return null;
 			
 		}
 		
-		try {
+		if(dataMap.get("key_code") != null){
 			
-			if(rs.next()){
-				
-				key.setKey_code(rs.getString("key_code"));
-				key.setKey_id(rs.getInt("key_id"));
-				key.setKey_status(rs.getInt("key_status"));
-				key.setTuan_id(rs.getInt("tuan_id"));
-				
-			}
+			key.setKey_code((String)dataMap.get("key_code"));
+		}
+		if(dataMap.get("key_id") != null){
 			
-		} catch (SQLException e) {
-			PosLogger.log.error(e.getMessage());
-		} finally{
-			
-			if(rs != null){
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			key.setKey_id((int)dataMap.get("key_id"));
+		}
+		if(dataMap.get("key_status") != null){
+			key.setKey_status((int)dataMap.get("key_status"));
 			
 		}
-		
+		if(dataMap.get("tuan_id") != null){
+			
+			key.setTuan_id((int)dataMap.get("tuan_id"));
+		}
+
 		return key;
 		
 	}

@@ -174,42 +174,40 @@ public class FirmDAO extends SuperDAO {
 
 		}
 
-		ResultSet rs = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
+		HashMap<String,Object> dataMap = this.selectFromDatabase(tablesName,primaryKeyName,primaryKeyVaule);
 		
-		if(rs == null){
+		if(dataMap == null){
 			
 			PosLogger.log.error("result is null");
 			return null;
 			
 		}
 		
-		try {
+		if(dataMap.get("firm_address") != null){
 			
-			if(rs.next()){
-				
-				frim.setFirm_address(rs.getString("firm_address"));
-				frim.setFirm_desc(rs.getString("firm_desc"));
-				frim.setFirm_id(rs.getInt("firm_id"));
-				frim.setFirm_name(rs.getString("firm_name"));
-				frim.setFirm_person(rs.getString("firm_person"));
-				frim.setFirm_phone(rs.getString("firm_phone"));
-				
-			}
+			frim.setFirm_address((String)dataMap.get("firm_address"));
+		}
+		if(dataMap.get("firm_desc") != null){
 			
-		} catch (SQLException e) {
-			PosLogger.log.error(e.getMessage());
-		} finally{
+			frim.setFirm_desc((String)dataMap.get("firm_desc"));
+		}
+		if(dataMap.get("firm_id") != null){
 			
-			if(rs != null){
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			frim.setFirm_id((int)dataMap.get("firm_id"));
+		}
+		if(dataMap.get("firm_name") != null){
+			
+			frim.setFirm_name((String)dataMap.get("firm_name"));
+		}
+		if(dataMap.get("firm_person") != null){
+			frim.setFirm_person((String)dataMap.get("firm_person"));
 			
 		}
-		
+		if(dataMap.get("firm_phone") != null){
+			
+			frim.setFirm_phone((String)dataMap.get("firm_phone"));
+		}
+	
 		return frim;
 		
 	}
