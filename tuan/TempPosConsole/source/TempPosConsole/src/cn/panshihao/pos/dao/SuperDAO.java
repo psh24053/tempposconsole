@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import cn.panshihao.pos.tools.PosLogger;
 import cn.panshihao.pos.tools.SQLConn;
@@ -104,24 +102,7 @@ public class SuperDAO {
 
 			// 关闭资源
 
-			if (ps != null) {
-
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-
-			}
-
-			if (conn != null) {
-
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			this.closeConnection();
 
 		}
 
@@ -206,24 +187,7 @@ public class SuperDAO {
 
 			// 关闭资源
 
-			if (ps != null) {
-
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-
-			}
-
-			if (conn != null) {
-
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			this.closeConnection();
 
 		}
 		
@@ -279,25 +243,7 @@ public class SuperDAO {
 		} finally {
 
 			// 关闭资源
-
-			if (ps != null) {
-
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-
-			}
-
-			if (conn != null) {
-
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			this.closeConnection();
 
 		}
 		
@@ -364,39 +310,44 @@ public class SuperDAO {
 		} finally {
 
 			// 关闭资源
-			
-			if(rs != null){
-				
-				try{
-					rs.close();
-				}catch(SQLException e){
-					PosLogger.log.error(e.getMessage());
-				}
-				
-			}
-			
-			if (ps != null) {
-
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-
-			}
-
-			if (conn != null) {
-
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					PosLogger.log.error(e.getMessage());
-				}
-			}
+			this.closeConnection();
 
 		}
 		
 		return dataMap;
+		
+	}
+	
+	private void closeConnection(){
+		
+		if(this.rs != null){
+			
+			try{
+				rs.close();
+			}catch(SQLException e){
+				PosLogger.log.error(e.getMessage());
+			}
+			
+		}
+		
+		if (this.ps != null) {
+
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				PosLogger.log.error(e.getMessage());
+			}
+
+		}
+
+		if (this.conn != null) {
+
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				PosLogger.log.error(e.getMessage());
+			}
+		}
 		
 	}
 	

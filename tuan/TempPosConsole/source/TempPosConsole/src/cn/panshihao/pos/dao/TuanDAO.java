@@ -2,6 +2,9 @@ package cn.panshihao.pos.dao;
 
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cn.panshihao.pos.model.Tuan;
 import cn.panshihao.pos.tools.PosLogger;
 
@@ -240,11 +243,18 @@ public class TuanDAO extends SuperDAO {
 //		f.setTuan_starttime(System.currentTimeMillis());
 //		f.setTuan_endtime(System.currentTimeMillis() - 2000);
 //		dao.updateTuan(f);
-		Tuan t = dao.getTuanFromDatabase(2);
-		System.out.println(t.getCategory_id());
-		System.out.println(t.getFirm_id());
-		System.out.println(t.getTuan_endtime());
-		
+//		Tuan t = dao.getTuanFromDatabase(2);
+//		System.out.println(t.getCategory_id());
+//		System.out.println(t.getFirm_id());
+//		System.out.println(t.getTuan_endtime());
+		JSONObject json = new JSONObject();
+		try {
+			json.put("df", "df");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(json);
 	}
 	
 }

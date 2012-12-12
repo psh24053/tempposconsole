@@ -1,14 +1,27 @@
 package cn.panshihao.pos.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cn.panshihao.pos.model.Category;
 import cn.panshihao.pos.tools.PosLogger;
+import cn.panshihao.pos.tools.SQLConn;
 
 //对category表的操作
 public class CategoryDAO extends SuperDAO {
+	
+	private Connection conn = null;
+	
+	private PreparedStatement ps = null;
+	
+	private ResultSet rs = null;
 	
 	private final String tablesName = "temp_category";
 	
@@ -173,6 +186,96 @@ public class CategoryDAO extends SuperDAO {
 		}
 		
 		return category;
+		
+	}
+	
+	/**
+	 * @author penglang
+	 * @param start:查询开始位置,count:查询条数
+	 * @return JsonObject
+	 * 获取所有类别信息
+	 * json说明:"list"-包含所有类别的数组名,"count"-实际得到的类别条数,"cid"-类别ID,
+	 * "name"-类别名称,"desc"-类别描述,"form"-类别自定义表单
+	 * json例:{count:2,list:[{uid:1,name:"娱乐","desc":"K歌,上网,样样都有",form:"暂不知道什么形式"}
+	 * ,{uid:2,name:"餐饮",desc:"吃饭喝酒什么都有",form:"暂不知道什么形式"}]}
+	 */
+	public JSONObject getAllCategory(int start,int count){
+		
+		JSONObject allCategoryArray = new JSONObject();
+		
+		PosLogger.log.debug("Get all of category");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select * from " + tablesName  + " limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Database have no category");
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject categoryJson = new  JSONObject();
+				categoryJson.put("cid", rs.getInt("category_id"));
+				categoryJson.put("name", rs.getString("category_name"));
+				categoryJson.put("desc", rs.getInt("category_desc"));
+				categoryJson.put("form", rs.getInt("category_form"));
+				
+				array.put(categoryJson);
+				
+			}
+			
+			allCategoryArray.put("list", array);
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return allCategoryArray;
+	}
+	
+	private void closeConnection(){
+		
+		if(this.rs != null){
+			
+			try{
+				rs.close();
+			}catch(SQLException e){
+				PosLogger.log.error(e.getMessage());
+			}
+			
+		}
+		
+		if (this.ps != null) {
+
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				PosLogger.log.error(e.getMessage());
+			}
+
+		}
+
+		if (this.conn != null) {
+
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				PosLogger.log.error(e.getMessage());
+			}
+		}
 		
 	}
 	
