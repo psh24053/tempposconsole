@@ -272,17 +272,11 @@ public class mainWindow {
 		/*
 		 * 为当前界面注册键盘事件
 		 */
-		main_shell.addKeyListener(new KeyListener() {
+		main_shell.getDisplay().addFilter(SWT.KeyDown, new Listener() {
 			
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void handleEvent(Event e) {
 				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
 				if(e.stateMask == SWT.ALT && e.keyCode == 'q'){
 					// Alt + Q
 					exitApplication();
@@ -290,8 +284,6 @@ public class mainWindow {
 					// Alt + F1
 					openHelp();
 				}
-				
-				
 			}
 		});
 	}
