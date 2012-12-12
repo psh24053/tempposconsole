@@ -5,6 +5,7 @@ import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -28,8 +29,12 @@ import org.eclipse.swt.widgets.Text;
  * @author Administrator
  *
  */
-public class mainWindow {
+public class mainWindow extends superWindow {
 
+	public mainWindow(Display display) {
+		super(display);
+		// TODO Auto-generated constructor stub
+	}
 	/*
 	 * 任务栏标题
 	 */
@@ -56,6 +61,8 @@ public class mainWindow {
 	public Menu main_menu_system_menu = null;
 	public MenuItem main_menu_system_menu_help = null;
 	public MenuItem main_menu_system_menu_helpSeperator = null;
+	public MenuItem main_menu_system_menu_printer = null;
+	
 	public MenuItem main_menu_system_menu_exit = null;
 	
 	/*
@@ -99,16 +106,14 @@ public class mainWindow {
 	public Label main_footer_user = null;
 	public Label main_footer_time = null;
 	
-	/**
-	 * 构造方法
-	 */
-	public mainWindow() {
-		init();
-	}
+	
+	public superWindow printerSettingsWindow;
+	
 	/**
 	 * 初始化界面
 	 */
-	private void init(){
+	@Override
+	public void init(){
 		
 		initBase();
 		
@@ -171,7 +176,7 @@ public class mainWindow {
 		main_tab = new TabFolder(main_shell, SWT.NONE);
 		
 		int tabWidth = main_shell.getBounds().width - marginWidthValue * 2;
-		int tabHeight = marginHeightValue * 85;
+		int tabHeight = marginHeightValue * 80;
 		
 		main_tab.setBounds(marginWidthValue, main_search.getBounds().y + main_search.getBounds().height + marginHeightValue, tabWidth, tabHeight);
 		
@@ -283,6 +288,9 @@ public class mainWindow {
 				}else if(e.stateMask == SWT.ALT && e.keyCode == SWT.F1){
 					// Alt + F1
 					openHelp();
+				}else if(e.stateMask == SWT.ALT && e.keyCode == 'p'){
+					// Alt + p
+					openPinter();
 				}
 			}
 		});
@@ -317,7 +325,7 @@ public class mainWindow {
 		
 		// 关于菜单项
 		main_menu_system_menu_help = new MenuItem(main_menu_system_menu, SWT.CASCADE);
-		main_menu_system_menu_help.setText("关于　　Alt + F1");
+		main_menu_system_menu_help.setText("关于　　　　Alt + F1");
 		main_menu_system_menu_help.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -332,12 +340,24 @@ public class mainWindow {
 				
 			}
 		});
+		
+		main_menu_system_menu_printer = new MenuItem(main_menu_system_menu, SWT.CASCADE);
+		main_menu_system_menu_printer.setText("打印设置　　Alt + P");
+		main_menu_system_menu_printer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				openPinter();
+			}
+			
+		});
+		
 		// 关于菜单项下面的分割线
 		main_menu_system_menu_helpSeperator = new MenuItem(main_menu_system_menu, SWT.SEPARATOR);
 		
 		// 退出菜单项
 		main_menu_system_menu_exit = new MenuItem(main_menu_system_menu, SWT.CASCADE);
-		main_menu_system_menu_exit.setText("退出　　Alt + Q");
+		main_menu_system_menu_exit.setText("退出　　　　Alt + Q");
 		main_menu_system_menu_exit.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -359,6 +379,17 @@ public class mainWindow {
 	private void exitApplication(){
 		System.out.println("dispose application");
 		main_shell.dispose();
+	}
+	/**
+	 * 打开打印设置界面的方法
+	 */
+	private void openPinter(){
+		
+		if(printerSettingsWindow == null || printerSettingsWindow.isDisposed()){
+			printerSettingsWindow = new printerSettingsWindow(this);
+			printerSettingsWindow.init();
+		}
+		
 	}
 	/**
 	 * 打开关于界面的方法
@@ -398,5 +429,10 @@ public class mainWindow {
 			}
 		}
 		
+	}
+	@Override
+	public boolean isDisposed() {
+		// TODO Auto-generated method stub
+		return main_shell.isDisposed();
 	}
 }

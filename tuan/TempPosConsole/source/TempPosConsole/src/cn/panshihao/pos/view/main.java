@@ -48,7 +48,8 @@ public class main {
 	 */
 	public static void main(String[] args) {
 		
-		mainWindow mainWindow = new mainWindow();
+		mainWindow mainWindow = new mainWindow(Display.getDefault());
+		mainWindow.init();
 //		final Display display = Display.getDefault();
 //		
 //		
