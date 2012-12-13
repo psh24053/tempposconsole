@@ -23,6 +23,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.json.JSONObject;
+
+import cn.panshihao.pos.dao.CategoryDAO;
+import cn.panshihao.pos.tools.PosLogger;
 
 /**
  * 主界面类
@@ -185,6 +189,32 @@ public class mainWindow extends superWindow {
 		
 		TabItem item2 = new TabItem(main_tab, SWT.NONE);
 		item2.setText("Item 2");
+		
+		
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				CategoryDAO dao = new CategoryDAO();
+				JSONObject json = dao.getAllCategory(0, 10);
+				
+				
+				getDisplay().asyncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						TabItem item3 = new TabItem(main_tab, SWT.NONE);
+						item3.setText("你妹");
+						
+					}
+				});
+			}
+		}).start();
+		
+		
 	}
 	/**
 	 * 初始化搜索区域

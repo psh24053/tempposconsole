@@ -224,8 +224,8 @@ public class CategoryDAO extends SuperDAO {
 				JSONObject categoryJson = new  JSONObject();
 				categoryJson.put("cid", rs.getInt("category_id"));
 				categoryJson.put("name", rs.getString("category_name"));
-				categoryJson.put("desc", rs.getInt("category_desc"));
-				categoryJson.put("form", rs.getInt("category_form"));
+				categoryJson.put("desc", rs.getString("category_desc"));
+				categoryJson.put("form", rs.getString("category_form"));
 				
 				array.put(categoryJson);
 				
