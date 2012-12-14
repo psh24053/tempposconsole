@@ -1,0 +1,10 @@
+[2012/12/13 11:47:31][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 11:47:31][CategoryDAO.java:237][Thread-0][ERROR]: Invalid value for getInt() - '娱乐团购'
+[2012/12/13 11:48:28][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 11:49:07][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 11:49:07][mainWindow.java:203][Thread-0][DEBUG]: Category All: {"list":[{"desc":"娱乐团购","name":"娱乐团购","cid":1}]}
+[2012/12/13 11:51:15][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 11:51:47][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 11:54:39][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 13:16:09][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/13 13:57:21][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
