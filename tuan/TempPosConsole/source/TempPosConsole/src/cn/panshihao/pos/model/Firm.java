@@ -1,6 +1,8 @@
 package cn.panshihao.pos.model;
 
-public class Firm {
+import java.io.Serializable;
+
+public class Firm implements Serializable {
 	
 	private int firm_id;
 	private String firm_name;

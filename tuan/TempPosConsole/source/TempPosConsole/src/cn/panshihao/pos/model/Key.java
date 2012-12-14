@@ -1,6 +1,8 @@
 package cn.panshihao.pos.model;
 
-public class Key {
+import java.io.Serializable;
+
+public class Key implements Serializable {
 	
 	private int key_id;
 	private int tuan_id;

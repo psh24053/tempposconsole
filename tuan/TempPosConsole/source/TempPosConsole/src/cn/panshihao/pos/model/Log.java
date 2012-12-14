@@ -1,10 +1,12 @@
 package cn.panshihao.pos.model;
 
+import java.io.Serializable;
+
 /**
  * @author 彭琅
  */
 //对应用户日志的实体类
-public class Log {
+public class Log implements Serializable {
 	
 	private int log_id;
 	private int user_id;

@@ -8,3 +8,19 @@
 [2012/12/13 11:54:39][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
 [2012/12/13 13:16:09][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
 [2012/12/13 13:57:21][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/14 19:13:14][CategoryDAO.java:206][Thread-0][DEBUG]: Get all of category
+[2012/12/14 19:13:15][SQLConn.java:35][Thread-0][ERROR]: Access denied for user 'posdba'@'localhost' (using password: YES)
+[2012/12/14 21:03:25][CacheHandler.java:306][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {}
+[2012/12/14 21:03:25][CacheHandler.java:318][main][DEBUG]: cacheManager.SaveObjectCache -> BaseMap -> {} -> true
+[2012/12/14 21:04:04][CacheHandler.java:310][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {123=gg}
+[2012/12/14 21:04:05][CacheHandler.java:322][main][DEBUG]: cacheManager.SaveObjectCache -> BaseMap -> {123=gg} -> true
+[2012/12/14 21:04:47][CacheHandler.java:310][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {123=gg}
+[2012/12/14 21:04:47][CacheHandler.java:322][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {123=gg} -> true
+[2012/12/14 21:05:40][CacheHandler.java:401][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/14 21:05:40][CacheHandler.java:235][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/14 21:05:40][CacheHandler.java:246][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/14 21:05:40][CacheHandler.java:424][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {123=gg}
+[2012/12/14 21:06:37][CacheHandler.java:401][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/14 21:06:37][CacheHandler.java:235][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/14 21:06:37][CacheHandler.java:246][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/14 21:06:37][CacheHandler.java:424][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {123=gg}

@@ -1,10 +1,12 @@
 package cn.panshihao.pos.model;
 
+import java.io.Serializable;
+
 /**
  * @author 彭琅
  */
 //类别实体类
-public class Category {
+public class Category implements Serializable{
 	
 	private int category_id;
 	private String category_name;

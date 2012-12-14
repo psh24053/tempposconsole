@@ -1,10 +1,12 @@
 package cn.panshihao.pos.model;
 
+import java.io.Serializable;
+
 /**
  * @author 彭琅
  */
 /*对应用户的实体类*/
-public class User {
+public class User implements Serializable {
 
 	private int user_id;
 	private String user_name;

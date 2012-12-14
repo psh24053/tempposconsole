@@ -2,6 +2,7 @@ package cn.panshihao.pos.view;
 
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public abstract class superWindow {
@@ -68,7 +69,21 @@ public abstract class superWindow {
 		
 		
 	}
-	
+	/**
+	 * 打开alert对话框
+	 * @param shell
+	 * @param title
+	 * @param msg
+	 */
+	public void alert(Shell shell, String title, String msg){
+		if(shell == null || shell.isDisposed()){
+			return;
+		}
+		MessageBox box = new MessageBox(shell);
+		box.setText(title);
+		box.setMessage(msg);
+		box.open();
+	}
 	/**
 	 * 初始化方法
 	 */
