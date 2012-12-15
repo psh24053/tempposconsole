@@ -273,7 +273,7 @@ public class KeyDAO extends SuperDAO {
 		
 		JSONObject keyArray = new JSONObject();
 		
-		PosLogger.log.debug("Get already key by tuanID");
+		PosLogger.log.debug("Get already used key by tuanID");
 		
 		conn = SQLConn.getConnection();
 		
@@ -285,6 +285,70 @@ public class KeyDAO extends SuperDAO {
 			
 			if(rs == null){
 				PosLogger.log.error("This tuanID have no already key ,tuanID = " + tuanID);
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject logJson = new  JSONObject();
+				logJson.put("kid", rs.getInt("key_id"));
+				logJson.put("cod", rs.getString("key_code"));
+				
+				array.put(logJson);
+				
+			}
+			
+			keyArray.put("list", array);
+			keyArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return keyArray;
+	}
+	
+	/**
+	 * @author penglang
+	 * @param tuanID:团购ID,start:查询开始位置,count:查询条数
+	 * @return JsonObject
+	 * 获取指定团购未使用兑换码.
+	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"kid"-兑换码ID,
+	 * "cod"-兑换码).
+	 * json例:{count:2,list:[{kid:1,"cod":"12345ASLDKHGGJD"}
+	 * ,{kid:2,"cod":"12345ASLDKHGGJD"}]}
+	 */
+	public JSONObject getNotUsedKeyByTuanID(int tuanID,int start,int count){
+		
+		//检查团购ID是否合法
+		if(tuanID <= 0){
+			
+			PosLogger.log.error("TuanID is not exist");
+			
+		}
+		
+		JSONObject keyArray = new JSONObject();
+		
+		PosLogger.log.debug("Get not used key by tuanID");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select * from temp_key where tuan_id=" + tuanID + 
+							" and user_status=0 limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("This tuanID have no not userd key ,tuanID = " + tuanID);
 				return null;
 			}
 			
