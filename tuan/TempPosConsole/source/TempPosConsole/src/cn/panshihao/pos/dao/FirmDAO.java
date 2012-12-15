@@ -319,6 +319,50 @@ public class FirmDAO extends SuperDAO {
 		
 	}
 	
+	/**
+	 * 
+	 * @author penglang
+	 * @param firmName(商家名)
+	 * @return ture(该商家名可以使用),false(该商家名已被使用);
+	 */
+	public boolean checkFirmNameIsExist(String firmName){
+		
+		boolean isExist = false;
+		
+		PosLogger.log.debug("check firm name is exist");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select count(*) from " + tablesName + " where firm_name=" + firmName);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Database error");
+			}
+			
+			if(rs.next()){
+
+				if(rs.getInt(1) == 0){
+					
+					//商家名未被使用
+					isExist = true;
+					
+				}
+				
+			}else{
+				PosLogger.log.error("Database error");
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		}
+
+		return isExist;
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		FirmDAO dao = new FirmDAO();
