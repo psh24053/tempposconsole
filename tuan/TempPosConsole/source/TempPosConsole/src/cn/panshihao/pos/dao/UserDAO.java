@@ -182,6 +182,50 @@ public class UserDAO extends SuperDAO {
 		
 	}
 	
+	//验证登陆
+	public User checkUserLogin(String userName,String passWord){
+		
+		User user = new User();
+		
+		PosLogger.log.debug("check use login");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select * from " + tablesName + " where userName=" + userName);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("This user not Exist,username = " + userName);
+			}
+			
+			if(rs.next()){
+				
+				if((rs.getString("user_pass")).equals(passWord)){
+					
+					PosLogger.log.debug("username and password check success");
+					user.setUser_grade(rs.getInt("user_grade"));
+					user.setUser_id(rs.getInt("user_id"));
+					user.setUser_name(userName);
+					
+				}else{
+					PosLogger.log.error("user password error");
+					return null;
+				}
+				
+			}else{
+				PosLogger.log.error("UserName not Exist = " + userName);
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		}
+
+		return user;
+		
+	}
+	
 	/**
 	 * @author penglang
 	 * @param start:查询开始位置,count:查询条数

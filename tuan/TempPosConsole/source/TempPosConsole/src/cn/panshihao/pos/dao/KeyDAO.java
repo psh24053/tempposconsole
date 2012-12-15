@@ -1,12 +1,27 @@
 package cn.panshihao.pos.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.panshihao.pos.model.Key;
 import cn.panshihao.pos.tools.PosLogger;
+import cn.panshihao.pos.tools.SQLConn;
 
 //对Key表的操作
 public class KeyDAO extends SuperDAO {
+	
+	private Connection conn = null;
+	
+	private PreparedStatement ps = null;
+	
+	private ResultSet rs = null;
 	
 	private final String tablesName = "temp_key";
 	
@@ -169,6 +184,168 @@ public class KeyDAO extends SuperDAO {
 		}
 
 		return key;
+		
+	}
+	
+	/**
+	 * @author penglang
+	 * @param tuanID:团购ID,start:查询开始位置,count:查询条数
+	 * @return JsonObject
+	 * 获取指定团购兑换码.
+	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"kid"-兑换码ID,
+	 * "cod"-兑换码,"sta"-兑换码状态(0为未售出兑换码,1为已售出兑换码).
+	 * json例:{count:2,list:[{kid:1,"cod":"12345ASLDKHGGJD",sta:1}
+	 * ,{kid:2,"cod":"12345ASLDKHGGJD",sta:0}]}
+	 */
+	public JSONObject getKeyByTuanID(int tuanID,int start,int count){
+		
+		//检查团购ID是否合法
+		if(tuanID <= 0){
+			
+			PosLogger.log.error("TuanID is not exist");
+			
+		}
+		
+		JSONObject keyArray = new JSONObject();
+		
+		PosLogger.log.debug("Get key by tuanID");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select * from temp_key where tuan_id=" + tuanID + 
+							" limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("This tuan have no key ,tuanID = " + tuanID);
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject logJson = new  JSONObject();
+				logJson.put("kid", rs.getInt("key_id"));
+				logJson.put("cod", rs.getString("key_code"));
+				logJson.put("sta", rs.getInt("key_status"));
+				
+				array.put(logJson);
+				
+			}
+			
+			keyArray.put("list", array);
+			keyArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return keyArray;
+	}
+	
+	/**
+	 * @author penglang
+	 * @param tuanID:团购ID,start:查询开始位置,count:查询条数
+	 * @return JsonObject
+	 * 获取指定团购已使用兑换码.
+	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"kid"-兑换码ID,
+	 * "cod"-兑换码).
+	 * json例:{count:2,list:[{kid:1,"cod":"12345ASLDKHGGJD"}
+	 * ,{kid:2,"cod":"12345ASLDKHGGJD"}]}
+	 */
+	public JSONObject getUsedKeyByTuanID(int tuanID,int start,int count){
+		
+		//检查团购ID是否合法
+		if(tuanID <= 0){
+			
+			PosLogger.log.error("TuanID is not exist");
+			
+		}
+		
+		JSONObject keyArray = new JSONObject();
+		
+		PosLogger.log.debug("Get already key by tuanID");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select * from temp_key where tuan_id=" + tuanID + 
+							" and user_status=1 limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("This tuanID have no already key ,tuanID = " + tuanID);
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject logJson = new  JSONObject();
+				logJson.put("kid", rs.getInt("key_id"));
+				logJson.put("cod", rs.getString("key_code"));
+				
+				array.put(logJson);
+				
+			}
+			
+			keyArray.put("list", array);
+			keyArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return keyArray;
+	}
+	
+	private void closeConnection(){
+		
+		if(this.rs != null){
+			
+			try{
+				rs.close();
+			}catch(SQLException e){
+				PosLogger.log.error(e.getMessage());
+			}
+			
+		}
+		
+		if (this.ps != null) {
+
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				PosLogger.log.error(e.getMessage());
+			}
+
+		}
+
+		if (this.conn != null) {
+
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				PosLogger.log.error(e.getMessage());
+			}
+		}
 		
 	}
 	
