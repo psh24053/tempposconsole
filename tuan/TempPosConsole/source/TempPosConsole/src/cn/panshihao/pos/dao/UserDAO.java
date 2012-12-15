@@ -192,7 +192,9 @@ public class UserDAO extends SuperDAO {
 		conn = SQLConn.getConnection();
 		
 		try {
-			ps = conn.prepareStatement("select * from " + tablesName + " where userName=" + userName);
+			ps = conn.prepareStatement("select * from " + tablesName + " where user_name=?");
+			
+			ps.setString(1, userName);
 			
 			rs = ps.executeQuery();
 			
