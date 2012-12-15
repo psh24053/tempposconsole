@@ -200,6 +200,7 @@ public class UserDAO extends SuperDAO {
 			
 			if(rs == null){
 				PosLogger.log.error("This user not Exist,username = " + userName);
+				return null;
 			}
 			
 			if(rs.next()){
@@ -218,6 +219,7 @@ public class UserDAO extends SuperDAO {
 				
 			}else{
 				PosLogger.log.error("UserName not Exist = " + userName);
+				return null;
 			}
 			
 		} catch (SQLException e) {
