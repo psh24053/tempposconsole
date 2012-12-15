@@ -131,8 +131,8 @@ public class loginWindow extends superWindow {
 		
 		login_shell = new Shell(getDisplay(), SWT.CLOSE);
 		
-		login_shell.setSize(marginWidthValue * 25, marginHeightValue * 30);
 		login_shell.setText(login_title);
+		login_shell.setSize(marginWidthValue * 25, marginHeightValue * 30);
 		login_shell.setLocation(getCenterX(login_shell), getCenterY(login_shell));
 		
 	}
@@ -158,11 +158,6 @@ public class loginWindow extends superWindow {
 		new validationLoginAsyncHandler(this).start(params);
 	}
 
-	@Override
-	public boolean isDisposed() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	/**
 	 * 验证登陆的AsyncHandler
@@ -209,7 +204,7 @@ public class loginWindow extends superWindow {
 				login_button.setText("登陆");
 				login_button.setEnabled(true);
 				
-				new mainWindow(loginWindow.this).show();
+				new mainWindow(This()).show();
 				
 			}else{
 				login_button.setText("登陆");
@@ -221,6 +216,11 @@ public class loginWindow extends superWindow {
 			
 		}
 		
+	}
+	@Override
+	protected Shell getShell() {
+		// TODO Auto-generated method stub
+		return login_shell;
 	}
 
 }

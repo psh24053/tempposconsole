@@ -181,10 +181,11 @@ public class printerSettingsWindow extends superWindow {
 		
 	}
 
+
 	@Override
-	public boolean isDisposed() {
+	protected Shell getShell() {
 		// TODO Auto-generated method stub
-		return printerSettings_shell.isDisposed();
+		return printerSettings_shell;
 	}
 	
 	

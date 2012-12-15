@@ -96,7 +96,7 @@ public abstract class superWindow {
 	 * 初始化方法
 	 */
 	protected abstract void init();
-	
+	protected abstract Shell getShell();
 	/**
 	 * 显示窗口
 	 */
@@ -129,10 +129,22 @@ public abstract class superWindow {
 	 * 判断当前窗口是否被关闭
 	 * @return
 	 */
-	public abstract boolean isDisposed();
+	public boolean isDisposed(){
+		return getShell().isDisposed();
+	}
 	
+	public superWindow This(){
+		return this;
+	}
 	
+	public int getShellWidth(){
+		// 减去左右边框区域
+		return getShell().getBounds().width - getShell().getBorderWidth();
+	}
 	
-	
+	public int getShellHeight(){
+		// 减去Shell的头部和底部区域
+		return getShell().getBounds().height - getShell().getBorderWidth() - marginHeightValue * 3;
+	}
 	
 }

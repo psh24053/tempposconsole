@@ -7,6 +7,7 @@
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.12-bin"/>
 	<classpathentry kind="lib" path="lib/json"/>
 	<classpathentry kind="lib" path="lib/commons-codec"/>
+	<classpathentry kind="lib" path="lib/QRCode"/>
 	<classpathentry kind="lib" path="lib/swt"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

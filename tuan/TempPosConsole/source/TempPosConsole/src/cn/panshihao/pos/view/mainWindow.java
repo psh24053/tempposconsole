@@ -495,7 +495,7 @@ public class mainWindow extends superWindow {
 		
 		if(printerSettingsWindow == null || printerSettingsWindow.isDisposed()){
 			printerSettingsWindow = new printerSettingsWindow(this);
-			printerSettingsWindow.init();
+			printerSettingsWindow.show();
 		}
 		
 	}
@@ -509,12 +509,11 @@ public class mainWindow extends superWindow {
 	 * 更换登陆的方法
 	 */
 	private void logout(){
-		loginWindow parent = (loginWindow) getParent();
 		logout = true;
 		
 		main_shell.dispose();
-		parent.login_shell.setVisible(true);
-		parent.login_shell.setFocus();
+		getParent().getShell().setVisible(true);
+		getParent().getShell().setFocus();
 	}
 	/**
 	 * 
@@ -540,7 +539,9 @@ public class mainWindow extends superWindow {
 				case "创建团购":
 					System.out.println("创建团购");
 					break;
-
+				case "商家管理":
+					new firmWindow(This()).show();
+					break;
 				default:
 					break;
 				}
@@ -551,8 +552,8 @@ public class mainWindow extends superWindow {
 	}
 	
 	@Override
-	public boolean isDisposed() {
+	protected Shell getShell() {
 		// TODO Auto-generated method stub
-		return main_shell.isDisposed();
+		return main_shell;
 	}
 }
