@@ -1,6 +1,8 @@
 package cn.panshihao.pos.view;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.KeyEvent;
@@ -26,7 +28,9 @@ import org.eclipse.swt.widgets.Text;
 import org.json.JSONObject;
 
 import cn.panshihao.pos.dao.CategoryDAO;
+import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
+import cn.panshihao.pos.tools.TransDate;
 
 /**
  * 主界面类
@@ -38,6 +42,9 @@ public class mainWindow extends superWindow {
 	public mainWindow(Display display) {
 		super(display);
 		// TODO Auto-generated constructor stub
+	}
+	public mainWindow(superWindow parent){
+		super(parent);
 	}
 	/*
 	 * 任务栏标题
@@ -66,6 +73,7 @@ public class mainWindow extends superWindow {
 	public MenuItem main_menu_system_menu_help = null;
 	public MenuItem main_menu_system_menu_helpSeperator = null;
 	public MenuItem main_menu_system_menu_printer = null;
+	public MenuItem main_menu_system_menu_logout = null;
 	
 	public MenuItem main_menu_system_menu_exit = null;
 	
@@ -113,6 +121,11 @@ public class mainWindow extends superWindow {
 	
 	public superWindow printerSettingsWindow;
 	
+	
+	private boolean logout = false;
+	
+	private User user;
+	
 	/**
 	 * 初始化界面
 	 */
@@ -130,6 +143,8 @@ public class mainWindow extends superWindow {
 		initTabs();
 		
 		initFooter();
+		
+		initData();
 		/*
 		 * 显示界面
 		 */
@@ -144,6 +159,55 @@ public class mainWindow extends superWindow {
 		
 	}
 	/**
+	 * 加载数据
+	 */
+	private void initData(){
+		
+		user = (User) cacheMap.get("curUser");
+		
+		String userValue = "当前用户 ";
+		
+		if(user.getUser_grade() == 1){
+			userValue += "管理员("+user.getUser_name()+")";
+		}else{
+			userValue += "操作员("+user.getUser_name()+")";
+		}
+		
+		main_footer_user.setText(userValue);
+		
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+				while(!isDisposed()){
+					final String timeValue = "当前时间 "+ TransDate.convertTime(System.currentTimeMillis());;
+					
+					
+					getDisplay().asyncExec(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							main_footer_time.setText(timeValue);
+						}
+					});
+					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		}).start();
+		
+	}
+	/**
 	 * 初始化footer
 	 */
 	private void initFooter(){
@@ -154,19 +218,18 @@ public class mainWindow extends superWindow {
 		int footerHeight = marginHeightValue * 4;
 		
 		main_footer.setBounds(marginWidthValue, main_tab.getBounds().y + main_tab.getBounds().height + marginHeightValue, footerWidth, footerHeight);
-//		main_footer.setBackground(new Color(main_shell.getDisplay(), new RGB(0xff, 0x00, 0x00)));
 		
 		main_footer_version = new Label(main_footer, SWT.NONE);
 		main_footer_version.setText("当前版本 Ver1.0.0");
 		main_footer_version.setBounds(0, marginHeightValue, marginWidthValue * 10, marginHeightValue * 2);
 		
 		main_footer_user = new Label(main_footer, SWT.NONE);
-		main_footer_user.setText("当前用户 操作员(01)");
-		main_footer_user.setBounds(main_footer_version.getBounds().x + main_footer_version.getBounds().width + marginWidthValue, marginHeightValue, marginWidthValue * 10, marginHeightValue * 2);
+		main_footer_user.setText("当前用户 ");
+		main_footer_user.setBounds(main_footer_version.getBounds().x + main_footer_version.getBounds().width + marginWidthValue, marginHeightValue, marginWidthValue * 13, marginHeightValue * 2);
 		
 		main_footer_time = new Label(main_footer, SWT.NONE);
-		main_footer_time.setText("当前时间 2012-12-12 00:17:12");
-		main_footer_time.setBounds(main_footer_user.getBounds().x + main_footer_user.getBounds().width + marginWidthValue, marginHeightValue, marginWidthValue * 13, marginHeightValue * 2);
+		main_footer_time.setText("当前时间 ");
+		main_footer_time.setBounds(main_footer_user.getBounds().x + main_footer_user.getBounds().width + marginWidthValue, marginHeightValue, marginWidthValue * 14, marginHeightValue * 2);
 		
 		
 		
@@ -315,12 +378,25 @@ public class mainWindow extends superWindow {
 				if(e.stateMask == SWT.ALT && e.keyCode == 'q'){
 					// Alt + Q
 					exitApplication();
-				}else if(e.stateMask == SWT.ALT && e.keyCode == SWT.F1){
+				}else if(e.stateMask == SWT.ALT && e.keyCode == 'h'){
 					// Alt + F1
 					openHelp();
 				}else if(e.stateMask == SWT.ALT && e.keyCode == 'p'){
 					// Alt + p
 					openPinter();
+				}else if(e.stateMask == SWT.ALT && e.keyCode == 'z'){
+					logout();
+				}
+			}
+		});
+		
+		main_shell.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				// TODO Auto-generated method stub
+				if(!logout){
+					getDisplay().dispose();
 				}
 			}
 		});
@@ -355,8 +431,8 @@ public class mainWindow extends superWindow {
 		
 		// 关于菜单项
 		main_menu_system_menu_help = new MenuItem(main_menu_system_menu, SWT.CASCADE);
-		main_menu_system_menu_help.setText("关于　　　　Alt + F1");
-		main_menu_system_menu_help.addSelectionListener(new SelectionListener() {
+		main_menu_system_menu_help.setText("关于　　　　Alt + H");
+		main_menu_system_menu_help.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -364,11 +440,6 @@ public class mainWindow extends superWindow {
 				openHelp();
 			}
 			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
 		});
 		
 		main_menu_system_menu_printer = new MenuItem(main_menu_system_menu, SWT.CASCADE);
@@ -382,13 +453,24 @@ public class mainWindow extends superWindow {
 			
 		});
 		
+		
+		main_menu_system_menu_logout = new MenuItem(main_menu_system_menu, SWT.CASCADE);
+		main_menu_system_menu_logout.setText("更换登陆　　Alt + Z");
+		main_menu_system_menu_logout.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				logout();
+			}
+		});
+		
 		// 关于菜单项下面的分割线
 		main_menu_system_menu_helpSeperator = new MenuItem(main_menu_system_menu, SWT.SEPARATOR);
 		
 		// 退出菜单项
 		main_menu_system_menu_exit = new MenuItem(main_menu_system_menu, SWT.CASCADE);
-		main_menu_system_menu_exit.setText("退出　　　　Alt + Q");
-		main_menu_system_menu_exit.addSelectionListener(new SelectionListener() {
+		main_menu_system_menu_exit.setText("退出程序　　Alt + Q");
+		main_menu_system_menu_exit.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -396,10 +478,6 @@ public class mainWindow extends superWindow {
 				exitApplication();
 			}
 			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-			}
 		});
 		
 	}
@@ -426,6 +504,17 @@ public class mainWindow extends superWindow {
 	 */
 	private void openHelp(){
 		System.out.println("HelpListener");
+	}
+	/**
+	 * 更换登陆的方法
+	 */
+	private void logout(){
+		loginWindow parent = (loginWindow) getParent();
+		logout = true;
+		
+		main_shell.dispose();
+		parent.login_shell.setVisible(true);
+		parent.login_shell.setFocus();
 	}
 	/**
 	 * 
@@ -460,6 +549,7 @@ public class mainWindow extends superWindow {
 		}
 		
 	}
+	
 	@Override
 	public boolean isDisposed() {
 		// TODO Auto-generated method stub

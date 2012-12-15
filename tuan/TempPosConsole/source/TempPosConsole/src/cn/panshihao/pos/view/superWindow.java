@@ -1,9 +1,14 @@
 package cn.panshihao.pos.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+
+import cn.panshihao.pos.handler.CacheHandler;
 
 public abstract class superWindow {
 
@@ -13,12 +18,15 @@ public abstract class superWindow {
 	public int marginWidthValue;
 	public int marginHeightValue;
 	public Rectangle superRectangle;
+	public static Map<String, Object> cacheMap = new HashMap<String, Object>();
+	public static CacheHandler cacheHandler = CacheHandler.getInstance();
 	
 	public superWindow(superWindow parent){
 		this.parent = parent;
 		this.display = parent.getDisplay();
 		this.root = false;
 		loadValue();
+		
 	}
 	
 	public superWindow(Display display){
@@ -87,7 +95,14 @@ public abstract class superWindow {
 	/**
 	 * 初始化方法
 	 */
-	public abstract void init();
+	protected abstract void init();
+	
+	/**
+	 * 显示窗口
+	 */
+	public void show(){
+		init();
+	}
 	
 	/**
 	 * 获取Display

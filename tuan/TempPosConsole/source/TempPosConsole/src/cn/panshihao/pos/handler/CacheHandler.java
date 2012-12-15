@@ -356,40 +356,45 @@ public class CacheHandler {
 	 * @param key
 	 * @param value
 	 */
-	public void putString(String key, String value){
+	public CacheHandler putString(String key, String value){
 		baseMap.put(key, value);
+		return this;
 	}
 	/**
 	 * 向BaseMap中添加Int，需要调用CommitBaseCache才能写入到硬盘
 	 * @param key
 	 * @param value
 	 */
-	public void putInt(String key, int value){
+	public CacheHandler putInt(String key, int value){
 		baseMap.put(key, value);
+		return this;
 	}
 	/**
 	 * 向BaseMap中添加float，需要调用CommitBaseCache才能写入到硬盘
 	 * @param key
 	 * @param value
 	 */
-	public void putFloat(String key, float value){
+	public CacheHandler putFloat(String key, float value){
 		baseMap.put(key, value);
+		return this;
 	}
 	/**
 	 * 向BaseMap中添加double，需要调用CommitBaseCache才能写入到硬盘
 	 * @param key
 	 * @param value
 	 */
-	public void putDouble(String key, double value){
+	public CacheHandler putDouble(String key, double value){
 		baseMap.put(key, value);
+		return this;
 	}
 	/**
 	 * 向BaseMap中添加boolean，需要调用CommitBaseCache才能写入到硬盘
 	 * @param key
 	 * @param value
 	 */
-	public void putBoolean(String key, boolean value){
+	public CacheHandler putBoolean(String key, boolean value){
 		baseMap.put(key, value);
+		return this;
 	}
 	/**
 	 * 从BaseMap中获取String，如果不存在则返回defaultValue
