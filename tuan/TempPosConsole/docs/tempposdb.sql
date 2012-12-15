@@ -123,3 +123,6 @@ CREATE TABLE `temp_users` (
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+INSERT INTO temp_users(user_name, user_pass, user_grade) VALUES('admin',MD5('admin'),1);;
