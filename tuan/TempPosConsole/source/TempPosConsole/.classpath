@@ -4,8 +4,9 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16"/>
-	<classpathentry kind="lib" path="lib/swt"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.12-bin"/>
 	<classpathentry kind="lib" path="lib/json"/>
+	<classpathentry kind="lib" path="lib/commons-codec"/>
+	<classpathentry kind="lib" path="lib/swt"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

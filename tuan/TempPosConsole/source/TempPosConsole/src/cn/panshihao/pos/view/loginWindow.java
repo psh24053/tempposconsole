@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import cn.panshihao.pos.dao.UserDAO;
 import cn.panshihao.pos.handler.AsyncHandler;
 import cn.panshihao.pos.model.User;
 
@@ -160,12 +161,9 @@ public class loginWindow extends superWindow {
 		public User doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+			UserDAO userdao = new UserDAO();
+//			userdao.checkUserLogin(userName, passWord);
 			
 			return null;
 		}
