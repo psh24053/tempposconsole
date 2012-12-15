@@ -282,6 +282,50 @@ public class UserDAO extends SuperDAO {
 		return allUserArray;
 	}
 	
+	/**
+	 * 
+	 * @author penglang
+	 * @param userName(用户名)
+	 * @return ture(该用户名可以使用),false(该用户名已被使用);
+	 */
+	public boolean checkUserNameIsExist(String userName){
+		
+		boolean isExist = false;
+		
+		PosLogger.log.debug("check use name is exist");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select count(*) from " + tablesName + " where userName=" + userName);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Database error");
+			}
+			
+			if(rs.next()){
+
+				if(rs.getInt(1) == 0){
+					
+					//用户名未被使用
+					isExist = true;
+					
+				}
+				
+			}else{
+				PosLogger.log.error("Database error");
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		}
+
+		return isExist;
+		
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
