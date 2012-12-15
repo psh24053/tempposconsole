@@ -246,6 +246,50 @@ public class CategoryDAO extends SuperDAO {
 		return allCategoryArray;
 	}
 	
+	/**
+	 * 
+	 * @author penglang
+	 * @param categroyName(类别名)
+	 * @return ture(该类别名可以使用),false(该类别名已被使用);
+	 */
+	public boolean checkCategoryNameIsExist(String categroyName){
+		
+		boolean isExist = false;
+		
+		PosLogger.log.debug("check category name is exist");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select count(*) from " + tablesName + " where category_name=" + categroyName);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Database error");
+			}
+			
+			if(rs.next()){
+
+				if(rs.getInt(1) == 0){
+					
+					//商家名未被使用
+					isExist = true;
+					
+				}
+				
+			}else{
+				PosLogger.log.error("Database error");
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		}
+
+		return isExist;
+		
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
