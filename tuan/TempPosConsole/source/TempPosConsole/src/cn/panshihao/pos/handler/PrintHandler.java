@@ -65,7 +65,7 @@ public class PrintHandler {
 
 				InitPrintable printable = new InitPrintable();
 				printable.content = content;
-				printable.imageContent = "潘世豪";
+				printable.imageContent = "王洁是个哈嘛批";
 				
 				book.append(printable, pageFormat);
 
@@ -115,7 +115,7 @@ public class PrintHandler {
 		
 //		PrintHandler.getAllPrintServicesName();
 		PrintHandler handler = new PrintHandler();
-		handler.PrintPos("POS58", "你好");
+		handler.PrintPos("POS58", "尊敬的王洁");
 	
 	}
 	

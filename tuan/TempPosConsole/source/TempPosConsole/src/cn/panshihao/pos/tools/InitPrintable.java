@@ -69,9 +69,15 @@ public class InitPrintable implements Printable{
 		bufferedIamge.flush();
 
 		/********************************/
-		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y + 2);
+		graph.drawLine((int) x, (int)y + 2, 200, (int)y + 2);
+		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y + 20);
 		graph.drawString(content, (int)x + 60, (int)y + 120);
 		graph.drawLine((int) x, (int)y + 130, 200, (int)y + 130);
+		
+//		graph.drawLine((int) x, (int)y - 32, 200, (int)y - 32);
+//		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y - 10);
+//		graph.drawString(content, (int)x + 60, (int)y + 90);
+//		graph.drawLine((int) x, (int)y + 100, 200, (int)y + 100);
 		
 		return 0;
 	}
