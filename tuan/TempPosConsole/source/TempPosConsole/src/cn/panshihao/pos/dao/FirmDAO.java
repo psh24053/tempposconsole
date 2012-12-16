@@ -334,7 +334,8 @@ public class FirmDAO extends SuperDAO {
 		conn = SQLConn.getConnection();
 		
 		try {
-			ps = conn.prepareStatement("select count(*) from " + tablesName + " where firm_name=" + firmName);
+			ps = conn.prepareStatement("select count(*) from " + tablesName + " where firm_name= ?");
+			ps.setString(1, firmName);
 			
 			rs = ps.executeQuery();
 			

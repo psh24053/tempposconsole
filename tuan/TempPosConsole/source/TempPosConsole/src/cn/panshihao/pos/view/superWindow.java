@@ -3,6 +3,7 @@ package cn.panshihao.pos.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -92,6 +93,24 @@ public abstract class superWindow {
 		box.setMessage(msg);
 		box.open();
 	}
+	
+	/**
+	 * 打开confirm对话框
+	 * @param shell
+	 * @param title
+	 * @param msg
+	 */
+	public boolean confirm(Shell shell, String title, String msg){
+		if(shell == null || shell.isDisposed()){
+			return false;
+		}
+		MessageBox box = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+		box.setText(title);
+		box.setMessage(msg);
+		int result = box.open();
+		return result == SWT.YES;
+	}
+	
 	/**
 	 * 初始化方法
 	 */
