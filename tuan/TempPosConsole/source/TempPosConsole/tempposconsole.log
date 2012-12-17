@@ -922,3 +922,12 @@
 [2012/12/16 22:41:06][PosConsoleConfig.java:23][main][DEBUG]: Get config porperties info,config file name = config.properties,keyname=version
 [2012/12/16 22:41:18][PosConsoleConfig.java:23][main][DEBUG]: Get config porperties info,config file name = config.properties,keyname=verson
 [2012/12/16 22:41:49][PosConsoleConfig.java:23][main][DEBUG]: Get config porperties info,config file name = config.properties,keyname=version
+[2012/12/17 16:04:14][CacheHandler.java:244][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/17 16:05:48][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/17 16:05:48][CacheHandler.java:267][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> false
+[2012/12/17 16:05:54][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/17 16:05:55][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/17 16:05:55][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/17 16:05:55][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/17 16:05:55][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/17 16:05:56][FirmDAO.java:242][Thread-3][DEBUG]: Get All of firm

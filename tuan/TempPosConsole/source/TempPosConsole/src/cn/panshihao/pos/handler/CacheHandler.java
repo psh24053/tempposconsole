@@ -46,6 +46,13 @@ public class CacheHandler {
 		cacheHandler.objectDir = new File(cacheHandler.runtimePath,"/object/");
 		cacheHandler.filesDir = new File(cacheHandler.runtimePath,"/files/");
 		
+		if(!cacheHandler.objectDir.exists()){
+			cacheHandler.objectDir.mkdirs();
+		}
+		if(!cacheHandler.filesDir.exists()){
+			cacheHandler.filesDir.mkdirs();
+		}
+		
 		//如果BaseMap存在，则读取，否则为其初始化
 		if(cacheHandler.hasObjectCache("BaseMap")){
 			try {
