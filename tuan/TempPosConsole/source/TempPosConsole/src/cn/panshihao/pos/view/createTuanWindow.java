@@ -1,0 +1,28 @@
+package cn.panshihao.pos.view;
+
+import org.eclipse.swt.widgets.Shell;
+
+public class createTuanWindow extends superWindow {
+
+	public String createTuan_title = "";
+	public Shell createTuan_shell;
+	
+	
+	public createTuanWindow(superWindow parent) {
+		super(parent);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void init() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected Shell getShell() {
+		// TODO Auto-generated method stub
+		return createTuan_shell;
+	}
+
+}
