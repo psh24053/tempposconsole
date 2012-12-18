@@ -301,8 +301,8 @@ public class UserDAO extends SuperDAO {
 		conn = SQLConn.getConnection();
 		
 		try {
-			ps = conn.prepareStatement("select count(*) from " + tablesName + " where user_name=" + userName);
-			
+			ps = conn.prepareStatement("select count(*) from " + tablesName + " where user_name= ?");
+			ps.setString(1, userName);
 			rs = ps.executeQuery();
 			
 			if(rs == null){

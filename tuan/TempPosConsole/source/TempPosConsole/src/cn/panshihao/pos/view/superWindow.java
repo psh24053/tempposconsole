@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 import cn.panshihao.pos.handler.CacheHandler;
+import cn.panshihao.pos.model.User;
 
 public abstract class superWindow {
 
@@ -64,6 +65,13 @@ public abstract class superWindow {
 		Rectangle shellBounds = shell.getBounds();
 		int y = superRectangle.y + (superRectangle.height - shellBounds.height)>>1;
 		return y;
+	}
+	/**
+	 * 得到当前用户
+	 * @return
+	 */
+	public User getCurUser(){
+		return (User) cacheMap.get("curUser");
 	}
 	
 	/**

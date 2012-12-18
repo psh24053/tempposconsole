@@ -542,6 +542,9 @@ public class mainWindow extends superWindow {
 				case "商家管理":
 					new firmWindow(This()).show();
 					break;
+				case "用户管理":
+					new userWindow(This()).show();
+					break;
 				default:
 					break;
 				}
