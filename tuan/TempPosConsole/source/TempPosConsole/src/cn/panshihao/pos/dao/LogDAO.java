@@ -214,7 +214,7 @@ public class LogDAO extends SuperDAO {
 		conn = SQLConn.getConnection();
 		
 		try {
-			ps = conn.prepareStatement("select * from temp_log l,temp_user u " +
+			ps = conn.prepareStatement("select * from temp_log l,temp_users u " +
 					" where l.user_id=u.user_id l.user_id=" + userID + " order by l.log_time desc " +
 							"limit " + start + "," + count);
 			
@@ -275,7 +275,7 @@ public class LogDAO extends SuperDAO {
 		conn = SQLConn.getConnection();
 		
 		try {
-			ps = conn.prepareStatement("select * from temp_log l,temp_user u " +
+			ps = conn.prepareStatement("select * from temp_log l,temp_users u " +
 					" where l.user_id=u.user_id  order by l.log_time desc " +
 							"limit " + start + "," + count);
 			
