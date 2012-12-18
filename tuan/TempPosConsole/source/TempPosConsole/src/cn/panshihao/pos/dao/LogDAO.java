@@ -256,6 +256,66 @@ public class LogDAO extends SuperDAO {
 		return logArray;
 	}
 	
+	/**
+	 * @author penglang
+	 * @param start:查询开始位置,count:查询条数
+	 * @return JsonObject
+	 * 获取所有用户日志信息
+	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"lid"-日志ID,
+	 * "name"-用户名称,"tim"-存储日志的时间戳,"con"-日志的内容,"uid"-用户ID
+	 * json例:{count:2,list:[{uid:1,name:"娱乐","desc":"K歌,上网,样样都有",form:"暂不知道什么形式"}
+	 * ,{uid:2,name:"餐饮",desc:"吃饭喝酒什么都有",form:"暂不知道什么形式"}]}
+	 */
+	public JSONObject getAllLog(int start,int count){
+		
+		JSONObject logArray = new JSONObject();
+		
+		PosLogger.log.debug("Get log by userID");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("select * from temp_log l,temp_user u " +
+					" where l.user_id=u.user_id  order by l.log_time desc " +
+							"limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject logJson = new  JSONObject();
+				logJson.put("lid", rs.getInt("l.log_id"));
+				logJson.put("tim", rs.getLong("l.log_time"));
+				logJson.put("con", rs.getInt("l.long_content"));
+				logJson.put("name", rs.getString("u.user_name"));
+				logJson.put("uid", rs.getInt("u.uid"));
+				
+				array.put(logJson);
+				
+			}
+			
+			logArray.put("list", array);
+			logArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return logArray;
+	} 
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
