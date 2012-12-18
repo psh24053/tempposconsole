@@ -261,8 +261,8 @@ public class CategoryDAO extends SuperDAO {
 		conn = SQLConn.getConnection();
 		
 		try {
-			ps = conn.prepareStatement("select count(*) from " + tablesName + " where category_name=" + categroyName);
-			
+			ps = conn.prepareStatement("select count(*) from " + tablesName + " where category_name= ?");
+			ps.setString(1, categroyName);
 			rs = ps.executeQuery();
 			
 			if(rs == null){

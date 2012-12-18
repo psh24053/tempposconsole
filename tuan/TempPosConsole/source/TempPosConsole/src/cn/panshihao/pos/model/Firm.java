@@ -2,7 +2,7 @@ package cn.panshihao.pos.model;
 
 import java.io.Serializable;
 
-public class Firm implements Serializable {
+public class Firm extends SuperModel implements Serializable {
 	
 	private int firm_id;
 	private String firm_name;

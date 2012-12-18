@@ -1273,3 +1273,242 @@
 [2012/12/18 15:24:42][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
 [2012/12/18 15:24:42][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
 [2012/12/18 15:24:46][UserDAO.java:246][Thread-3][DEBUG]: Get all of users
+[2012/12/18 15:32:17][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:32:17][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:32:17][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:32:17][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:32:18][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:32:19][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:32:19][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:32:19][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:32:19][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:32:20][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:32:46][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:32:46][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:32:46][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:32:46][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:32:47][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:32:47][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:32:47][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:32:47][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:32:47][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:32:48][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:33:06][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:33:06][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:33:06][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:33:06][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:33:08][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:33:08][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:33:08][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:33:08][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:33:08][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:33:09][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:34:49][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:34:49][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:34:49][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:34:49][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:34:55][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:34:55][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:34:55][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:34:55][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:34:57][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:34:57][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:34:57][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:34:57][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:34:57][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:34:58][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:35:07][CategoryDAO.java:259][Thread-4][DEBUG]: check category name is exist
+[2012/12/18 15:35:07][CategoryDAO.java:286][Thread-4][ERROR]: Unknown column 'å¨±ä¹�å›¢è´­' in 'where clause'
+[2012/12/18 15:37:18][SuperDAO.java:314][main][ERROR]: Delete database error
+[2012/12/18 15:37:23][SuperDAO.java:314][main][ERROR]: Delete database error
+[2012/12/18 15:37:25][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:37:25][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:37:25][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:37:25][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:37:27][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:37:28][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:37:28][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:37:28][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:37:28][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:37:31][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:37:35][CategoryDAO.java:259][Thread-4][DEBUG]: check category name is exist
+[2012/12/18 15:37:35][CategoryDAO.java:59][Thread-5][DEBUG]: Add category , categoryname = aaa
+[2012/12/18 15:37:35][CategoryDAO.java:73][Thread-5][INFO]: Add category ,category form is null
+[2012/12/18 15:37:35][SuperDAO.java:90][Thread-5][INFO]: Insert into temp_category success
+[2012/12/18 15:37:35][SuperDAO.java:113][Thread-5][INFO]: Insert into log success
+[2012/12/18 15:37:36][CategoryDAO.java:206][Thread-6][DEBUG]: Get all of category
+[2012/12/18 15:38:07][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:38:07][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:38:07][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:38:07][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:38:09][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:38:10][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:38:10][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:38:10][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:38:10][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:38:11][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:38:15][SuperDAO.java:212][Thread-4][INFO]: Update into temp_category success
+[2012/12/18 15:38:15][SuperDAO.java:237][Thread-4][INFO]: Insert into log success
+[2012/12/18 15:38:16][CategoryDAO.java:206][Thread-5][DEBUG]: Get all of category
+[2012/12/18 15:38:48][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:38:48][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:38:48][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:38:48][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:38:50][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:38:50][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:38:50][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:38:50][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:38:50][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:38:51][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:39:04][CategoryDAO.java:259][Thread-4][DEBUG]: check category name is exist
+[2012/12/18 15:39:04][CategoryDAO.java:59][Thread-5][DEBUG]: Add category , categoryname = 我操
+[2012/12/18 15:39:04][CategoryDAO.java:73][Thread-5][INFO]: Add category ,category form is null
+[2012/12/18 15:39:04][SuperDAO.java:90][Thread-5][INFO]: Insert into temp_category success
+[2012/12/18 15:39:04][SuperDAO.java:113][Thread-5][INFO]: Insert into log success
+[2012/12/18 15:39:04][CategoryDAO.java:206][Thread-6][DEBUG]: Get all of category
+[2012/12/18 15:39:11][CategoryDAO.java:259][Thread-7][DEBUG]: check category name is exist
+[2012/12/18 15:39:12][CategoryDAO.java:259][Thread-8][DEBUG]: check category name is exist
+[2012/12/18 15:39:12][CategoryDAO.java:59][Thread-9][DEBUG]: Add category , categoryname = 我操我操
+[2012/12/18 15:39:12][CategoryDAO.java:73][Thread-9][INFO]: Add category ,category form is null
+[2012/12/18 15:39:12][SuperDAO.java:90][Thread-9][INFO]: Insert into temp_category success
+[2012/12/18 15:39:12][SuperDAO.java:113][Thread-9][INFO]: Insert into log success
+[2012/12/18 15:39:13][CategoryDAO.java:206][Thread-10][DEBUG]: Get all of category
+[2012/12/18 15:39:15][SuperDAO.java:308][Thread-11][INFO]: Delete temp_category success
+[2012/12/18 15:39:15][SuperDAO.java:332][Thread-11][INFO]: Insert into log success
+[2012/12/18 15:39:15][CategoryDAO.java:206][Thread-12][DEBUG]: Get all of category
+[2012/12/18 15:39:17][SuperDAO.java:308][Thread-13][INFO]: Delete temp_category success
+[2012/12/18 15:39:17][SuperDAO.java:332][Thread-13][INFO]: Insert into log success
+[2012/12/18 15:39:17][CategoryDAO.java:206][Thread-14][DEBUG]: Get all of category
+[2012/12/18 15:39:27][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:39:27][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:39:27][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:39:27][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:39:28][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:39:29][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:39:29][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:39:29][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:39:29][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:39:29][FirmDAO.java:242][Thread-3][DEBUG]: Get All of firm
+[2012/12/18 15:39:31][CategoryDAO.java:206][Thread-4][DEBUG]: Get all of category
+[2012/12/18 15:39:42][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:39:42][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:39:42][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:39:42][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:39:44][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:39:44][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:39:44][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:39:44][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:39:44][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:39:45][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:40:27][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:40:27][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:40:27][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:40:27][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:40:28][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:40:29][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:40:29][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:40:29][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:40:29][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:40:30][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:41:03][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:41:03][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:41:03][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:41:03][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:41:04][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:41:04][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:41:04][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:41:04][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:41:04][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:41:05][CategoryDAO.java:206][Thread-3][DEBUG]: Get all of category
+[2012/12/18 15:41:15][CategoryDAO.java:259][Thread-4][DEBUG]: check category name is exist
+[2012/12/18 15:41:15][CategoryDAO.java:59][Thread-5][DEBUG]: Add category , categoryname = sadasd
+[2012/12/18 15:41:15][CategoryDAO.java:73][Thread-5][INFO]: Add category ,category form is null
+[2012/12/18 15:41:15][SuperDAO.java:90][Thread-5][INFO]: Insert into temp_category success
+[2012/12/18 15:41:15][SuperDAO.java:113][Thread-5][INFO]: Insert into log success
+[2012/12/18 15:41:15][CategoryDAO.java:206][Thread-6][DEBUG]: Get all of category
+[2012/12/18 15:41:24][SuperDAO.java:308][Thread-7][INFO]: Delete temp_category success
+[2012/12/18 15:41:24][SuperDAO.java:332][Thread-7][INFO]: Insert into log success
+[2012/12/18 15:41:24][CategoryDAO.java:206][Thread-8][DEBUG]: Get all of category
+[2012/12/18 17:31:23][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:31:23][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:31:23][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:31:23][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:31:26][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:31:26][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:31:26][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:31:26][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:31:26][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:31:27][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:31:27][LogDAO.java:307][Thread-3][ERROR]: Table 'tempposdb.temp_user' doesn't exist
+[2012/12/18 17:31:58][LogDAO.java:273][Thread-4][DEBUG]: Get log by userID
+[2012/12/18 17:31:58][LogDAO.java:307][Thread-4][ERROR]: Table 'tempposdb.temp_user' doesn't exist
+[2012/12/18 17:32:57][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:32:57][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:32:57][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:32:57][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:32:59][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:32:59][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:32:59][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:32:59][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:32:59][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:33:00][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:33:00][LogDAO.java:307][Thread-3][ERROR]: Table 'tempposdb.temp_user' doesn't exist
+[2012/12/18 17:33:34][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:33:34][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:33:34][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:33:34][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:33:35][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:33:36][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:33:36][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:33:36][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:33:36][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:33:38][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:33:38][LogDAO.java:307][Thread-3][ERROR]: Table 'tempposdb.temp_user' doesn't exist
+[2012/12/18 17:34:34][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:34:34][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:34:34][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:34:34][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:34:37][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:34:37][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:34:37][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:34:37][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:34:37][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:34:38][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:34:38][LogDAO.java:307][Thread-3][ERROR]: Table 'tempposdb.temp_user' doesn't exist
+[2012/12/18 17:34:52][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:34:52][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:34:52][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:34:52][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:34:54][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:34:54][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:34:54][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:34:54][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:34:54][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:34:55][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:34:55][LogDAO.java:307][Thread-3][ERROR]: Table 'tempposdb.temp_user' doesn't exist
+[2012/12/18 17:36:12][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:36:12][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:36:12][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:36:12][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:36:14][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:36:14][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:36:14][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:36:14][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:36:14][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:36:15][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:36:15][LogDAO.java:307][Thread-3][ERROR]: Column 'l.long_content' not found.
+[2012/12/18 17:37:43][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:37:43][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:37:43][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:37:43][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:37:47][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:37:47][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:37:47][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:37:47][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:37:49][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:37:50][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:37:50][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:37:50][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:37:50][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:37:51][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:37:51][LogDAO.java:307][Thread-3][ERROR]: Invalid value for getInt() - 'delete temp_category'

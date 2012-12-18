@@ -341,7 +341,7 @@ public class firmWindow extends superWindow {
 			}
 		}
 		
-		if(nameValue == null || nameValue.equals("") || phoneValue.length() > 32){
+		if(nameValue == null || nameValue.equals("") || nameValue.length() > 32){
 			alert(getShell(), "修改错误", "商家名称不能为空，并且不能超过32个字符");
 			return;
 		}
@@ -351,7 +351,7 @@ public class firmWindow extends superWindow {
 			return;
 		}
 		
-		if(addressValue == null || addressValue.equals("") || phoneValue.length() > 255){
+		if(addressValue == null || addressValue.equals("") || addressValue.length() > 255){
 			alert(getShell(), "修改错误", "商家地址不能为空，并且不能超过255个字符");
 			return;
 		}
@@ -361,7 +361,7 @@ public class firmWindow extends superWindow {
 			return;
 		}
 		
-		if(personValue == null || personValue.equals("") || phoneValue.length() > 32){
+		if(personValue == null || personValue.equals("") || personValue.length() > 32){
 			alert(getShell(), "修改错误", "联系人不能为空，并且不能超过32个字符");
 			return;
 		}

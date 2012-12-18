@@ -2,7 +2,7 @@ package cn.panshihao.pos.model;
 
 import java.io.Serializable;
 
-public class Key implements Serializable {
+public class Key extends SuperModel implements Serializable {
 	
 	private int key_id;
 	private int tuan_id;

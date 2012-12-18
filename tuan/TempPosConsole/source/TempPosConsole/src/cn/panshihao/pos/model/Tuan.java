@@ -2,7 +2,7 @@ package cn.panshihao.pos.model;
 
 import java.io.Serializable;
 
-public class Tuan implements Serializable {
+public class Tuan extends SuperModel implements Serializable {
 	
 	private int tuan_id;
 	private int category_id;

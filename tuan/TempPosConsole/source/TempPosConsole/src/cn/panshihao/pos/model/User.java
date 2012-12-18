@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author 彭琅
  */
 /*对应用户的实体类*/
-public class User implements Serializable {
+public class User extends SuperModel implements Serializable {
 
 	private int user_id;
 	private String user_name;

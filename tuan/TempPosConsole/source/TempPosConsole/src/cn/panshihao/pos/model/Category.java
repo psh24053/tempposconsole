@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author 彭琅
  */
 //类别实体类
-public class Category implements Serializable{
+public class Category extends SuperModel implements Serializable{
 	
 	private int category_id;
 	private String category_name;

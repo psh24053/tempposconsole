@@ -545,6 +545,12 @@ public class mainWindow extends superWindow {
 				case "用户管理":
 					new userWindow(This()).show();
 					break;
+				case "类别管理":
+					new categoryWindow(This()).show();
+					break;
+				case "工作日志":
+					new logWindow(This()).show();
+					break;
 				default:
 					break;
 				}
