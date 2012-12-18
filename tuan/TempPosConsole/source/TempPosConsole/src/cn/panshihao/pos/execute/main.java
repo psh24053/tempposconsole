@@ -1,6 +1,8 @@
-package cn.panshihao.pos.view;
+package cn.panshihao.pos.execute;
 
 import org.eclipse.swt.widgets.Display;
+
+import cn.panshihao.pos.view.loginWindow;
 
 
 public class main {

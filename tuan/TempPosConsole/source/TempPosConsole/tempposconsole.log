@@ -1259,3 +1259,17 @@
 [2012/12/18 15:20:36][SuperDAO.java:308][Thread-15][INFO]: Delete temp_users success
 [2012/12/18 15:20:36][SuperDAO.java:332][Thread-15][INFO]: Insert into log success
 [2012/12/18 15:20:37][UserDAO.java:246][Thread-16][DEBUG]: Get all of users
+[2012/12/18 15:21:34][UserDAO.java:246][Thread-17][DEBUG]: Get all of users
+[2012/12/18 15:21:35][FirmDAO.java:242][Thread-18][DEBUG]: Get All of firm
+[2012/12/18 15:21:41][FirmDAO.java:242][Thread-19][DEBUG]: Get All of firm
+[2012/12/18 15:21:44][UserDAO.java:246][Thread-20][DEBUG]: Get all of users
+[2012/12/18 15:24:38][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 15:24:38][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 15:24:38][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 15:24:38][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=woqui}
+[2012/12/18 15:24:42][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 15:24:42][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 15:24:42][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 15:24:42][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 15:24:42][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 15:24:46][UserDAO.java:246][Thread-3][DEBUG]: Get all of users
