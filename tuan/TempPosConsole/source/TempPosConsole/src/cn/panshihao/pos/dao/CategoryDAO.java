@@ -129,6 +129,8 @@ public class CategoryDAO extends SuperDAO {
 	//删除类别
 	public boolean deleteCategory(int primaryKeyVaule,int userID){
 		
+		Category category = getCategoryFromDatabase(primaryKeyVaule);
+		
 		boolean isSuccess = false;
 		
 		// 检查primaryKeyVaule是否为空
@@ -139,7 +141,7 @@ public class CategoryDAO extends SuperDAO {
 
 		}
 
-		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID);
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID,category.getCategory_name());
 		
 		return isSuccess;
 		

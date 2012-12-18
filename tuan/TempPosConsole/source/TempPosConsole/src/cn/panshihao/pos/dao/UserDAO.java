@@ -127,6 +127,8 @@ public class UserDAO extends SuperDAO {
 	
 	public boolean deleteUser(int primaryKeyVaule,int userID){
 		
+		User user = getUserFromDatabase(primaryKeyVaule);
+		
 		boolean isSuccess = false;
 		
 		// 检查primaryKeyVaule是否为空
@@ -137,7 +139,7 @@ public class UserDAO extends SuperDAO {
 
 		}
 
-		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID);
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID,user.getUser_name());
 		
 		return isSuccess;
 		
@@ -375,8 +377,13 @@ public class UserDAO extends SuperDAO {
 //		User user = dao.getUserFromDatabase(1);
 //		System.out.println(user.getUser_name());
 
-		UserDAO user = new UserDAO();
-		user.getAllUser(0,10);
+		UserDAO userdao = new UserDAO();
+//		user.getAllUser(0,10);
+		User user = new User();
+		user.setUser_name("不能要以后");
+		user.setUser_pass("666843338");
+		user.setUser_grade(1);
+		userdao.addUser(user, 1);
 		
 	}
 	

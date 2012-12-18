@@ -138,7 +138,7 @@ public class LogDAO extends SuperDAO {
 
 		}
 
-		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID);
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID,null);
 		
 		return isSuccess;
 		

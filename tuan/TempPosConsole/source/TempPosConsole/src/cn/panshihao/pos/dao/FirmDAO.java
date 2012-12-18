@@ -158,6 +158,8 @@ public class FirmDAO extends SuperDAO {
 	//删除企业
 	public boolean deleteFirm(int primaryKeyVaule,int userID){
 		
+		Firm firm = getFirmFromDatabase(primaryKeyVaule);
+		
 		boolean isSuccess = false;
 		
 		// 检查primaryKeyVaule是否为空
@@ -168,7 +170,7 @@ public class FirmDAO extends SuperDAO {
 
 		}
 
-		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID);
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID,firm.getFirm_name());
 		
 		return isSuccess;
 		

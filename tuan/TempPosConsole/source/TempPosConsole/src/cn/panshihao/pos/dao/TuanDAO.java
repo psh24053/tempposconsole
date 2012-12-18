@@ -172,6 +172,8 @@ public class TuanDAO extends SuperDAO {
 	//删除团购
 	public boolean deleteTuan(int primaryKeyVaule,int userID){
 		
+		Tuan tuan = getTuanFromDatabase(primaryKeyVaule);
+		
 		boolean isSuccess = false;
 		
 		// 检查primaryKeyVaule是否为空
@@ -182,7 +184,7 @@ public class TuanDAO extends SuperDAO {
 
 		}
 
-		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID);
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID,tuan.getTuan_name());
 		
 		return isSuccess;
 		

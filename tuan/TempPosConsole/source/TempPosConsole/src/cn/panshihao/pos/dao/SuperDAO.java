@@ -67,6 +67,7 @@ public class SuperDAO {
 					
 					sqltail += colunmsMap.get(colunmsName) + ",";
 					
+					
 				}
 				
 			}
@@ -98,13 +99,27 @@ public class SuperDAO {
 				return isSuccess;
 
 			}
+			
+			String logContent = "";
+			
+			if(tableName.equals("temp_category")){
+				logContent = "类别,类别名字:" + colunmsMap.get("category_name");
+			}else if(tableName.equals("temp_firm")){
+				logContent = "商家,商家名字" + colunmsMap.get("firm_name");
+			}else if(tableName.equals("temp_key")){
+				logContent = "兑换码,该兑换码所属团购ID:" + colunmsMap.get("tuan_id");
+			}else if(tableName.equals("temp_tuan")) {
+				logContent = "团购,团购名称:" + colunmsMap.get("tuan_name");
+			}else if(tableName.equals("temp_users")){
+				logContent = "用户,用户名:" + colunmsMap.get("user_name") + ",用户级别:" + colunmsMap.get("user_grade");
+			}
 
 			//添加log表
 			PreparedStatement ps_2 = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
 			
 			ps_2.setInt(1, UserID);
 			ps_2.setLong(2, System.currentTimeMillis());
-			ps_2.setString(3, "add " + tableName);
+			ps_2.setString(3, "增加" + logContent);
 			
 			int result_2 = ps_2.executeUpdate();
 			
@@ -222,13 +237,27 @@ public class SuperDAO {
 				return isSuccess;
 
 			}
+
+			String logContent = "";
+			
+			if(tableName.equals("temp_category")){
+				logContent = "类别,类别名字:" + colunmsMap.get("category_name");
+			}else if(tableName.equals("temp_firm")){
+				logContent = "商家,商家名字" + colunmsMap.get("firm_name");
+			}else if(tableName.equals("temp_key")){
+				logContent = "兑换码,该兑换码所属团购ID:" + colunmsMap.get("tuan_id");
+			}else if(tableName.equals("temp_tuan")) {
+				logContent = "团购,团购名称:" + colunmsMap.get("tuan_name");
+			}else if(tableName.equals("temp_users")){
+				logContent = "用户,用户名:" + colunmsMap.get("user_name") + ",用户级别:" + colunmsMap.get("user_grade");
+			}
 			
 			//添加log表
 			PreparedStatement ps_2 = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
 			
 			ps_2.setInt(1, userID);
 			ps_2.setLong(2, System.currentTimeMillis());
-			ps_2.setString(3, "update " + tableName);
+			ps_2.setString(3, "更改" + logContent);
 			
 			int result_2 = ps_2.executeUpdate();
 			
@@ -272,7 +301,7 @@ public class SuperDAO {
 	}
 	
 	//删除操作
-	public boolean deleteToDatabase(String tableName,String primaryKeyName,int primaryKeyValue,int userID){
+	public boolean deleteToDatabase(String tableName,String primaryKeyName,int primaryKeyValue,int userID,String objectName){
 		
 		boolean isSuccess = false;
 		
@@ -318,12 +347,26 @@ public class SuperDAO {
 
 			}
 			
+			String logContent = "";
+			
+			if(tableName.equals("temp_category")){
+				logContent = "类别,类别名字:" + objectName;
+			}else if(tableName.equals("temp_firm")){
+				logContent = "商家,商家名字" + objectName;
+			}else if(tableName.equals("temp_key")){
+				logContent = "兑换码,该兑换码ID:" + objectName;
+			}else if(tableName.equals("temp_tuan")) {
+				logContent = "团购,团购名称:" + objectName;
+			}else if(tableName.equals("temp_users")){
+				logContent = "用户,用户名:" + objectName;
+			}
+			
 			//添加log表
 			PreparedStatement ps_2 = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
 			
 			ps_2.setInt(1, userID);
 			ps_2.setLong(2, System.currentTimeMillis());
-			ps_2.setString(3, "delete " + tableName);
+			ps_2.setString(3, "删除" + logContent);
 			
 			int result_2 = ps_2.executeUpdate();
 			

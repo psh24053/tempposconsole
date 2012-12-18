@@ -1534,3 +1534,12 @@
 [2012/12/18 17:41:34][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
 [2012/12/18 17:41:35][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
 [2012/12/18 17:42:19][LogDAO.java:273][Thread-4][DEBUG]: Get log by userID
+[2012/12/18 20:28:50][UserDAO.java:66][main][DEBUG]: Add user , username = 姐和我
+[2012/12/18 20:28:52][SuperDAO.java:98][main][INFO]: Insert into temp_users success
+[2012/12/18 20:28:52][SuperDAO.java:123][main][INFO]: Insert into log success
+[2012/12/18 20:46:22][UserDAO.java:66][main][DEBUG]: Add user , username = 我想你了
+[2012/12/18 20:46:22][SuperDAO.java:91][main][INFO]: Insert into temp_users success
+[2012/12/18 20:46:22][SuperDAO.java:128][main][INFO]: Insert into log success
+[2012/12/18 20:48:01][UserDAO.java:66][main][DEBUG]: Add user , username = 不能要以后
+[2012/12/18 20:48:02][SuperDAO.java:91][main][INFO]: Insert into temp_users success
+[2012/12/18 20:48:02][SuperDAO.java:128][main][INFO]: Insert into log success

@@ -128,6 +128,8 @@ public class KeyDAO extends SuperDAO {
 	//删除企业
 	public boolean deleteKey(int primaryKeyVaule,int userID){
 		
+		Key key = getKeyFromDatabase(primaryKeyVaule);
+		
 		boolean isSuccess = false;
 		
 		// 检查primaryKeyVaule是否为空
@@ -138,7 +140,7 @@ public class KeyDAO extends SuperDAO {
 
 		}
 
-		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID);
+		isSuccess = this.deleteToDatabase(tablesName,primaryKeyName,primaryKeyVaule,userID,key.getKey_id()+"");
 		
 		return isSuccess;
 		
