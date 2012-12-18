@@ -234,7 +234,7 @@ public class LogDAO extends SuperDAO {
 				logJson.put("tim", rs.getLong("l.log_time"));
 				logJson.put("con", rs.getString("l.log_content"));
 				logJson.put("name", rs.getString("u.user_name"));
-				logJson.put("uid", rs.getInt("u.uid"));
+				logJson.put("uid", rs.getInt("u.user_id"));
 				
 				array.put(logJson);
 				
@@ -294,7 +294,7 @@ public class LogDAO extends SuperDAO {
 				logJson.put("tim", rs.getLong("l.log_time"));
 				logJson.put("con", rs.getString("l.log_content"));
 				logJson.put("name", rs.getString("u.user_name"));
-				logJson.put("uid", rs.getInt("u.uid"));
+				logJson.put("uid", rs.getInt("u.user_id"));
 				
 				array.put(logJson);
 				

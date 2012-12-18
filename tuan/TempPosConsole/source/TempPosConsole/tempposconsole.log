@@ -1512,3 +1512,25 @@
 [2012/12/18 17:37:50][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
 [2012/12/18 17:37:51][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
 [2012/12/18 17:37:51][LogDAO.java:307][Thread-3][ERROR]: Invalid value for getInt() - 'delete temp_category'
+[2012/12/18 17:40:20][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:40:20][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:40:20][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:40:20][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:40:22][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:40:22][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:40:22][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:40:22][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:40:22][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:40:23][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:40:23][LogDAO.java:307][Thread-3][ERROR]: Column 'u.uid' not found.
+[2012/12/18 17:41:32][CacheHandler.java:251][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap
+[2012/12/18 17:41:32][CacheHandler.java:262][main][DEBUG]: cacheHandler.hasObjectCache -> BaseMap -> true
+[2012/12/18 17:41:32][CacheHandler.java:531][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap
+[2012/12/18 17:41:32][CacheHandler.java:554][main][DEBUG]: cacheHandler.readObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:41:34][UserDAO.java:190][Thread-0][DEBUG]: check use login
+[2012/12/18 17:41:34][UserDAO.java:210][Thread-0][DEBUG]: username and password check success
+[2012/12/18 17:41:34][CacheHandler.java:329][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin}
+[2012/12/18 17:41:34][CacheHandler.java:341][main][DEBUG]: cacheHandler.SaveObjectCache -> BaseMap -> {lastLoginUserName=admin} -> true
+[2012/12/18 17:41:34][CategoryDAO.java:206][Thread-1][DEBUG]: Get all of category
+[2012/12/18 17:41:35][LogDAO.java:273][Thread-3][DEBUG]: Get log by userID
+[2012/12/18 17:42:19][LogDAO.java:273][Thread-4][DEBUG]: Get log by userID
