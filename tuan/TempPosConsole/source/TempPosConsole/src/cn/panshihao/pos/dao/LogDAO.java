@@ -194,7 +194,7 @@ public class LogDAO extends SuperDAO {
 	 * @return JsonObject
 	 * 获取指定用户日志信息,并且按照时间戳从大到小排序.
 	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"lid"-日志ID,
-	 * "name"-用户名称,"tim"-存储日志的时间戳,"con"-日志的内容
+	 * "name"-用户名称,"tim"-存储日志的时间戳,"con"-日志的内容,"uid"-用户ID
 	 * json例:{count:2,list:[{uid:1,name:"娱乐","desc":"K歌,上网,样样都有",form:"暂不知道什么形式"}
 	 * ,{uid:2,name:"餐饮",desc:"吃饭喝酒什么都有",form:"暂不知道什么形式"}]}
 	 */
@@ -234,6 +234,7 @@ public class LogDAO extends SuperDAO {
 				logJson.put("tim", rs.getLong("l.log_time"));
 				logJson.put("con", rs.getInt("l.long_content"));
 				logJson.put("name", rs.getString("u.user_name"));
+				logJson.put("uid", rs.getInt("u.uid"));
 				
 				array.put(logJson);
 				
