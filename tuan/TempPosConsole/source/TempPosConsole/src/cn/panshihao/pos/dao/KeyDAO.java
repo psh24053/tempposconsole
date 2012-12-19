@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.panshihao.pos.model.Key;
+import cn.panshihao.pos.tools.GenerateKeyCode;
 import cn.panshihao.pos.tools.PosLogger;
 import cn.panshihao.pos.tools.SQLConn;
 
@@ -382,6 +383,65 @@ public class KeyDAO extends SuperDAO {
 		return keyArray;
 	}
 	
+	/**
+	 * @author penglang
+	 * @return String
+	 * 生成唯一的兑换码
+	 */
+	public String GenerateUniqueCode(){
+		
+		String keyCode = "";
+		
+		PosLogger.log.debug("Generate Unique Code");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			
+			while(true){
+				
+				keyCode = GenerateKeyCode.generateKeyCodeHead() + GenerateKeyCode.generateKeyCodeTail();
+				
+				ps = conn.prepareStatement("select count(*) from temp_key where key_code='" + keyCode + "'");
+				
+				rs = ps.executeQuery();
+				
+				if(rs == null){
+					PosLogger.log.error("Database error");
+					return null;
+				}
+				
+				if (rs.next()) {
+					
+					if(rs.getInt(1) >= 1){
+						
+						//兑换码存在
+						PosLogger.log.debug("Generate Unique Code fail,code is already exsit");
+						continue;
+						
+					}else if(rs.getInt(1) == 0){
+						
+						//兑换码不存在
+						PosLogger.log.debug("Generate Unique Code success");
+						break;
+						
+					}
+					
+				}
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return keyCode;
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
@@ -418,12 +478,13 @@ public class KeyDAO extends SuperDAO {
 	public static void main(String[] args) {
 		
 		KeyDAO dao = new KeyDAO();
-		Key f = new Key();
-		f.setKey_id(1);
-		f.setKey_status(1);
-		f.setKey_code("123456FJSDLKFSDG");
+//		Key f = new Key();
+//		f.setKey_id(1);
+//		f.setKey_status(1);
+//		f.setKey_code("123456FJSDLKFSDG");
 //		f.setTuan_id(1);
-		dao.updateKey(f,1);
+//		dao.updateKey(f,1);
+		System.out.println(dao.GenerateUniqueCode());
 		
 	}
 	
