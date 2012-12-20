@@ -442,6 +442,154 @@ public class KeyDAO extends SuperDAO {
 		return keyCode;
 	}
 	
+	/**
+	 * @author penglang
+	 * @return boolean
+	 * 检查兑换码是否唯一
+	 */
+	public boolean CheckUniqueCode(String code){
+		
+		boolean isExist = false;
+		
+		PosLogger.log.debug("Check Unique Code");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			
+			ps = conn.prepareStatement("select count(*) from temp_key where key_code='"
+							+ code + "'");
+
+			rs = ps.executeQuery();
+
+			if (rs == null) {
+				PosLogger.log.error("Database error");
+				return false;
+			}
+
+			if (rs.next()) {
+
+				if (rs.getInt(1) >= 1) {
+
+					// 兑换码存在
+					PosLogger.log.debug("code is already exsit");
+					return false;
+
+				} else if (rs.getInt(1) == 0) {
+
+					// 兑换码不存在
+					PosLogger.log.debug("code not exist");
+					return true;
+
+				}
+
+			}
+			
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return isExist;
+	}
+	
+	
+	/**
+	 * @author penglang
+	 * @param tuanID(要追加兑换码的团购ID)
+	 * @param keyCount(要追加的兑换码数量)
+	 * @param userID(当前操作员ID)
+	 * @return boolean(是否成功)
+	 */
+	public boolean addAfterKey(int tuanID,int keyCount,int userID){
+		
+		boolean isSuccess = true;
+		
+		PosLogger.log.debug("Add key to already exist tuan");
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			//生成兑换码头
+			String keyHead = GenerateKeyCode.generateKeyCodeHead();
+			
+			KeyDAO key = new KeyDAO();
+			
+			for(int i = 0 ; i < keyCount ; i++){
+				
+				//添加兑换码
+				ps = conn.prepareStatement("insert into temp_key(tuan_id,key_code,key_status) values(?,?,?)");
+				
+				ps.setInt(1, tuanID);
+				while(true){
+					String uniqueCode = keyHead + GenerateKeyCode.generateKeyCodeTail();
+					//兑换码唯一，可以使用
+					if(key.CheckUniqueCode(uniqueCode)){
+						ps.setString(2, uniqueCode);
+						break;
+					}
+					
+				}
+				ps.setInt(3, 0);
+				
+				int result_2 = ps.executeUpdate();
+				
+				if (result_2 > 0) {
+					
+					PosLogger.log.info("Insert into key success");
+					
+					
+				} else {
+					
+					PosLogger.log.error("Insert into database error");
+					isSuccess = false;
+					conn.setAutoCommit(true);
+					return isSuccess;
+					
+				}
+				
+			}
+			
+			//添加到log
+			ps = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
+			
+			ps.setInt(1, userID);
+			ps.setLong(2, System.currentTimeMillis());
+			ps.setString(3, "追加团购ID为:" + tuanID + "的兑换码" + keyCount + "个");
+			
+			int result = ps.executeUpdate();
+			
+			if (result > 0) {
+				
+				PosLogger.log.info("Insert into temp_log success");
+				
+			} else {
+				PosLogger.log.error("Insert into database error");
+				
+				isSuccess = false;
+				conn.setAutoCommit(true);
+				return isSuccess;
+				
+			}
+			
+			conn.commit();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		}
+		
+		
+		return isSuccess;
+		
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
@@ -484,7 +632,8 @@ public class KeyDAO extends SuperDAO {
 //		f.setKey_code("123456FJSDLKFSDG");
 //		f.setTuan_id(1);
 //		dao.updateKey(f,1);
-		System.out.println(dao.GenerateUniqueCode());
+//		System.out.println(dao.GenerateUniqueCode());
+		System.out.println(dao.addAfterKey(2, 10, 1));
 		
 	}
 	

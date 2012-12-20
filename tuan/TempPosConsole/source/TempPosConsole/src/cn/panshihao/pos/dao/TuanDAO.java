@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.panshihao.pos.model.Tuan;
+import cn.panshihao.pos.tools.GenerateKeyCode;
 import cn.panshihao.pos.tools.PosLogger;
 import cn.panshihao.pos.tools.SQLConn;
 
@@ -28,7 +29,7 @@ public class TuanDAO extends SuperDAO {
 	private final String primaryKeyName = "tuan_id";
 	
 	//添加团购操作
-	public boolean addKey(Tuan tuan,int userID){
+	private boolean addKey(Tuan tuan,int userID){
 		
 		boolean isSuccess = false;
 		
@@ -376,6 +377,142 @@ public class TuanDAO extends SuperDAO {
 		return tuanArray;
 	}
 	
+	/**
+	 * @author penglang
+	 * @param tuan(团购对象)
+	 * @param keyCount(团购下的兑换码数量)
+	 * @param userID(当前操作者ID)
+	 * @return boolean是否成功
+	 */
+	public boolean addTuanAndKey(Tuan tuan,int keyCount,int userID){
+		
+		boolean isSuccess = true;
+		
+		PosLogger.log.debug("Add tuan and key,add keycount=" + keyCount);
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement("insert into temp_tuan(category_id,firm_id,tuan_name,tuan_desc,tuan_starttime,tuan_endtime) values(?,?,?,?,?,?)");
+			
+			ps.setInt(1, tuan.getCategory_id());
+			ps.setInt(2, tuan.getFirm_id());
+			ps.setString(3, tuan.getTuan_name());
+			ps.setString(4, tuan.getTuan_desc());
+			ps.setLong(5, tuan.getTuan_starttime());
+			ps.setLong(6, tuan.getTuan_endtime());
+			
+			int result = ps.executeUpdate();
+			
+			int tuanID = -1;
+			
+			if (result > 0) {
+
+				PosLogger.log.info("Insert into " + tablesName + " success");
+				
+				ps = conn.prepareStatement("SELECT @@IDENTITY;");
+				
+				rs = ps.executeQuery();
+				
+				if(rs == null){
+					
+					isSuccess = false;
+					conn.setAutoCommit(true);
+					return isSuccess;
+					
+				}
+				
+				if(rs.next()){
+					
+					tuanID = rs.getInt(1);
+					
+				}
+				
+			} else {
+				PosLogger.log.error("Insert into database error");
+				
+				isSuccess = false;
+				conn.setAutoCommit(true);
+				return isSuccess;
+
+			}
+			
+			//生成兑换码头
+			String keyHead = GenerateKeyCode.generateKeyCodeHead();
+			
+			KeyDAO key = new KeyDAO();
+			
+			for(int i = 0 ; i < keyCount ; i++){
+				
+				//添加兑换码
+				ps = conn.prepareStatement("insert into temp_key(tuan_id,key_code,key_status) values(?,?,?)");
+				
+				ps.setInt(1, tuanID);
+				while(true){
+					String uniqueCode = keyHead + GenerateKeyCode.generateKeyCodeTail();
+					//兑换码唯一，可以使用
+					if(key.CheckUniqueCode(uniqueCode)){
+						ps.setString(2, uniqueCode);
+						break;
+					}
+					
+				}
+				ps.setInt(3, 0);
+				
+				int result_2 = ps.executeUpdate();
+				
+				if (result_2 > 0) {
+					
+					PosLogger.log.info("Insert into key success");
+					
+					
+				} else {
+					
+					PosLogger.log.error("Insert into database error");
+					isSuccess = false;
+					conn.setAutoCommit(true);
+					return isSuccess;
+					
+				}
+				
+			}
+			
+			//添加到log
+			ps = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
+			
+			ps.setInt(1, userID);
+			ps.setLong(2, System.currentTimeMillis());
+			ps.setString(3, "添加团购:\"" + tuan.getTuan_name() + "\",并添加" + keyCount + "个兑换码");
+			
+			result = ps.executeUpdate();
+			
+			if (result > 0) {
+
+				PosLogger.log.info("Insert into temp_log success");
+				
+			} else {
+				PosLogger.log.error("Insert into database error");
+				
+				isSuccess = false;
+				conn.setAutoCommit(true);
+				return isSuccess;
+
+			}
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+
+			PosLogger.log.error(e.getMessage());
+		}
+
+		return isSuccess;
+		
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
@@ -412,27 +549,28 @@ public class TuanDAO extends SuperDAO {
 	public static void main(String[] args) {
 		
 		TuanDAO dao = new TuanDAO();
-//		Tuan f = new Tuan();
+		Tuan f = new Tuan();
 //		f.setTuan_id(1);
-//		f.setCategory_id(1);
-//		f.setFirm_id(1);
-//		f.setTuan_desc("这是团的网吧上网的团购");
-//		f.setTuan_name("了上天网吧1.5元一小时团购票");
-//		f.setTuan_starttime(System.currentTimeMillis());
-//		f.setTuan_endtime(System.currentTimeMillis() - 2000);
+		f.setCategory_id(2);
+		f.setFirm_id(1);
+		f.setTuan_desc("这是团的网吧上网的团购");
+		f.setTuan_name("了上天网吧1.5元一小时团购票");
+		f.setTuan_starttime(System.currentTimeMillis());
+		f.setTuan_endtime(System.currentTimeMillis() - 2000);
 //		dao.updateTuan(f);
 //		Tuan t = dao.getTuanFromDatabase(2);
 //		System.out.println(t.getCategory_id());
 //		System.out.println(t.getFirm_id());
 //		System.out.println(t.getTuan_endtime());
-		JSONObject json = new JSONObject();
-		try {
-			json.put("df", "df");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(json);
+//		JSONObject json = new JSONObject();
+//		try {
+//			json.put("df", "df");
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println(json);
+		System.out.println(dao.addTuanAndKey(f, 10,1));
 	}
 	
 }
