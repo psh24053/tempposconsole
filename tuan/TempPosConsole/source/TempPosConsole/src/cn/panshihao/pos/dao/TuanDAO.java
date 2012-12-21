@@ -337,7 +337,7 @@ public class TuanDAO extends SuperDAO {
 				
 				try {
 					
-					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=1"); 
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
 					
 					rs_3 = ps_3.executeQuery();
 					
@@ -465,7 +465,7 @@ public class TuanDAO extends SuperDAO {
 				
 				try {
 					
-					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=1"); 
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
 					
 					rs_3 = ps_3.executeQuery();
 					
@@ -591,7 +591,7 @@ public class TuanDAO extends SuperDAO {
 				
 				try {
 					
-					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=1"); 
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
 					
 					rs_3 = ps_3.executeQuery();
 					
@@ -722,7 +722,7 @@ public class TuanDAO extends SuperDAO {
 				
 				try {
 					
-					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=1"); 
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
 					
 					rs_3 = ps_3.executeQuery();
 					
@@ -853,7 +853,7 @@ public class TuanDAO extends SuperDAO {
 				
 				try {
 					
-					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=1"); 
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
 					
 					rs_3 = ps_3.executeQuery();
 					
@@ -984,7 +984,7 @@ public class TuanDAO extends SuperDAO {
 				
 				try {
 					
-					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=1"); 
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
 					
 					rs_3 = ps_3.executeQuery();
 					
