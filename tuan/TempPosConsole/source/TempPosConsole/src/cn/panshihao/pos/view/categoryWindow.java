@@ -60,10 +60,16 @@ public class categoryWindow extends superWindow {
 	
 	private boolean deleting = false;
 	
+	private onResultListener<Category> listener;
+	
 	
 	public categoryWindow(superWindow parent) {
 		super(parent);
 		// TODO Auto-generated constructor stub
+	}
+	public categoryWindow(superWindow parent, onResultListener<Category> listener){
+		super(parent);
+		this.listener = listener;
 	}
 
 	@Override
@@ -155,6 +161,27 @@ public class categoryWindow extends superWindow {
 				}
 				
 			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(listener != null){
+					final int selectionIndex = category_tab_all_table.getSelectionIndex();
+					
+					//如果selectionIndex为-1则代表没有选中任何元素
+					if(selectionIndex == -1){
+						return;
+					}
+					TableItem setectionItem = category_tab_all_table.getSelection()[0];
+					Category Category = (Category) setectionItem.getData();
+					
+					listener.onResult(Category);
+					getShell().dispose();
+				}
+				
+				
+			}
+			
 		});
 		
 		
@@ -456,6 +483,11 @@ public class categoryWindow extends superWindow {
 		category_shell.setText(category_title);
 		category_shell.setSize(marginWidthValue * 40, marginHeightValue * 50);
 		category_shell.setLocation(getCenterX(category_shell), getCenterY(category_shell));
+		
+		if(listener != null){
+			category_shell.setText("请选择团购类别，双击选中项");
+		}
+		
 	}
 	/**
 	 * 添加类别按钮的点击事件

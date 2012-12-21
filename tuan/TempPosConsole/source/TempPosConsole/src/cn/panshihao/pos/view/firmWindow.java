@@ -59,11 +59,16 @@ public class firmWindow extends superWindow {
 	
 	
 	private boolean deleting = false;
-	
+	private onResultListener<Firm> listener;
 	
 	public firmWindow(superWindow parent) {
 		super(parent);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public firmWindow(superWindow parent, onResultListener<Firm> listener){
+		super(parent);
+		this.listener = listener;
 	}
 
 	@Override
@@ -155,6 +160,27 @@ public class firmWindow extends superWindow {
 				}
 				
 			}
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(listener != null){
+					// 如果listener 不为null，则返回响应方法
+					final int selectionIndex = firm_tab_all_table.getSelectionIndex();
+					
+					//如果selectionIndex为-1则代表没有选中任何元素
+					if(selectionIndex == -1){
+						return;
+					}
+					TableItem setectionItem = firm_tab_all_table.getSelection()[0];
+					Firm firm = (Firm) setectionItem.getData();
+					
+					listener.onResult(firm);
+					getShell().dispose();
+				}
+				
+				
+			}
+			
 		});
 		
 		
@@ -516,6 +542,8 @@ public class firmWindow extends superWindow {
 		});
 		
 		
+		
+		
 	}
 	/**
 	 * 初始化界面基本数据
@@ -525,6 +553,11 @@ public class firmWindow extends superWindow {
 		firm_shell.setText(firm_title);
 		firm_shell.setSize(marginWidthValue * 70, marginHeightValue * 70);
 		firm_shell.setLocation(getCenterX(firm_shell), getCenterY(firm_shell));
+		
+		if(listener != null){
+			firm_shell.setText("请选择商家，双击选中项");
+		}
+		
 	}
 	/**
 	 * 添加商家按钮的点击事件
@@ -869,5 +902,8 @@ public class firmWindow extends superWindow {
 			
 		}
 	}
+
+	
+	
 
 }

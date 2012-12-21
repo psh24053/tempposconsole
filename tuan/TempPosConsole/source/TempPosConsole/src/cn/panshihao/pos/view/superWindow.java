@@ -1,10 +1,12 @@
 package cn.panshihao.pos.view;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -174,4 +176,33 @@ public abstract class superWindow {
 		return getShell().getBounds().height - getShell().getBorderWidth() - marginHeightValue * 3;
 	}
 	
+	/**
+	 * 根据传入的datetime组件，返回其时间的Long形态
+	 * @param datetime
+	 * @return
+	 */
+	public long ExtractDatetimeLong(DateTime datetime){
+		if(datetime == null){
+			return System.currentTimeMillis();
+		}
+		
+		
+		Calendar c = Calendar.getInstance(); 
+		c.set(c.YEAR, datetime.getYear());
+		c.set(c.MONTH, datetime.getMonth());
+		c.set(c.DATE, datetime.getDay());
+		
+		
+		return c.getTimeInMillis();
+	}
+	
+	/**
+	 * 结果回调接口
+	 * @author Administrator
+	 *
+	 * @param <Result>
+	 */
+	public interface onResultListener<Result>{
+		public void onResult(Result result);
+	}
 }

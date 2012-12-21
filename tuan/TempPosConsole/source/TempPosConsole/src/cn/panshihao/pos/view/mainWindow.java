@@ -24,10 +24,17 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.panshihao.pos.dao.CategoryDAO;
+import cn.panshihao.pos.dao.TuanDAO;
+import cn.panshihao.pos.handler.AsyncHandler;
+import cn.panshihao.pos.model.Tuan;
 import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
 import cn.panshihao.pos.tools.TransDate;
@@ -108,6 +115,7 @@ public class mainWindow extends superWindow {
 	 * Tab区域
 	 */
 	public TabFolder main_tab = null;
+	public TabItem main_tab_all = null;
 	
 	
 	/*
@@ -247,38 +255,122 @@ public class mainWindow extends superWindow {
 		
 		main_tab.setBounds(marginWidthValue, main_search.getBounds().y + main_search.getBounds().height + marginHeightValue, tabWidth, tabHeight);
 		
-		TabItem item = new TabItem(main_tab, SWT.NONE);
-		item.setText("Item 1");
 		
-		TabItem item2 = new TabItem(main_tab, SWT.NONE);
-		item2.setText("Item 2");
-		
-		
-		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				CategoryDAO dao = new CategoryDAO();
-				JSONObject json = dao.getAllCategory(0, 10);
-				
-				
-				getDisplay().asyncExec(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						TabItem item3 = new TabItem(main_tab, SWT.NONE);
-						item3.setText("你妹");
-						
-					}
-				});
-			}
-		}).start();
-		
+		new loadAllTuanAsyncHandler(This()).start("");
 		
 	}
+	/**
+	 * 加载全部团购数据的asynchandler
+	 * @author Administrator
+	 *
+	 */
+	private class loadAllTuanAsyncHandler extends AsyncHandler<String, Integer, JSONObject>{
+
+		public loadAllTuanAsyncHandler(superWindow window) {
+			super(window);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public JSONObject doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			TuanDAO dao = new TuanDAO();
+			
+			return dao.getAllTuan(0, 100000);
+		}
+		
+		@Override
+		public void onComplete(JSONObject result) {
+			// TODO Auto-generated method stub
+			super.onComplete(result);
+			
+			if(result != null){
+				
+				changeAllTuanData(result);
+				
+			}
+			
+		}
+		
+	}
+	/**
+	 * 创建一个table对象
+	 * @param tab
+	 * @return
+	 */
+	private Table createTable(Composite tab){
+		Table table = new Table(tab, SWT.FULL_SELECTION);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		
+		
+		TableColumn idColumn = new TableColumn(table, SWT.CENTER); 
+		idColumn.setText("ID");
+		idColumn.setWidth(marginWidthValue * 3);
+		
+		TableColumn nameColumn = new TableColumn(table, SWT.CENTER); 
+		nameColumn.setText("团购名称");
+		nameColumn.setWidth(marginWidthValue * 10);
+		
+		TableColumn descColumn = new TableColumn(table, SWT.CENTER); 
+		descColumn.setText("团购描述");
+		descColumn.setWidth(marginWidthValue * 18);
+		
+		TableColumn firmColumn = new TableColumn(table, SWT.CENTER); 
+		firmColumn.setText("商家名称");
+		firmColumn.setWidth(marginWidthValue * 10);
+		
+		TableColumn categoryColumn = new TableColumn(table, SWT.CENTER); 
+		categoryColumn.setText("团购类别");
+		categoryColumn.setWidth(marginWidthValue * 10);
+		
+		TableColumn startColumn = new TableColumn(table, SWT.CENTER); 
+		startColumn.setText("团购开始时间");
+		startColumn.setWidth(marginWidthValue * 10);
+		
+		TableColumn endColumn = new TableColumn(table, SWT.CENTER); 
+		endColumn.setText("团购结束时间");
+		endColumn.setWidth(marginWidthValue * 10);
+		
+		TableColumn keyTotalColumn = new TableColumn(table, SWT.CENTER); 
+		keyTotalColumn.setText("兑换码总数");
+		keyTotalColumn.setWidth(marginWidthValue * 10);
+		
+		TableColumn keyOverColumn = new TableColumn(table, SWT.CENTER); 
+		keyOverColumn.setText("兑换码剩余");
+		keyOverColumn.setWidth(marginWidthValue * 10);
+		
+		return table;
+	}
+	
+	/**
+	 * 根据传入的数据改变界面
+	 * @param data
+	 */
+	private void changeAllTuanData(JSONObject data){
+		
+		JSONArray list = null;
+		try {
+			list = data.getJSONArray("list");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(main_tab_all == null){
+			main_tab_all = new TabItem(main_tab, SWT.NONE);
+			main_tab_all.setText("全部团购("+list.length()+")");
+			
+			Table all_table = createTable(main_tab);
+			main_tab_all.setControl(all_table);
+			
+		}
+		
+		
+		
+	} 
+	
+	
 	/**
 	 * 初始化搜索区域
 	 */
@@ -537,7 +629,14 @@ public class mainWindow extends superWindow {
 				
 				switch (source.getText()) {
 				case "创建团购":
-					System.out.println("创建团购");
+					new createTuanWindow(This(), new onResultListener<Tuan>() {
+						
+						@Override
+						public void onResult(Tuan result) {
+							// TODO Auto-generated method stub
+							
+						}
+					}).show();
 					break;
 				case "商家管理":
 					new firmWindow(This()).show();
