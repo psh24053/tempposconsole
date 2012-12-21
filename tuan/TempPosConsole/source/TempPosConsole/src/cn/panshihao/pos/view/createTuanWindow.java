@@ -19,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.panshihao.pos.component.NumberText;
 import cn.panshihao.pos.dao.CategoryDAO;
 import cn.panshihao.pos.dao.TuanDAO;
 import cn.panshihao.pos.handler.AsyncHandler;
