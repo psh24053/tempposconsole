@@ -7,6 +7,8 @@ import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -14,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -36,6 +39,7 @@ import cn.panshihao.pos.dao.CategoryDAO;
 import cn.panshihao.pos.dao.TuanDAO;
 import cn.panshihao.pos.handler.AsyncHandler;
 import cn.panshihao.pos.model.Category;
+import cn.panshihao.pos.model.Firm;
 import cn.panshihao.pos.model.Tuan;
 import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
@@ -105,6 +109,9 @@ public class mainWindow extends superWindow {
 	public Label main_search_label = null;
 	public Text main_search_text = null;
 	public Button main_search_button = null;
+	public Combo main_search_combo = null;
+	public TabItem main_tab_search = null;
+	
 	
 	/*
 	 * 间隔区域最小单位
@@ -397,7 +404,6 @@ public class mainWindow extends superWindow {
 			Tuan tuan = new Tuan();
 			JSONObject json = list.getJSONObject(i);
 			
-			tuan.setTuan_id(json.getInt("tid"));
 			
 			int id = json.getInt("tid");
 			String name = json.getString("name");
@@ -409,6 +415,9 @@ public class mainWindow extends superWindow {
 			int count = json.getInt("count");
 			int remain = json.getInt("remain");
 			
+			tuan.setTuan_id(id);
+			tuan.setTuan_desc(desc);
+			tuan.setTuan_name(name);
 			
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setData(tuan);
@@ -475,10 +484,68 @@ public class mainWindow extends superWindow {
 	 * @return
 	 */
 	private Table createTable(Composite tab){
-		Table table = new Table(tab, SWT.FULL_SELECTION);
+		final Table table = new Table(tab, SWT.FULL_SELECTION);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.button == 3){
+					// item右键事件
+					final int selectionIndex = table.getSelectionIndex();
+					
+					//如果selectionIndex为-1则代表没有选中任何元素
+					if(selectionIndex == -1){
+						return;
+					}
+					TableItem setectionItem = table.getSelection()[0];
+					final Tuan tuan = (Tuan) setectionItem.getData();
+					
+					
+					Menu menu = new Menu(table);
+					table.setMenu(menu);
+					
+					MenuItem item_Info = new MenuItem(menu, SWT.PUSH);  
+					item_Info.setText("ID:"+tuan.getTuan_id()+" 团购名称："+tuan.getTuan_name());  
+					
+					MenuItem item_key = new MenuItem(menu, SWT.PUSH);  
+					item_key.setText("提取兑换码");  
+					
+					MenuItem item_modify = new MenuItem(menu, SWT.PUSH);  
+					item_modify.setText("编辑该团购");  
+					item_modify.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent arg0) {
+							// TODO Auto-generated method stub
+							modifyTableItem(tuan, selectionIndex);
+							
+						}
+					});
+					
+					
+					MenuItem item_delete = new MenuItem(menu, SWT.PUSH);  
+					item_delete.setText("删除该团购");  
+					item_delete.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent arg0) {
+							// TODO Auto-generated method stub
+//							if(firm_tab_modify != null){
+//								alert(getShell(), "删除错误", "正在进行编辑操作，请完成编辑之后再执行删除！");
+//								setTabFocus("firm_tab_modify");
+//								return;
+//							}
+//							
+//							if(!deleting){
+//								deleteTableItem(firm, selectionIndex);
+//							}
+						}
+					});
+				}
+				
+				
+			}
+		});
 		
 		TableColumn idColumn = new TableColumn(table, SWT.CENTER); 
 		idColumn.setText("ID");
@@ -518,6 +585,14 @@ public class mainWindow extends superWindow {
 		
 		return table;
 	}
+	/**
+	 * 编辑表格元素
+	 * @param tuan
+	 * @param index
+	 */
+	private void modifyTableItem(Tuan tuan, int index){
+		
+	}
 	
 	/**
 	 * 根据传入的数据改变界面
@@ -541,8 +616,6 @@ public class mainWindow extends superWindow {
 			Tuan tuan = new Tuan();
 			JSONObject json = list.getJSONObject(i);
 			
-			tuan.setTuan_id(json.getInt("tid"));
-			
 			int id = json.getInt("tid");
 			String name = json.getString("name");
 			String desc = json.getString("desc");
@@ -553,6 +626,9 @@ public class mainWindow extends superWindow {
 			int count = json.getInt("count");
 			int remain = json.getInt("remain");
 			
+			tuan.setTuan_id(id);
+			tuan.setTuan_desc(desc);
+			tuan.setTuan_name(name);
 			
 			TableItem item = new TableItem(all_table, SWT.NONE);
 			item.setData(tuan);
@@ -580,16 +656,170 @@ public class mainWindow extends superWindow {
 		main_search.setBounds(marginWidthValue, main_button.getBounds().y + main_button.getBounds().height + marginHeightValue, searchWidth, searchHeight);
 //		main_search.setBackground(new Color(main_shell.getDisplay(), new RGB(0xff, 0x00, 0x00)));
 		
-		main_search_label = new Label(main_search, SWT.NONE);
-		main_search_label.setText("搜索内容");
-		main_search_label.setBounds(0, (int)(marginHeightValue * 1.5), marginWidthValue * 4, marginHeightValue * 2);
+//		main_search_label = new Label(main_search, SWT.NONE);
+//		main_search_label.setText("搜索内容");
+//		main_search_label.setBounds(0, (int)(marginHeightValue * 1.5), marginWidthValue * 4, marginHeightValue * 2);
+		
+		main_search_combo = new Combo(main_search, SWT.READ_ONLY);
+		main_search_combo.setBounds(0, marginHeightValue, marginWidthValue * 8, marginHeightValue * 2);
+		main_search_combo.setItems(new String[]{"团购名称","团购描述","商家名称"});
+		main_search_combo.select(0);
 		
 		main_search_text = new Text(main_search, SWT.BORDER);
-		main_search_text.setBounds(main_search_label.getBounds().width , main_search_label.getBounds().y - (int)(marginHeightValue * 0.5), marginWidthValue * 20, marginHeightValue * 3);
+		main_search_text.setBounds(main_search_combo.getBounds().width + marginWidthValue , main_search_combo.getBounds().y, marginWidthValue * 20, (int)(marginHeightValue * 3.5));
 		
 		main_search_button = new Button(main_search, SWT.NONE);
 		main_search_button.setText("搜索");
-		main_search_button.setBounds(main_search_text.getBounds().x + main_search_text.getBounds().width + marginWidthValue, (int)(marginHeightValue * 1), marginWidthValue * 5, marginHeightValue * 3);
+		main_search_button.setBounds(main_search_text.getBounds().x + main_search_text.getBounds().width + marginWidthValue, (int)(marginHeightValue * 1), marginWidthValue * 5, (int)(marginHeightValue * 3.5));
+		main_search_button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				searchTuan();
+			}
+		});
+	}
+	/**
+	 * 搜索团购信息
+	 */
+	private void searchTuan(){
+		String comboValue = main_search_combo.getText();
+		String keywordValue = main_search_text.getText();
+		
+		if(keywordValue == null || keywordValue.equals("")){
+			alert(getShell(), "搜索错误", "请输入关键字！");
+			return;
+		}
+		
+		
+		
+		new searchTuanAsyncHandler(This(), keywordValue).start(comboValue);
+		
+	}
+	/**
+	 * 搜索团购信息
+	 * @author shihao
+	 *
+	 */
+	private class searchTuanAsyncHandler extends AsyncHandler<String, Integer, JSONObject>{
+
+		private String keyword;
+		
+		public searchTuanAsyncHandler(superWindow window, String keyword) {
+			super(window);
+			// TODO Auto-generated constructor stub
+			this.keyword = keyword;
+		}
+
+		@Override
+		public JSONObject doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			TuanDAO dao = new TuanDAO();
+			
+			switch (params[0]) {
+			case "团购名称":
+				return dao.getQueryTuanByTuanName(keyword, 0, 10000);
+			case "团购描述":
+				return dao.getQueryTuanByTuanDesc(keyword, 0, 10000);
+			case "商家名称":
+				return dao.getQueryTuanByFirmName(keyword, 0, 10000);
+			default:
+				break;
+			}
+			
+			
+			return null;
+		}
+		
+		@Override
+		public void onComplete(JSONObject result) {
+			// TODO Auto-generated method stub
+			super.onComplete(result);
+			
+			if(result != null){
+				try {
+					changeSearchData(result);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		}
+	}
+	/**
+	 * 根据tab，设置tab的选中项
+	 * @param tab
+	 */
+	private void setTabFocus(String tab){
+		
+		TabItem[] items = main_tab.getItems();
+		int modify_index = -1;
+		for(int i = 0 ; i < items.length ; i ++){
+			TabItem item = items[i];
+			if(item.getData() != null && item.getData().equals(tab)){
+				modify_index = i;
+				break;
+			}
+		}
+		
+		if(modify_index != -1){
+			
+			main_tab.setSelection(modify_index);
+		}
+	}
+	/**
+	 * 改变搜索数据
+	 * @param data
+	 * @throws JSONException 
+	 */
+	private void changeSearchData(JSONObject data) throws JSONException{
+		
+		JSONArray list = data.getJSONArray("list");
+		
+		if(list.length() < 1){
+			alert(getShell(), "提示", "没有搜索到团购信息");
+			return;
+		}
+		
+		Table table = null;
+		
+		if(main_tab_search == null){
+			main_tab_search = new TabItem(main_tab, SWT.NONE);
+			table = createTable(main_tab);
+			main_tab_search.setControl(table);
+			main_tab_search.setData("main_tab_search");
+			
+		}
+		main_tab_search.setText("搜索结果("+list.length()+")");
+		setTabFocus("main_tab_search");
+		
+		
+		for(int i = 0 ; i < list.length() ; i ++){
+			Tuan tuan = new Tuan();
+			JSONObject json = list.getJSONObject(i);
+			
+			int id = json.getInt("tid");
+			String name = json.getString("name");
+			String desc = json.getString("desc");
+			String firm = json.getString("firm");
+			String cat = json.getString("cat");
+			String sta = TransDate.convertTime(json.getLong("sta"));
+			String end = TransDate.convertTime(json.getLong("end"));
+			int count = json.getInt("count");
+			int remain = json.getInt("remain");
+			
+			tuan.setTuan_id(id);
+			tuan.setTuan_desc(desc);
+			tuan.setTuan_name(name);
+			
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setData(tuan);
+			item.setText(new String[]{id+"", name, desc, firm, cat, sta, end, count+"", remain+""});
+			
+			
+		}
+		
 	}
 	
 	/**

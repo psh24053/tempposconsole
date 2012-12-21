@@ -261,6 +261,7 @@ public class createTuanWindow extends superWindow {
 		tuan.setTuan_starttime(startTime);
 		tuan.setTuan_name(nameValue);
 		
+		alert(getShell(), "提示", "生成兑换码需要较长时间,请耐心等待!");
 		new createTuanAsyncHandler(This(), keyCount).start(tuan);
 		
 	}
