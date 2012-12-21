@@ -312,7 +312,11 @@ public class TuanDAO extends SuperDAO {
 						
 					}
 					
-					tuanJson.put("count", rs_2.getInt(1));
+					if(rs_2.next()){
+						
+						tuanJson.put("count", rs_2.getInt(1));
+					}
+					
 					
 				}finally{
 					
@@ -343,7 +347,12 @@ public class TuanDAO extends SuperDAO {
 						
 					}
 					
-					tuanJson.put("remain", rs_3.getInt(1));
+					if(rs_3.next()){
+						
+						tuanJson.put("remain", rs_3.getInt(1));
+						
+					}
+					
 					
 				}finally{
 					
