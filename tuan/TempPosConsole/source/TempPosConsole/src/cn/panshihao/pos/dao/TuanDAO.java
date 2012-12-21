@@ -424,7 +424,7 @@ public class TuanDAO extends SuperDAO {
 				tuanJson.put("desc", rs.getString("t.tuan_desc"));
 				tuanJson.put("firm", rs.getString("f.firm_name"));
 				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
-				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				tuanJson.put("end", rs.getLong("t.tuan_endtime"));
 				
 				
 				//获得团购总数量
@@ -550,7 +550,7 @@ public class TuanDAO extends SuperDAO {
 				tuanJson.put("desc", rs.getString("t.tuan_desc"));
 				tuanJson.put("firm", rs.getString("f.firm_name"));
 				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
-				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				tuanJson.put("end", rs.getLong("t.tuan_endtime"));
 				
 				
 				//获得团购总数量
@@ -681,7 +681,7 @@ public class TuanDAO extends SuperDAO {
 				tuanJson.put("desc", rs.getString("t.tuan_desc"));
 				tuanJson.put("firm", rs.getString("f.firm_name"));
 				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
-				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				tuanJson.put("end", rs.getLong("t.tuan_endtime"));
 				
 				
 				//获得团购总数量
@@ -1074,7 +1074,7 @@ public class TuanDAO extends SuperDAO {
 				tuanJson.put("desc", rs.getString("t.tuan_desc"));
 				tuanJson.put("firm", rs.getString("f.firm_name"));
 				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
-				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				tuanJson.put("end", rs.getLong("t.tuan_endtime"));
 				
 				
 				//获得团购总数量
@@ -1205,7 +1205,7 @@ public class TuanDAO extends SuperDAO {
 				tuanJson.put("desc", rs.getString("t.tuan_desc"));
 				tuanJson.put("firm", rs.getString("f.firm_name"));
 				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
-				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				tuanJson.put("end", rs.getLong("t.tuan_endtime"));
 				
 				
 				//获得团购总数量
