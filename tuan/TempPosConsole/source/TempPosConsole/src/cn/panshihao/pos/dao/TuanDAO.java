@@ -1030,6 +1030,268 @@ public class TuanDAO extends SuperDAO {
 	
 	/**
 	 * @author penglang
+	 * @param categoryID(类别ID),start(开始位置),count(查询条数)
+	 * @return JsonObject
+	 * 获取类别下的团购信息
+	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"cat"-团购类别名称,"tid"-团购ID
+	 * "name"-团购名字,"desc"-团购描述,"firm"-团购商家名称,"sta"-团购开始时间,"end"-团购结束时间,
+	 * "count"-该团购总兑换码数量,"remain"-该团购剩余兑换码数量
+	 * json例:{count:2,list:[{cat:"餐饮",tid:1,name:"南方高新火锅城团购券",desc:"南方高新火锅城70一人随便吃",
+	 * firm:"南方高新火锅城",sta:1234567891011,end:1234567891012,count:10,remain:5}
+	 * ,{cat:"娱乐",tid:1,name:"南方高新台球俱乐部券",desc:"南方高新台球俱乐部20一人一下午",
+	 * firm:"南方高新台球俱乐部",sta:1234567891011,end:1234567891012,count:10,remain:5}]}
+	 */
+	public JSONObject getTuanByCategoryID(int categoryID,int start,int count){
+		
+		JSONObject tuanArray = new JSONObject();
+		
+		PosLogger.log.debug("Get query Tuan,categoryID=" + categoryID);
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("SELECT * FROM temp_firm f,temp_tuan t,temp_category c " +
+					" WHERE t.category_id=c.category_id AND f.firm_id=t.firm_id and t.category_id=" + categoryID + " ORDER BY t.tuan_starttime desc " +
+							"limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Have no tuan");
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject tuanJson = new  JSONObject();
+				
+				int tuanID = rs.getInt("t.tuan_id");
+				tuanJson.put("tid", tuanID);
+				tuanJson.put("name", rs.getString("t.tuan_name"));
+				tuanJson.put("cat", rs.getString("c.category_name"));
+				tuanJson.put("desc", rs.getString("t.tuan_desc"));
+				tuanJson.put("firm", rs.getString("f.firm_name"));
+				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
+				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				
+				
+				//获得团购总数量
+				PreparedStatement ps_2 = null;
+				
+				ResultSet rs_2 = null;
+				
+				try {
+					
+					ps_2 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID); 
+					
+					rs_2 = ps_2.executeQuery();
+					
+					if(rs_2 == null){
+						
+						PosLogger.log.error("Get count error ,tuan_id = " + tuanID);
+						
+					}
+					
+					tuanJson.put("count", rs_2.getInt(1));
+					
+				}finally{
+					
+					if(ps_2 != null){
+						ps_2.close();
+					}
+					
+					if(rs_2 != null){
+						rs_2.close();
+					}
+					
+				}
+				
+				//获得团购剩余数量
+				PreparedStatement ps_3 = null;
+				
+				ResultSet rs_3 = null;
+				
+				try {
+					
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
+					
+					rs_3 = ps_3.executeQuery();
+					
+					if(rs_3 == null){
+						
+						PosLogger.log.error("Get remain count error ,tuan_id = " + tuanID);
+						
+					}
+					
+					tuanJson.put("remain", rs_3.getInt(1));
+					
+				}finally{
+					
+					if(ps_3 != null){
+						ps_3.close();
+					}
+					
+					if(rs_3 != null){
+						rs_3.close();
+					}
+					
+				}
+				
+				array.put(tuanJson);
+				
+			}
+			
+			tuanArray.put("list", array);
+			tuanArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return tuanArray;
+	}
+	
+	/**
+	 * @author penglang
+	 * @param firmID(商家ID),start(开始位置),count(查询条数)
+	 * @return JsonObject
+	 * 获取商家下的团购信息
+	 * json说明:"list"-包含所有日志的数组名,"count"-实际得到的日志条数,"cat"-团购类别名称,"tid"-团购ID
+	 * "name"-团购名字,"desc"-团购描述,"firm"-团购商家名称,"sta"-团购开始时间,"end"-团购结束时间,
+	 * "count"-该团购总兑换码数量,"remain"-该团购剩余兑换码数量
+	 * json例:{count:2,list:[{cat:"餐饮",tid:1,name:"南方高新火锅城团购券",desc:"南方高新火锅城70一人随便吃",
+	 * firm:"南方高新火锅城",sta:1234567891011,end:1234567891012,count:10,remain:5}
+	 * ,{cat:"娱乐",tid:1,name:"南方高新台球俱乐部券",desc:"南方高新台球俱乐部20一人一下午",
+	 * firm:"南方高新台球俱乐部",sta:1234567891011,end:1234567891012,count:10,remain:5}]}
+	 */
+	public JSONObject getTuanByfirmID(int firmID,int start,int count){
+		
+		JSONObject tuanArray = new JSONObject();
+		
+		PosLogger.log.debug("Get query Tuan,firmID=" + firmID);
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("SELECT * FROM temp_firm f,temp_tuan t,temp_category c " +
+					" WHERE t.category_id=c.category_id AND f.firm_id=t.firm_id and t.firm_id=" + firmID + " ORDER BY t.tuan_starttime desc " +
+							"limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Have no tuan");
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject tuanJson = new  JSONObject();
+				
+				int tuanID = rs.getInt("t.tuan_id");
+				tuanJson.put("tid", tuanID);
+				tuanJson.put("name", rs.getString("t.tuan_name"));
+				tuanJson.put("cat", rs.getString("c.category_name"));
+				tuanJson.put("desc", rs.getString("t.tuan_desc"));
+				tuanJson.put("firm", rs.getString("f.firm_name"));
+				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
+				tuanJson.put("end", rs.getLong("rs.tuan_endtime"));
+				
+				
+				//获得团购总数量
+				PreparedStatement ps_2 = null;
+				
+				ResultSet rs_2 = null;
+				
+				try {
+					
+					ps_2 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID); 
+					
+					rs_2 = ps_2.executeQuery();
+					
+					if(rs_2 == null){
+						
+						PosLogger.log.error("Get count error ,tuan_id = " + tuanID);
+						
+					}
+					
+					tuanJson.put("count", rs_2.getInt(1));
+					
+				}finally{
+					
+					if(ps_2 != null){
+						ps_2.close();
+					}
+					
+					if(rs_2 != null){
+						rs_2.close();
+					}
+					
+				}
+				
+				//获得团购剩余数量
+				PreparedStatement ps_3 = null;
+				
+				ResultSet rs_3 = null;
+				
+				try {
+					
+					ps_3 = conn.prepareStatement("select count(*) from temp_key where tuan_id=" + tuanID + " and key_status=0"); 
+					
+					rs_3 = ps_3.executeQuery();
+					
+					if(rs_3 == null){
+						
+						PosLogger.log.error("Get remain count error ,tuan_id = " + tuanID);
+						
+					}
+					
+					tuanJson.put("remain", rs_3.getInt(1));
+					
+				}finally{
+					
+					if(ps_3 != null){
+						ps_3.close();
+					}
+					
+					if(rs_3 != null){
+						rs_3.close();
+					}
+					
+				}
+				
+				array.put(tuanJson);
+				
+			}
+			
+			tuanArray.put("list", array);
+			tuanArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return tuanArray;
+	}
+	
+	/**
+	 * @author penglang
 	 * @param tuan(团购对象)
 	 * @param keyCount(团购下的兑换码数量)
 	 * @param userID(当前操作者ID)
