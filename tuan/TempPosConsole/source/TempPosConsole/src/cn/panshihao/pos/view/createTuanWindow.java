@@ -312,8 +312,11 @@ public class createTuanWindow extends superWindow {
 				}
 			}else{
 				alert(getShell(), "创建错误", "创建错误，请稍候再试！");
-				createTuan_form_button_create.setText("确认创建");
-				createTuan_form_button_create.setEnabled(true);
+				if(!getShell().isDisposed()){
+					createTuan_form_button_create.setText("确认创建");
+					createTuan_form_button_create.setEnabled(true);
+					
+				}
 			}
 			
 			

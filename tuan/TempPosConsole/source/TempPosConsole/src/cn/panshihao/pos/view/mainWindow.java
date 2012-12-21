@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 import cn.panshihao.pos.dao.CategoryDAO;
 import cn.panshihao.pos.dao.TuanDAO;
 import cn.panshihao.pos.handler.AsyncHandler;
+import cn.panshihao.pos.model.Category;
 import cn.panshihao.pos.model.Tuan;
 import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
@@ -126,6 +128,7 @@ public class mainWindow extends superWindow {
 	public Label main_footer_user = null;
 	public Label main_footer_time = null;
 	
+	public Table all_table = null;
 	
 	public superWindow printerSettingsWindow;
 	
@@ -260,6 +263,161 @@ public class mainWindow extends superWindow {
 		
 	}
 	/**
+	 * 加载所有类别的asynchandler
+	 * @author Administrator
+	 *
+	 */
+	private class loadAllCategoryAsyncHandler extends AsyncHandler<String, Integer, JSONObject>{
+
+		public loadAllCategoryAsyncHandler(superWindow window) {
+			super(window);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public JSONObject doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CategoryDAO dao = new CategoryDAO();
+			
+			
+			return dao.getAllCategory(0, 1000);
+		}
+		
+		@Override
+		public void onComplete(JSONObject result) {
+			// TODO Auto-generated method stub
+			super.onComplete(result);
+			
+			if(result != null){
+				try {
+					changeCategoryTab(result);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}
+		
+	}
+	/**
+	 * 改变类别tab
+	 * @param data
+	 * @throws JSONException 
+	 */
+	private void changeCategoryTab(JSONObject data) throws JSONException{
+		TabItem[] items = main_tab.getItems();
+		
+		for(int i = 0 ; i < items.length ; i ++){
+			TabItem item = items[i];
+			
+			if(item.isDisposed()){
+				continue;
+			}
+			
+			if(item.equals(main_tab_all)){
+				continue;
+			}else{
+				item.dispose();
+			}
+			
+		}
+		
+		JSONArray list = data.getJSONArray("list");
+		
+		for(int i = 0 ; i < list.length() ; i ++){
+			JSONObject item = list.getJSONObject(i);
+			Category c = new Category();
+			c.setCategory_desc(item.getString("desc"));
+			c.setCategory_id(item.getInt("cid"));
+			c.setCategory_name(item.getString("name"));
+			new loadCategoryTuanAsyncHandler(This()).start(c);
+			
+		}
+		
+		
+	}
+	/**
+	 * 根据类别加载团购信息
+	 * @author Administrator
+	 *
+	 */
+	private class loadCategoryTuanAsyncHandler extends AsyncHandler<Category, Integer, JSONObject>{
+
+		private Category category;
+		
+		public loadCategoryTuanAsyncHandler(superWindow window) {
+			super(window);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public JSONObject doInBackground(Category... params) {
+			// TODO Auto-generated method stub
+			TuanDAO dao = new TuanDAO();
+			this.category = params[0];
+			return dao.getTuanByCategoryID(params[0].getCategory_id(), 0, 100000);
+		}
+		@Override
+		public void onComplete(JSONObject result) {
+			// TODO Auto-generated method stub
+			super.onComplete(result);
+			
+			if(result != null){
+				try {
+					changeCategoryTuanData(result, category);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}
+		
+		
+	}
+	/**
+	 * 将传入的data设置到table中
+	 * @param data
+	 * @param table
+	 * @throws JSONException 
+	 */
+	private void changeCategoryTuanData(JSONObject data, Category category) throws JSONException{
+		JSONArray list = data.getJSONArray("list");
+		
+		TabItem tabitem = new TabItem(main_tab, SWT.NONE);
+		
+		Table table = createTable(main_tab);
+		tabitem.setControl(table);
+		tabitem.setText(category.getCategory_name()+"("+list.length()+")");
+		
+		for(int i = 0 ; i < list.length() ; i ++){
+			Tuan tuan = new Tuan();
+			JSONObject json = list.getJSONObject(i);
+			
+			tuan.setTuan_id(json.getInt("tid"));
+			
+			int id = json.getInt("tid");
+			String name = json.getString("name");
+			String desc = json.getString("desc");
+			String firm = json.getString("firm");
+			String cat = json.getString("cat");
+			String sta = TransDate.convertTime(json.getLong("sta"));
+			String end = TransDate.convertTime(json.getLong("end"));
+			int count = json.getInt("count");
+			int remain = json.getInt("remain");
+			
+			
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setData(tuan);
+			item.setText(new String[]{id+"", name, desc, firm, cat, sta, end, count+"", remain+""});
+			
+			
+		}
+	}
+	/**
 	 * 加载全部团购数据的asynchandler
 	 * @author Administrator
 	 *
@@ -269,6 +427,17 @@ public class mainWindow extends superWindow {
 		public loadAllTuanAsyncHandler(superWindow window) {
 			super(window);
 			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public void onBefore() {
+			// TODO Auto-generated method stub
+			super.onBefore();
+			
+			if(all_table != null){
+				all_table.removeAll();
+			}
+			
 		}
 		
 		@Override
@@ -286,13 +455,20 @@ public class mainWindow extends superWindow {
 			
 			if(result != null){
 				
-				changeAllTuanData(result);
-				
+				try {
+					changeAllTuanData(result);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				new loadAllCategoryAsyncHandler(This()).start("");
 			}
 			
 		}
 		
 	}
+	
+	
 	/**
 	 * 创建一个table对象
 	 * @param tab
@@ -346,23 +522,42 @@ public class mainWindow extends superWindow {
 	/**
 	 * 根据传入的数据改变界面
 	 * @param data
+	 * @throws JSONException 
 	 */
-	private void changeAllTuanData(JSONObject data){
+	private void changeAllTuanData(JSONObject data) throws JSONException{
 		
-		JSONArray list = null;
-		try {
-			list = data.getJSONArray("list");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSONArray list = data.getJSONArray("list");
+		
 		
 		if(main_tab_all == null){
 			main_tab_all = new TabItem(main_tab, SWT.NONE);
-			main_tab_all.setText("全部团购("+list.length()+")");
-			
-			Table all_table = createTable(main_tab);
+			all_table = createTable(main_tab);
 			main_tab_all.setControl(all_table);
+			
+		}
+		main_tab_all.setText("全部团购("+list.length()+")");
+		
+		for(int i = 0 ; i < list.length() ; i ++){
+			Tuan tuan = new Tuan();
+			JSONObject json = list.getJSONObject(i);
+			
+			tuan.setTuan_id(json.getInt("tid"));
+			
+			int id = json.getInt("tid");
+			String name = json.getString("name");
+			String desc = json.getString("desc");
+			String firm = json.getString("firm");
+			String cat = json.getString("cat");
+			String sta = TransDate.convertTime(json.getLong("sta"));
+			String end = TransDate.convertTime(json.getLong("end"));
+			int count = json.getInt("count");
+			int remain = json.getInt("remain");
+			
+			
+			TableItem item = new TableItem(all_table, SWT.NONE);
+			item.setData(tuan);
+			item.setText(new String[]{id+"", name, desc, firm, cat, sta, end, count+"", remain+""});
+			
 			
 		}
 		
@@ -634,7 +829,7 @@ public class mainWindow extends superWindow {
 						@Override
 						public void onResult(Tuan result) {
 							// TODO Auto-generated method stub
-							
+							new loadAllTuanAsyncHandler(This()).start("");
 						}
 					}).show();
 					break;
