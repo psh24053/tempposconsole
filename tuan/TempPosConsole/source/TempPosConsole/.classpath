@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/commons-codec"/>
 	<classpathentry kind="lib" path="lib/QRCode"/>
 	<classpathentry kind="lib" path="lib/swt"/>
+	<classpathentry kind="lib" path="lib/jacob.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
