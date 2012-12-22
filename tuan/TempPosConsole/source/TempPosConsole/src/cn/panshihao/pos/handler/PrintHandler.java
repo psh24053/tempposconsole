@@ -113,9 +113,9 @@ public class PrintHandler {
 	
 	public static void main(String[] args) {
 		
-//		PrintHandler.getAllPrintServicesName();
-		PrintHandler handler = new PrintHandler();
-		handler.PrintPos("POS58", "尊敬的王洁");
+		System.out.println(PrintHandler.getAllPrintServicesName().toString());
+//		PrintHandler handler = new PrintHandler();
+//		handler.PrintPos("POS58", "尊敬的王洁");
 	
 	}
 	

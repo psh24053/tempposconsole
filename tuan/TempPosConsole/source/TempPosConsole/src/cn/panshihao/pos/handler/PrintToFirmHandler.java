@@ -1,9 +1,13 @@
 package cn.panshihao.pos.handler;
 
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.print.PrintService;
 
 import cn.panshihao.pos.tools.PosLogger;
 
@@ -57,6 +61,7 @@ public class PrintToFirmHandler {
 	
 	/**
 	 * @author penglang
+	 * @return servicesName(打印设备名字)
 	 * @return boolean(打印是否成功)
 	 * @param firmName(商家名字)
 	 * @param tuanName(团购名字)
@@ -65,7 +70,7 @@ public class PrintToFirmHandler {
 	 * @param keyCodeList(兑换码List,大小不能超过48,若大于48,请分批调用两次打印两张)
 	 * 打印实现类
 	 */
-	public boolean printBegin(String firmName,String tuanName,long beginTime,long endTime
+	public boolean printBegin(String servicesName,String firmName,String tuanName,long beginTime,long endTime
 			,List<String> keyCodeList){
 		
 		boolean isSuccess = true;
@@ -130,8 +135,34 @@ public class PrintToFirmHandler {
 				return false;
 			}
 			
+			PrinterJob job = PrinterJob.getPrinterJob();
 			
-			Dispatch.call(document, "PrintOut");
+			PrintService[] printServices = PrinterJob.lookupPrintServices();
+			
+			boolean isFind = false;
+			
+			//查找指定的PrintService
+			for(int i = 0 ; i < printServices.length ; i++){
+
+				if((printServices[i].getName()).equals(servicesName)){
+
+					isFind = true;
+					
+					try {
+						job.setPrintService(printServices[i]);
+					} catch (PrinterException e) {
+						PosLogger.log.error(e.getMessage());
+					}
+					
+				}
+				
+			}
+			
+			if(isFind){
+				
+				Dispatch.call(document, "PrintOut");
+
+			}
 
 		} catch (Exception e) {
 			
@@ -259,7 +290,9 @@ public class PrintToFirmHandler {
     		
     	}
     	System.out.println(list.size());
-    	System.out.println(ptfh.printBegin("四川南方高新", "四川南方大酬宾5折随便吃", 1355216304532L, 1355216304532L, list));
+    	PrintService[] printServices = PrinterJob.lookupPrintServices();
+    	System.out.println(printServices[3].toString());
+    	System.out.println(ptfh.printBegin(printServices[3].toString(),"四川南方高新", "四川南方大酬宾5折随便吃", 1355216304532L, 1355216304532L, list));
     	
     	
 	}
