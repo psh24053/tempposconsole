@@ -145,7 +145,6 @@ public class PrintToFirmHandler {
 			for(int i = 0 ; i < printServices.length ; i++){
 
 				if((printServices[i].getName()).equals(servicesName)){
-
 					isFind = true;
 					
 					try {
@@ -289,10 +288,11 @@ public class PrintToFirmHandler {
     		list.add("123456FJSDLKFSDG");
     		
     	}
+    	
     	System.out.println(list.size());
-    	PrintService[] printServices = PrinterJob.lookupPrintServices();
-    	System.out.println(printServices[3].toString());
-    	System.out.println(ptfh.printBegin(printServices[3].toString(),"四川南方高新", "四川南方大酬宾5折随便吃", 1355216304532L, 1355216304532L, list));
+		PrintService[] printServices = PrinterJob.lookupPrintServices();
+//    	String print = "\\\192.168.0.2\\HP_LaserJet_P1007";
+    	System.out.println(ptfh.printBegin(printServices[3].getName(),"四川南方高新", "四川南方大酬宾5折随便吃", 1355216304532L, 1355216304532L, list));
     	
     	
 	}

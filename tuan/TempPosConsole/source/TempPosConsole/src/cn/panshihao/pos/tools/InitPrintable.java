@@ -17,6 +17,7 @@ public class InitPrintable implements Printable{
 	
 	public String content = "";
 	public String imageContent = "";
+	public String keyCode = "";
 	
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
@@ -71,8 +72,21 @@ public class InitPrintable implements Printable{
 		/********************************/
 		graph.drawLine((int) x, (int)y + 2, 200, (int)y + 2);
 		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y + 20);
-		graph.drawString(content, (int)x + 60, (int)y + 120);
-		graph.drawLine((int) x, (int)y + 130, 200, (int)y + 130);
+		graph.drawString("兑换码:",(int)x + 10, (int)y + 140);
+		Font fontCode = new Font("宋体", Font.BOLD, 13);
+		graph.setFont(fontCode); 
+		graph.drawString(keyCode,(int)x + 10, (int)y + 160);
+		graph.setFont(font);
+		
+		if(content.length() > 14){
+			
+			graph.drawString(content.substring(0, 14), (int)x + 10, (int)y + 180);
+			graph.drawString(content.substring(14, content.length()), (int)x + 10, (int)y + 200);
+			
+		}
+		
+		graph.drawString("--请妥善保管--", (int)x + 40, (int)y + 220);
+		graph.drawLine((int) x, (int)y + 240, 200, (int)y + 240);
 		
 //		graph.drawLine((int) x, (int)y - 32, 200, (int)y - 32);
 //		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y - 10);

@@ -65,7 +65,8 @@ public class PrintHandler {
 
 				InitPrintable printable = new InitPrintable();
 				printable.content = content;
-				printable.imageContent = "王洁是个哈嘛批";
+				printable.keyCode = "123456FJSDLKFSDG";
+				printable.imageContent = "123456FJSDLKFSDG";
 				
 				book.append(printable, pageFormat);
 
@@ -113,9 +114,9 @@ public class PrintHandler {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(PrintHandler.getAllPrintServicesName().toString());
-//		PrintHandler handler = new PrintHandler();
-//		handler.PrintPos("POS58", "尊敬的王洁");
+//		System.out.println(PrintHandler.getAllPrintServicesName().toString());
+		PrintHandler handler = new PrintHandler();
+		handler.PrintPos("\\\\Pc-20121019mbtd\\pos58", "四川南方高新火锅大酬宾5折随便吃");
 	
 	}
 	
