@@ -712,6 +712,16 @@ public class mainWindow extends superWindow {
 		}
 
 		@Override
+		public void onBefore() {
+			// TODO Auto-generated method stub
+			super.onBefore();
+			
+			
+			
+			
+		}
+		
+		@Override
 		public JSONObject doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			TuanDAO dao = new TuanDAO();
@@ -777,6 +787,9 @@ public class mainWindow extends superWindow {
 		
 		JSONArray list = data.getJSONArray("list");
 		
+		System.out.println(list.toString());
+		
+		
 		if(list.length() < 1){
 			alert(getShell(), "提示", "没有搜索到团购信息");
 			return;
@@ -790,7 +803,11 @@ public class mainWindow extends superWindow {
 			main_tab_search.setControl(table);
 			main_tab_search.setData("main_tab_search");
 			
+		}else{
+			table = (Table) main_tab_search.getControl();
+			table.removeAll();
 		}
+		
 		main_tab_search.setText("搜索结果("+list.length()+")");
 		setTabFocus("main_tab_search");
 		
