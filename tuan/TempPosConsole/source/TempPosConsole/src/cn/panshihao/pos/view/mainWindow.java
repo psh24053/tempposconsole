@@ -40,6 +40,7 @@ import cn.panshihao.pos.dao.TuanDAO;
 import cn.panshihao.pos.handler.AsyncHandler;
 import cn.panshihao.pos.model.Category;
 import cn.panshihao.pos.model.Firm;
+import cn.panshihao.pos.model.Key;
 import cn.panshihao.pos.model.Tuan;
 import cn.panshihao.pos.model.User;
 import cn.panshihao.pos.tools.PosLogger;
@@ -557,6 +558,23 @@ public class mainWindow extends superWindow {
 								deleteTableItem(tuan, tabitem, selectionIndex);
 							}
 							
+						}
+					});
+					
+					MenuItem item_addkey = new MenuItem(menu, SWT.PUSH);
+					item_addkey.setText("增加兑换码");
+					item_addkey.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							// TODO Auto-generated method stub
+							new keyWindow(This(), new onResultListener<Key>() {
+								
+								@Override
+								public void onResult(Key result) {
+									// TODO Auto-generated method stub
+									new loadAllTuanAsyncHandler(This()).start("");
+								}
+							}, tuan.getTuan_id()).show();
 						}
 					});
 				}

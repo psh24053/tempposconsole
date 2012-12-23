@@ -53,6 +53,10 @@ public class modifyTuanWindow extends superWindow {
 	public DateTime modifyTuan_form_endtime_datetime = null;
 	public Text modifyTuan_form_key_numbertext = null;
 	public Label modifyTuan_form_key_numberLabel = null;
+	
+	public Label modifyTuan_form_key_overLabel = null;
+	public Label modifyTuan_form_key_overValueLabel = null;
+	
 	public Text modifyTuan_form_frim_text = null;
 	public Button modifyTuan_form_frim_button = null;
 	
@@ -153,7 +157,7 @@ public class modifyTuanWindow extends superWindow {
 			super.onComplete(result);
 			
 			if(result != null){
-				loadModifyData(tuan, firm, category, count);
+				loadModifyData(tuan, firm, category, count, remain);
 				modifyTuan_form_button_create.setEnabled(true);
 				
 			}else{
@@ -172,7 +176,7 @@ public class modifyTuanWindow extends superWindow {
 	 * @param category
 	 * @param count
 	 */
-	private void loadModifyData(Tuan tuan, Firm firm, Category category, int count){
+	private void loadModifyData(Tuan tuan, Firm firm, Category category, int count, int remain){
 		
 		modifyTuan_form_name_text.setText(tuan.getTuan_name());
 		modifyTuan_form_desc_text.setText(tuan.getTuan_desc());
@@ -198,6 +202,8 @@ public class modifyTuanWindow extends superWindow {
 		
 		
 		modifyTuan_form_key_numberLabel.setText(count+"");
+		modifyTuan_form_key_overValueLabel.setText(remain+"");
+		
 		
 	}
 	
@@ -300,7 +306,16 @@ public class modifyTuanWindow extends superWindow {
 		
 		modifyTuan_form_key_numberLabel = new Label(getShell(), SWT.NONE);
 		modifyTuan_form_key_numberLabel.setText("0");
-		modifyTuan_form_key_numberLabel.setBounds(modifyTuan_form_key_label.getBounds().x + modifyTuan_form_key_label.getBounds().width + marginWidthValue * 3, modifyTuan_form_key_label.getBounds().y , marginWidthValue * 5, marginHeightValue * 3);
+		modifyTuan_form_key_numberLabel.setBounds(modifyTuan_form_key_label.getBounds().x + modifyTuan_form_key_label.getBounds().width + marginWidthValue, modifyTuan_form_key_label.getBounds().y , marginWidthValue * 5, marginHeightValue * 3);
+		
+		
+		modifyTuan_form_key_overLabel = new Label(getShell(), SWT.NONE);
+		modifyTuan_form_key_overLabel.setText("剩余数量");
+		modifyTuan_form_key_overLabel.setBounds(modifyTuan_form_key_numberLabel.getBounds().x + modifyTuan_form_key_numberLabel.getBounds().width + marginWidthValue , modifyTuan_form_key_label.getBounds().y , marginWidthValue * 5, marginHeightValue * 3);
+		
+		modifyTuan_form_key_overValueLabel = new Label(getShell(), SWT.NONE);
+		modifyTuan_form_key_overValueLabel.setText("0");
+		modifyTuan_form_key_overValueLabel.setBounds(modifyTuan_form_key_overLabel.getBounds().x + modifyTuan_form_key_overLabel.getBounds().width + marginWidthValue , modifyTuan_form_key_label.getBounds().y , marginWidthValue * 5, marginHeightValue * 3);
 		
 		modifyTuan_form_button_create = new Button(modifyTuan_shell, SWT.NONE);
 		modifyTuan_form_button_create.setText("确认编辑");
