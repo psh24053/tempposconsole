@@ -276,6 +276,8 @@ public class mainWindow extends superWindow {
 	 */
 	private class loadAllCategoryAsyncHandler extends AsyncHandler<String, Integer, JSONObject>{
 
+		private String tab;
+		
 		public loadAllCategoryAsyncHandler(superWindow window) {
 			super(window);
 			// TODO Auto-generated constructor stub
@@ -284,6 +286,8 @@ public class mainWindow extends superWindow {
 		@Override
 		public JSONObject doInBackground(String... params) {
 			// TODO Auto-generated method stub
+			tab = params[0];
+			
 			CategoryDAO dao = new CategoryDAO();
 			
 			
@@ -395,9 +399,9 @@ public class mainWindow extends superWindow {
 		JSONArray list = data.getJSONArray("list");
 		
 		TabItem tabitem = new TabItem(main_tab, SWT.NONE);
+		tabitem.setData(category.getCategory_id()+category.getCategory_name());
 		
-		Table table = createTable(main_tab);
-		tabitem.setControl(table);
+		Table table = createTable(main_tab, tabitem);
 		tabitem.setText(category.getCategory_name()+"("+list.length()+")");
 		
 		for(int i = 0 ; i < list.length() ; i ++){
@@ -433,6 +437,8 @@ public class mainWindow extends superWindow {
 	 */
 	private class loadAllTuanAsyncHandler extends AsyncHandler<String, Integer, JSONObject>{
 
+		private String tab;
+		
 		public loadAllTuanAsyncHandler(superWindow window) {
 			super(window);
 			// TODO Auto-generated constructor stub
@@ -452,6 +458,8 @@ public class mainWindow extends superWindow {
 		@Override
 		public JSONObject doInBackground(String... params) {
 			// TODO Auto-generated method stub
+			tab = params[0];
+			
 			TuanDAO dao = new TuanDAO();
 			
 			return dao.getAllTuan(0, 100000);
@@ -470,7 +478,7 @@ public class mainWindow extends superWindow {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				new loadAllCategoryAsyncHandler(This()).start("");
+				new loadAllCategoryAsyncHandler(This()).start(tab);
 			}
 			
 		}
@@ -483,7 +491,7 @@ public class mainWindow extends superWindow {
 	 * @param tab
 	 * @return
 	 */
-	private Table createTable(Composite tab){
+	private Table createTable(Composite tab, final TabItem tabitem){
 		final Table table = new Table(tab, SWT.FULL_SELECTION);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -499,7 +507,7 @@ public class mainWindow extends superWindow {
 					if(selectionIndex == -1){
 						return;
 					}
-					TableItem setectionItem = table.getSelection()[0];
+					final TableItem setectionItem = table.getSelection()[0];
 					final Tuan tuan = (Tuan) setectionItem.getData();
 					
 					
@@ -508,9 +516,23 @@ public class mainWindow extends superWindow {
 					
 					MenuItem item_Info = new MenuItem(menu, SWT.PUSH);  
 					item_Info.setText("ID:"+tuan.getTuan_id()+" 团购名称："+tuan.getTuan_name());  
+					item_Info.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							// TODO Auto-generated method stub
+							viewTuanInfo(tuan);
+						}
+					});
 					
 					MenuItem item_key = new MenuItem(menu, SWT.PUSH);  
 					item_key.setText("提取兑换码");  
+					item_key.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							// TODO Auto-generated method stub
+							viewTuanInfo(tuan);
+						}
+					});
 					
 					MenuItem item_modify = new MenuItem(menu, SWT.PUSH);  
 					item_modify.setText("编辑该团购");  
@@ -530,20 +552,32 @@ public class mainWindow extends superWindow {
 						@Override
 						public void widgetSelected(SelectionEvent arg0) {
 							// TODO Auto-generated method stub
-//							if(firm_tab_modify != null){
-//								alert(getShell(), "删除错误", "正在进行编辑操作，请完成编辑之后再执行删除！");
-//								setTabFocus("firm_tab_modify");
-//								return;
-//							}
-//							
-//							if(!deleting){
-//								deleteTableItem(firm, selectionIndex);
-//							}
+							
+							if(confirm(getShell(), "删除提示", "你确定要删除ID："+tuan.getTuan_id()+" ,名称："+tuan.getTuan_name()+" 的团购信息吗？")){
+								deleteTableItem(tuan, tabitem, selectionIndex);
+							}
+							
 						}
 					});
 				}
 				
 				
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub
+				// item右键事件
+				final int selectionIndex = table.getSelectionIndex();
+				
+				//如果selectionIndex为-1则代表没有选中任何元素
+				if(selectionIndex == -1){
+					return;
+				}
+				final TableItem setectionItem = table.getSelection()[0];
+				final Tuan tuan = (Tuan) setectionItem.getData();
+				
+				viewTuanInfo(tuan);
 			}
 		});
 		
@@ -583,7 +617,67 @@ public class mainWindow extends superWindow {
 		keyOverColumn.setText("兑换码剩余");
 		keyOverColumn.setWidth(marginWidthValue * 10);
 		
+		
+		tabitem.setControl(table);
+		
 		return table;
+	}
+	/**
+	 * 打开团购详情界面
+	 * @param tuan
+	 */
+	private void viewTuanInfo(Tuan tuan){
+		new tuanInfoWindow(This(), tuan).show();
+	}
+	/**
+	 * 删除表格元素
+	 * @param tuan
+	 * @param tab
+	 * @param index
+	 */
+	private void deleteTableItem(Tuan tuan, TabItem item, int index){
+		
+		new deleteTuanAsyncHandler(This(), item, index).start(tuan);
+		
+	}
+	/**
+	 * 删除团购的asynchandler
+	 * @author shihao
+	 *
+	 */
+	private class deleteTuanAsyncHandler extends AsyncHandler<Tuan, Integer, Boolean>{
+
+		private TabItem item;
+		private int index;
+		
+		public deleteTuanAsyncHandler(superWindow window, TabItem item, int index) {
+			super(window);
+			// TODO Auto-generated constructor stub
+			this.item = item;
+			this.index = index;
+		}
+
+		@Override
+		public Boolean doInBackground(Tuan... params) {
+			// TODO Auto-generated method stub
+			TuanDAO dao = new TuanDAO();
+			
+			return dao.deleteTuan(params[0].getTuan_id(), getCurUser().getUser_id());
+		}
+		@Override
+		public void onComplete(Boolean result) {
+			// TODO Auto-generated method stub
+			super.onComplete(result);
+			
+			if(result != null && result){
+				
+				String tab = (String) item.getData();
+				
+				new loadAllTuanAsyncHandler(This()).start(tab);
+			}
+			
+		}
+		
 	}
 	/**
 	 * 编辑表格元素
@@ -591,7 +685,14 @@ public class mainWindow extends superWindow {
 	 * @param index
 	 */
 	private void modifyTableItem(Tuan tuan, int index){
-		
+		new modifyTuanWindow(This(), tuan, new onResultListener<Tuan>() {
+			
+			@Override
+			public void onResult(Tuan result) {
+				// TODO Auto-generated method stub
+				new loadAllTuanAsyncHandler(This()).start("");
+			}
+		}).show();
 	}
 	
 	/**
@@ -606,8 +707,7 @@ public class mainWindow extends superWindow {
 		
 		if(main_tab_all == null){
 			main_tab_all = new TabItem(main_tab, SWT.NONE);
-			all_table = createTable(main_tab);
-			main_tab_all.setControl(all_table);
+			all_table = createTable(main_tab, main_tab_all);
 			
 		}
 		main_tab_all.setText("全部团购("+list.length()+")");
@@ -799,8 +899,7 @@ public class mainWindow extends superWindow {
 		
 		if(main_tab_search == null){
 			main_tab_search = new TabItem(main_tab, SWT.NONE);
-			table = createTable(main_tab);
-			main_tab_search.setControl(table);
+			table = createTable(main_tab, main_tab_search);
 			main_tab_search.setData("main_tab_search");
 			
 		}else{
