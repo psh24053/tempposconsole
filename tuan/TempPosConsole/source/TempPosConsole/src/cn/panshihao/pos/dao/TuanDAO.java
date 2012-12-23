@@ -1483,6 +1483,80 @@ public class TuanDAO extends SuperDAO {
 		
 	}
 	
+	
+	/**
+	 * 
+	 * 获取指定团购的剩余兑换码数量和总数
+	 * @author penglang
+	 * @param tuanID(团购ID)
+	 * @return jsonObject
+	 * count(该团购下兑换码总数量)remain(该团购下兑换码剩余数量)
+	 * {count:19,remain:10}
+	 */
+	public JSONObject getTuanKeyCodeCount(int tuanID){
+		
+		JSONObject keyCount = new JSONObject();
+
+		// 获得团购总数量
+
+		conn = SQLConn.getConnection();
+
+		try {
+			ps = conn
+					.prepareStatement("select count(*) from temp_key where tuan_id="
+							+ tuanID);
+
+			rs = ps.executeQuery();
+
+			if (rs == null) {
+
+				PosLogger.log.error("Get count error ,tuan_id = " + tuanID);
+
+			}
+
+			if (rs.next()) {
+
+				try {
+					keyCount.put("count", rs.getInt(1));
+				} catch (JSONException e) {
+					PosLogger.log.error(e.getMessage());
+				}
+
+			}
+
+			// 获得团购剩余数量
+
+			ps = conn
+					.prepareStatement("select count(*) from temp_key where tuan_id="
+							+ tuanID + " and key_status=0");
+
+			rs = ps.executeQuery();
+
+			if (rs == null) {
+
+				PosLogger.log.error("Get remain count error ,tuan_id = "
+						+ tuanID);
+
+			}
+
+			if (rs.next()) {
+
+				try {
+					keyCount.put("remain", rs.getInt(1));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					PosLogger.log.error(e.getMessage());
+				}
+
+			}
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		}
+
+		return keyCount;
+		
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
@@ -1519,14 +1593,14 @@ public class TuanDAO extends SuperDAO {
 	public static void main(String[] args) {
 		
 		TuanDAO dao = new TuanDAO();
-		Tuan f = new Tuan();
+//		Tuan f = new Tuan();
 //		f.setTuan_id(1);
-		f.setCategory_id(2);
-		f.setFirm_id(1);
-		f.setTuan_desc("这是团的网吧上网的团购");
-		f.setTuan_name("了上天网吧1.5元一小时团购票");
-		f.setTuan_starttime(System.currentTimeMillis());
-		f.setTuan_endtime(System.currentTimeMillis() - 2000);
+//		f.setCategory_id(2);
+//		f.setFirm_id(1);
+//		f.setTuan_desc("这是团的网吧上网的团购");
+//		f.setTuan_name("了上天网吧1.5元一小时团购票");
+//		f.setTuan_starttime(System.currentTimeMillis());
+//		f.setTuan_endtime(System.currentTimeMillis() - 2000);
 //		dao.updateTuan(f);
 //		Tuan t = dao.getTuanFromDatabase(2);
 //		System.out.println(t.getCategory_id());
@@ -1540,7 +1614,8 @@ public class TuanDAO extends SuperDAO {
 //			e.printStackTrace();
 //		}
 //		System.out.println(json);
-		System.out.println(dao.addTuanAndKey(f, 10,1));
+//		System.out.println(dao.addTuanAndKey(f, 10,1));
+		System.out.println(dao.getTuanKeyCodeCount(2).toString());
 	}
 	
 }
