@@ -18,6 +18,8 @@ public class InitPrintable implements Printable{
 	public String content = "";
 	public String imageContent = "";
 	public String keyCode = "";
+	public String address = "";
+	public String phone = "";
 	
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
@@ -85,8 +87,10 @@ public class InitPrintable implements Printable{
 			
 		}
 		
-		graph.drawString("--请妥善保管--", (int)x + 40, (int)y + 220);
-		graph.drawLine((int) x, (int)y + 240, 200, (int)y + 240);
+		graph.drawString("商家地址:" + address, (int)x + 10, (int)y + 220);
+		graph.drawString("商家联系电话:" + phone, (int)x + 10, (int)y + 240);
+		graph.drawString("--请妥善保管--", (int)x + 40, (int)y + 260);
+		graph.drawLine((int) x, (int)y + 280, 200, (int)y + 280);
 		
 //		graph.drawLine((int) x, (int)y - 32, 200, (int)y - 32);
 //		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y - 10);
