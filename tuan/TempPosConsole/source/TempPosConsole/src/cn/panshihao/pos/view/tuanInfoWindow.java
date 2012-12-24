@@ -23,8 +23,16 @@ public class tuanInfoWindow extends superWindow {
 		// TODO Auto-generated method stub
 		initBase();
 		
+		initTuanInfo();
+		
 		tuanInfo_shell.open();
 		tuanInfo_shell.layout();
+		
+	}
+	/**
+	 * 初始化团购信息
+	 */
+	private void initTuanInfo(){
 		
 	}
 	/**
