@@ -8,7 +8,12 @@ import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.Doc;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
 import javax.print.PrintService;
+import javax.print.event.PrintJobEvent;
+import javax.print.event.PrintJobListener;
 
 import cn.panshihao.pos.dao.SuperDAO.DAOResponseListener;
 import cn.panshihao.pos.tools.InitPrintable;
@@ -83,6 +88,8 @@ public class PrintHandler {
 				
 				boolean isFind = false;
 				
+//				DocPrintJob docPrint = null;
+				
 				//查找指定的PrintService
 				for(int i = 0 ; i < printServices.length ; i++){
 
@@ -92,6 +99,7 @@ public class PrintHandler {
 						
 						try {
 							job.setPrintService(printServices[i]);
+//							docPrint = printServices[i].createPrintJob();
 						} catch (PrinterException e) {
 							isSuccess = false;
 							PosLogger.log.error(e.getMessage());
@@ -114,7 +122,45 @@ public class PrintHandler {
 				// 设置打印类
 				job.setPageable(book);
 
-				
+//				docPrint.addPrintJobListener(new PrintJobListener() {
+//					
+//					@Override
+//					public void printJobRequiresAttention(PrintJobEvent pje) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//					
+//					@Override
+//					public void printJobNoMoreEvents(PrintJobEvent pje) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//					
+//					@Override
+//					public void printJobFailed(PrintJobEvent pje) {
+//						// TODO Auto-generated method stub
+//						System.out.println("$%%%%$%%%");
+//					}
+//					
+//					@Override
+//					public void printJobCompleted(PrintJobEvent pje) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//					
+//					@Override
+//					public void printJobCanceled(PrintJobEvent pje) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//					
+//					@Override
+//					public void printDataTransferCompleted(PrintJobEvent pje) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//				});
+
 				try {
 					job.print();
 				} catch (PrinterException e) {

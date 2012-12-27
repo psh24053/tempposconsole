@@ -288,6 +288,67 @@ public class FirmDAO extends SuperDAO {
 		return firmArray;
 	}
 	
+	/**
+	 * @author penglang
+	 * @param firmName(商家名称关键字),start(开始位置),count(查询条数)
+	 * @return JsonObject
+	 * 获取搜索匹配输入的商家名称关键字的商家信息
+	 * json说明:"list"-包含所有企业的数组名,"count"-实际得到的企业条数,"fid"-日志ID,
+	 * "name"-企业名称,"desc"-企业描述,"address"-企业地址,"phone"-企业电话,"person"-企业联系人名字
+	 * json例:{count:2,list:[{fid:1,name:"南方高新台球俱乐部","desc":"这是一家五星级台球俱乐部",address:"雅安世纪广场",phone:"15008224402",person:"小潘"}
+	 * ,{fid:2,name:"南方高新火锅城",desc:"这是一家非常有特色的四川火锅",address:"雅安天上人家",phone:"15008224401",person:"小王"}]}
+	 */
+	public JSONObject getQueryTuanByTuanName(String firmName,int start,int count){
+		
+		JSONObject firmArray = new JSONObject();
+		
+		PosLogger.log.debug("Get query Firm,firmName=" + firmName);
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			ps = conn.prepareStatement("SELECT * FROM temp_firm where firm_name like '%" + firmName + "%'" +
+							" limit " + start + "," + count);
+			
+			rs = ps.executeQuery();
+			
+			if(rs == null){
+				PosLogger.log.error("Have no firm");
+				return null;
+			}
+			
+			JSONArray array = new JSONArray();
+			
+			while (rs.next()) {
+				
+				JSONObject firmJson = new  JSONObject();
+				firmJson.put("fid", rs.getInt("firm_id"));
+				firmJson.put("name", rs.getString("firm_name"));
+				firmJson.put("desc", rs.getString("firm_desc"));
+				firmJson.put("address", rs.getString("firm_address"));
+				firmJson.put("phone", rs.getString("firm_phone"));
+				firmJson.put("person", rs.getString("firm_person"));
+				
+				array.put(firmJson);
+				
+			}
+			
+			firmArray.put("list", array);
+			firmArray.put("count", array.length());
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+		} catch (JSONException e) {
+			// TODO: handle exception
+			PosLogger.log.error(e.getMessage());
+		} finally{
+			//关闭资源
+			this.closeConnection();
+		}
+		
+		return firmArray;
+	}
+	
 	private void closeConnection(){
 		
 		if(this.rs != null){
