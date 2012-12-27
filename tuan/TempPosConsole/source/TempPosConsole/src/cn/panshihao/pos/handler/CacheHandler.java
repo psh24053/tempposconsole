@@ -557,6 +557,15 @@ public class CacheHandler {
 		
 	}
 	/**
+	 * 根据key，删除一个Base缓存
+	 * @param key
+	 * @return
+	 */
+	public CacheHandler removeBaseCache(String key){
+		baseMap.remove(key);
+		return this;
+	}
+	/**
 	 * 根据key，删除一个对象缓存
 	 * @param key
 	 * @return
