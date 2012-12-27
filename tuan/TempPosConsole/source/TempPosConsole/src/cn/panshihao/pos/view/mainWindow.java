@@ -1032,9 +1032,6 @@ public class mainWindow extends superWindow {
 				}else if(e.stateMask == SWT.ALT && e.keyCode == 'h'){
 					// Alt + F1
 					openHelp();
-				}else if(e.stateMask == SWT.ALT && e.keyCode == 'p'){
-					// Alt + p
-					openPinter();
 				}else if(e.stateMask == SWT.ALT && e.keyCode == 'z'){
 					logout();
 				}
@@ -1093,16 +1090,6 @@ public class mainWindow extends superWindow {
 			
 		});
 		
-		main_menu_system_menu_printer = new MenuItem(main_menu_system_menu, SWT.CASCADE);
-		main_menu_system_menu_printer.setText("打印设置　　Alt + P");
-		main_menu_system_menu_printer.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				openPinter();
-			}
-			
-		});
 		
 		
 		main_menu_system_menu_logout = new MenuItem(main_menu_system_menu, SWT.CASCADE);
@@ -1138,17 +1125,6 @@ public class mainWindow extends superWindow {
 	private void exitApplication(){
 		System.out.println("dispose application");
 		main_shell.dispose();
-	}
-	/**
-	 * 打开打印设置界面的方法
-	 */
-	private void openPinter(){
-		
-		if(printerSettingsWindow == null || printerSettingsWindow.isDisposed()){
-			printerSettingsWindow = new printerSettingsWindow(this);
-			printerSettingsWindow.show();
-		}
-		
 	}
 	/**
 	 * 打开关于界面的方法
