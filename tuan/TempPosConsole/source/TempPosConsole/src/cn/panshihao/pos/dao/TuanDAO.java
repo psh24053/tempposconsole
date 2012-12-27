@@ -393,7 +393,8 @@ public class TuanDAO extends SuperDAO {
 	 * 获取指定一条团购信息
 	 * json说明:"cat"-团购类别名称,"tid"-团购ID
 	 * "name"-团购名字,"desc"-团购描述,"firm"-团购商家名称,"sta"-团购开始时间,"end"-团购结束时间,
-	 * "count"-该团购总兑换码数量,"remain"-该团购剩余兑换码数量
+	 * "count"-该团购总兑换码数量,"remain"-该团购剩余兑换码数量,"person"-负责人名称,"address"-地址
+	 * ,"phone"-商家电话
 	 * json例:{cat:"餐饮",tid:1,name:"南方高新火锅城团购券",desc:"南方高新火锅城70一人随便吃",
 	 * firm:"南方高新火锅城",sta:1234567891011,end:1234567891012,count:10,remain:5}
 	 */
@@ -425,6 +426,9 @@ public class TuanDAO extends SuperDAO {
 				tuanJson.put("firm", rs.getString("f.firm_name"));
 				tuanJson.put("sta", rs.getLong("t.tuan_starttime"));
 				tuanJson.put("end", rs.getLong("t.tuan_endtime"));
+				tuanJson.put("address", rs.getString("f.firm_address"));
+				tuanJson.put("phone", rs.getString("f.firm_phone"));
+				tuanJson.put("person", rs.getString("f.firm_person"));
 				
 				
 				//获得团购总数量
