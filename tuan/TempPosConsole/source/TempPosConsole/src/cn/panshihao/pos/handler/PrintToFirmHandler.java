@@ -83,7 +83,7 @@ public class PrintToFirmHandler {
 		
 		try {
 			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd日 HH:mm");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd日");
 			
 			//添加兑换码
 			if(keyCodeList.size() <= 24){

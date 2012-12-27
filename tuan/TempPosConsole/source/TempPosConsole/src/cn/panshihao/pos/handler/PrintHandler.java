@@ -51,7 +51,7 @@ public class PrintHandler {
 	 * 初始化打印机
 	 */
 	public void PrintPos(String servicesName,String content,String keyCode,String address,
-			String phone){
+			String phone,String name){
 		
 				Book book = new Book();
 
@@ -70,6 +70,7 @@ public class PrintHandler {
 				printable.content = content;
 				printable.address = address;
 				printable.phone = phone;
+				printable.name = name;
 				
 				book.append(printable, pageFormat);
 
@@ -120,6 +121,8 @@ public class PrintHandler {
 //		System.out.println(PrintHandler.getAllPrintServicesName().toString());
 		PrintHandler handler = new PrintHandler();
 //		handler.PrintPos("\\\\Pc-20121019mbtd\\pos58", "四川南方高新火锅大酬宾5折随便吃");
+		handler.PrintPos("\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司");
+		
 	
 	}
 	

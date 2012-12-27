@@ -20,6 +20,7 @@ public class InitPrintable implements Printable{
 	public String keyCode = "";
 	public String address = "";
 	public String phone = "";
+	public String name = "";
 	
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
@@ -80,17 +81,58 @@ public class InitPrintable implements Printable{
 		graph.drawString(keyCode,(int)x + 10, (int)y + 160);
 		graph.setFont(font);
 		
+		int yIndex = 180;
+		
 		if(content.length() > 14){
 			
-			graph.drawString(content.substring(0, 14), (int)x + 10, (int)y + 180);
-			graph.drawString(content.substring(14, content.length()), (int)x + 10, (int)y + 200);
+			graph.drawString(content.substring(0, 14), (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			graph.drawString(content.substring(14, content.length()), (int)x + 10, (int)y + yIndex);
+			yIndex += 10;
+			
+		}else{
+			
+			graph.drawString(content, (int)x + 10, (int)y + yIndex);
+			yIndex += 10;
 			
 		}
 		
-		graph.drawString("商家地址:" + address, (int)x + 10, (int)y + 220);
-		graph.drawString("商家联系电话:" + phone, (int)x + 10, (int)y + 240);
-		graph.drawString("--请妥善保管--", (int)x + 40, (int)y + 260);
-		graph.drawLine((int) x, (int)y + 280, 200, (int)y + 280);
+		graph.drawLine((int) x, (int)y + yIndex, 200, (int)y + yIndex);
+		yIndex += 15;
+		
+		if(name.length() > 11){
+			
+			graph.drawString("商家:" + name.substring(0,11), (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			graph.drawString(name.substring(11,name.length()), (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			
+		}else{
+			
+			graph.drawString("商家:" + name, (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			
+		}
+		
+		if(address.length() > 11){
+			
+			graph.drawString("地址:" + address.substring(0,11), (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			graph.drawString(address.substring(11,address.length()), (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			
+		}else{
+			
+			graph.drawString("地址:" + address, (int)x + 10, (int)y + yIndex);
+			yIndex += 20;
+			
+		}
+		
+		graph.drawString("电话:" + phone, (int)x + 10, (int)y + yIndex);
+		yIndex += 20;
+		graph.drawString("--请妥善保管--", (int)x + 40, (int)y + yIndex);
+		yIndex += 20;
+		graph.drawLine((int) x, (int)y + yIndex, 200, (int)y + yIndex);
 		
 //		graph.drawLine((int) x, (int)y - 32, 200, (int)y - 32);
 //		graph.drawImage(bufferedIamge,null,(int)x + 20,(int)y - 10);
