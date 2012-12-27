@@ -514,6 +514,12 @@ public class KeyDAO extends SuperDAO {
 
 		}
 		
+		if(isSuccess){
+			if(listener != null){
+				listener.onSuccess();
+			}
+		}
+		
 		return isSuccess;
 		
 	}
