@@ -3,6 +3,8 @@ package cn.panshihao.pos.view;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -13,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.panshihao.pos.dao.KeyDAO;
+import cn.panshihao.pos.dao.SuperDAO.DAOResponseListener;
 import cn.panshihao.pos.dao.TuanDAO;
 import cn.panshihao.pos.handler.AsyncHandler;
 import cn.panshihao.pos.handler.PrintHandler;
@@ -66,12 +69,13 @@ public class tuanInfoWindow extends superWindow {
 	public Button tuanInfo_getKey_button = null;
 	public Button tuanInfo_getFirm_button = null;
 	
+	private onResultListener<String> listener = null;
 	
-	
-	public tuanInfoWindow(superWindow parent, Tuan tuan) {
+	public tuanInfoWindow(superWindow parent, Tuan tuan, onResultListener<String> listener) {
 		super(parent);
 		// TODO Auto-generated constructor stub
 		this.tuan = tuan;   
+		this.listener = listener;
 	}
 
 	@Override
@@ -215,21 +219,68 @@ public class tuanInfoWindow extends superWindow {
 	 * 提取兑换码的操作
 	 */
 	private void getKey(){
-		List<String> names = PrintHandler.getAllPrintServicesName();
+		int remain = (int) tuan.getValue("remain");
 		
-		for(int i = 0; i < names.size() ; i ++){
-			String name = names.get(i);
-			System.out.println(name);
-			if(name.equals("POS58")){
-				KeyDAO dao = new KeyDAO();
-				
-				dao.updateKeyStatusAndPrint(getCurUser().getUser_id(), name, tuan.getTuan_name(), dao.getNotUsedOneKeyCode(tuan.getTuan_id()), tuan.getValue("address").toString(), tuan.getValue("phone").toString(), tuan.getValue("firm").toString());
-				
-			}
-			
-			
+		if(remain < 1){
+			alert(getShell(), "错误", "该团购已无兑换码！");
+			return;
 		}
 		
+		
+		// 如果打印机名称被选择过，
+		if(cacheHandler.hasBaseCache("PrinterName")){
+			String printername = cacheHandler.getBaseString("PrinterName", "");
+			
+			KeyDAO dao = new KeyDAO();
+			
+			dao.updateKeyStatusAndPrint(getCurUser().getUser_id(), printername, tuan.getTuan_name(), dao.getNotUsedOneKeyCode(tuan.getTuan_id()), tuan.getValue("address").toString(), tuan.getValue("phone").toString(), tuan.getValue("firm").toString(), new DAOResponseListener() {
+				
+				@Override
+				public void onSuccess() {
+					// TODO Auto-generated method stub
+					alert(getShell(), "成功", "提取成功！");
+					initData();
+					if(listener != null){
+						listener.onResult("Re");
+					}
+				}
+				
+				@Override
+				public void onError(int errorcode) {
+					// TODO Auto-generated method stub
+					switch (errorcode) {
+					case 1:
+						alert(getShell(), "失败", "找不到指定打印机！");
+						cacheHandler.removeBaseCache("PrinterName").CommitBaseCache();
+						break;
+					case 2:
+						alert(getShell(), "失败", "数据库连接失败！请重启计算机");
+						break;
+					case 3:
+						alert(getShell(), "失败", "打印失败，请检查打印机！");
+						cacheHandler.removeBaseCache("PrinterName").CommitBaseCache();
+						break;
+					default:
+						break;
+					}
+				}
+			});
+			
+		}else{
+			new selectPrintWindow(This(), new onResultListener<String>() {
+				
+				@Override
+				public void onResult(String result) {
+					// TODO Auto-generated method stub
+					if(result != null && !result.equals("")){
+						
+						cacheHandler.putString("PrinterName", result).CommitBaseCache();
+						getKey();
+					}
+					
+				}
+			}).show();
+		}
 		
 		
 	}
@@ -332,8 +383,8 @@ public class tuanInfoWindow extends superWindow {
 		tuan.putValue("address", data.getString("address"));
 		tuan.putValue("person", data.getString("person"));
 		tuan.putValue("phone", data.getString("phone"));
-		
-		
+		tuan.putValue("count", data.getInt("count"));
+		tuan.putValue("remain", data.getInt("remain"));
 		
 		tuanInfo_id_text.setText(data.getInt("tid") + "");
 		

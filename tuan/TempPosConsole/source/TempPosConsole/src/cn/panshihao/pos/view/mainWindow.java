@@ -645,7 +645,16 @@ public class mainWindow extends superWindow {
 	 * @param tuan
 	 */
 	private void viewTuanInfo(Tuan tuan){
-		new tuanInfoWindow(This(), tuan).show();
+		new tuanInfoWindow(This(), tuan, new onResultListener<String>() {
+			
+			@Override
+			public void onResult(String result) {
+				// TODO Auto-generated method stub
+				if(result != null && result.equals("Re")){
+					new loadAllTuanAsyncHandler(This()).start("");
+				}
+			}
+		}).show();
 	}
 	/**
 	 * 删除表格元素
