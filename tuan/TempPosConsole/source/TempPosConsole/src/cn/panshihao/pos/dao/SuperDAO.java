@@ -508,4 +508,10 @@ public class SuperDAO {
 		
 	}
 	
+	public interface DAOResponseListener{
+		public void onSuccess();
+		public void onError(int errorcode);
+		
+	}
+	
 }

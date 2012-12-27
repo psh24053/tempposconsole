@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.print.PrintService;
 
+import cn.panshihao.pos.dao.SuperDAO.DAOResponseListener;
 import cn.panshihao.pos.tools.InitPrintable;
 import cn.panshihao.pos.tools.PosLogger;
 
@@ -51,8 +52,8 @@ public class PrintHandler {
 	 * 初始化打印机
 	 */
 	public boolean PrintPos(int userID,String servicesName,String content,String keyCode,String address,
-			String phone,String name){
-			
+			String phone,String name,DAOResponseListener listener){
+		
 				boolean isSuccess = true;
 		
 				Book book = new Book();
@@ -103,6 +104,9 @@ public class PrintHandler {
 				if(!isFind){
 					
 					PosLogger.log.error("Can't find PrintService,PrintServiceName = " + servicesName);
+					if(listener != null){
+						listener.onError(1);
+					}
 					return false;
 					
 				}
@@ -127,7 +131,7 @@ public class PrintHandler {
 //		System.out.println(PrintHandler.getAllPrintServicesName().toString());
 		PrintHandler handler = new PrintHandler();
 //		handler.PrintPos("\\\\Pc-20121019mbtd\\pos58", "四川南方高新火锅大酬宾5折随便吃");
-		handler.PrintPos(1,"\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司");
+//		handler.PrintPos(1,"\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司");
 		
 	
 	}

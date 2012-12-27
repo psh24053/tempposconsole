@@ -421,9 +421,15 @@ public class KeyDAO extends SuperDAO {
 	 * @return boolean(是否成功)
 	 */
 	public boolean updateKeyStatusAndPrint(int userID,String servicesName,String content,String keyCode,String address,
-			String phone,String name){
+			String phone,String name, DAOResponseListener listener){
 		
 		boolean isSuccess = true;
+		
+		
+//		if(listener != null){
+//			listener.onSuccess();
+//			listener.onError(errorcode)
+//		}
 		
 		conn = SQLConn.getConnection();
 		
@@ -433,45 +439,49 @@ public class KeyDAO extends SuperDAO {
 			
 			ps = conn.prepareStatement("update temp_key set key_status=1 where key_code='" + keyCode + "'");
 			
-			isSuccess = ps.execute();
+			int result = ps.executeUpdate();
 			
-			if(isSuccess){
-				
-				ps = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
-				
-				ps.setInt(1, userID);
-				ps.setLong(2, System.currentTimeMillis());
-				ps.setString(3, "卖出" + keyCode + "兑换码");
-				
-				int result_2 = ps.executeUpdate();
-				
-				if (result_2 > 0) {
+			if (result > 0) {
 
-					PosLogger.log.info("Insert into log success");
+				PosLogger.log.info("Update into " + tablesName + " success");
 
+				isSuccess = true;
 
-				} else {
-					
-					PosLogger.log.error("Insert into database error");
-					isSuccess = false;
-					conn.setAutoCommit(true);
-					return isSuccess;
+			} else {
 
-				}
-				
-				
-			}else{
-				
-				PosLogger.log.error("updata database error");
+				PosLogger.log.error("Update into database error");
+
 				isSuccess = false;
 				conn.setAutoCommit(true);
 				return isSuccess;
-				
+
 			}
-			
+
+			ps = conn
+					.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
+
+			ps.setInt(1, userID);
+			ps.setLong(2, System.currentTimeMillis());
+			ps.setString(3, "卖出" + keyCode + "兑换码");
+
+			int result_2 = ps.executeUpdate();
+
+			if (result_2 > 0) {
+
+				PosLogger.log.info("Insert into log success");
+
+			} else {
+
+				PosLogger.log.error("Insert into database error");
+				isSuccess = false;
+				conn.setAutoCommit(true);
+				return isSuccess;
+
+			}
+				
 			PrintHandler print = new PrintHandler();
 			//打印
-			boolean printIsSuccess = print.PrintPos(userID, servicesName, content, keyCode, address, phone, name);
+			boolean printIsSuccess = print.PrintPos(userID, servicesName, content, keyCode, address, phone, name,listener);
 			
 			if(printIsSuccess){
 				
@@ -481,6 +491,7 @@ public class KeyDAO extends SuperDAO {
 			}
 			
 		} catch (SQLException e) {
+			
 			PosLogger.log.error(e.getMessage());
 			try {
 				conn.rollback();
@@ -489,6 +500,11 @@ public class KeyDAO extends SuperDAO {
 				PosLogger.log.error(e1.getMessage());
 				
 			}
+			
+			if(listener != null){
+				listener.onError(2);
+			}
+			
 			return false;
 		} finally {
 
@@ -752,7 +768,8 @@ public class KeyDAO extends SuperDAO {
 //		f.setTuan_id(1);
 //		dao.updateKey(f,1);
 //		System.out.println(dao.GenerateUniqueCode());
-		System.out.println(dao.addAfterKey(2, 10, 1));
+//		System.out.println(dao.addAfterKey(2, 10, 1));
+		dao.updateKeyStatusAndPrint(1, "\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司",null);
 		
 	}
 	
