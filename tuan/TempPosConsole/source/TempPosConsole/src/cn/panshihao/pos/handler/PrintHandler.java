@@ -118,6 +118,9 @@ public class PrintHandler {
 				try {
 					job.print();
 				} catch (PrinterException e) {
+					if(listener != null){
+						listener.onError(3);
+					}
 					isSuccess = false;
 					PosLogger.log.error(e.getMessage());
 				}
