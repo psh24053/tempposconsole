@@ -50,8 +50,10 @@ public class PrintHandler {
 	 * @author penglang
 	 * 初始化打印机
 	 */
-	public void PrintPos(String servicesName,String content,String keyCode,String address,
+	public boolean PrintPos(int userID,String servicesName,String content,String keyCode,String address,
 			String phone,String name){
+			
+				boolean isSuccess = true;
 		
 				Book book = new Book();
 
@@ -90,6 +92,7 @@ public class PrintHandler {
 						try {
 							job.setPrintService(printServices[i]);
 						} catch (PrinterException e) {
+							isSuccess = false;
 							PosLogger.log.error(e.getMessage());
 						}
 						
@@ -100,7 +103,7 @@ public class PrintHandler {
 				if(!isFind){
 					
 					PosLogger.log.error("Can't find PrintService,PrintServiceName = " + servicesName);
-					return;
+					return false;
 					
 				}
 				
@@ -111,9 +114,12 @@ public class PrintHandler {
 				try {
 					job.print();
 				} catch (PrinterException e) {
+					isSuccess = false;
 					PosLogger.log.error(e.getMessage());
 				}
-		
+				
+				return isSuccess;
+				
 	}
 	
 	public static void main(String[] args) {
@@ -121,7 +127,7 @@ public class PrintHandler {
 //		System.out.println(PrintHandler.getAllPrintServicesName().toString());
 		PrintHandler handler = new PrintHandler();
 //		handler.PrintPos("\\\\Pc-20121019mbtd\\pos58", "四川南方高新火锅大酬宾5折随便吃");
-		handler.PrintPos("\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司");
+		handler.PrintPos(1,"\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司");
 		
 	
 	}

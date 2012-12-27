@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.panshihao.pos.handler.PrintHandler;
 import cn.panshihao.pos.model.Key;
 import cn.panshihao.pos.tools.GenerateKeyCode;
 import cn.panshihao.pos.tools.PosLogger;
@@ -381,6 +382,122 @@ public class KeyDAO extends SuperDAO {
 		}
 		
 		return keyArray;
+	}
+	
+	/**
+	 * 获取一个为使用的兑换码，为打印操作做好准备
+	 * @param tuanID(团购ID)
+	 * @return String(兑换码)
+	 */
+	public String getNotUsedOneKeyCode(int tuanID){
+		
+		String code = "";
+		
+		JSONObject keyCode = new JSONObject();
+		
+		keyCode = getNotUsedKeyByTuanID(tuanID, 0, 1);
+		
+		try {
+			
+			if(keyCode.getInt("count") > 0){
+				
+				JSONArray json = keyCode.getJSONArray("list");
+				JSONObject json_2 = (JSONObject)json.get(0);
+				code = json_2.getString("cod");
+				
+			}
+			
+		} catch (JSONException e) {
+			PosLogger.log.error(e.getMessage());
+		}
+	
+		return code;
+		
+	}
+	
+	/**
+	 * 修改卖出的兑换码状态
+	 * @param keyCode(兑换码)
+	 * @return boolean(是否成功)
+	 */
+	public boolean updateKeyStatusAndPrint(int userID,String servicesName,String content,String keyCode,String address,
+			String phone,String name){
+		
+		boolean isSuccess = true;
+		
+		conn = SQLConn.getConnection();
+		
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement("update temp_key set key_status=1 where key_code='" + keyCode + "'");
+			
+			isSuccess = ps.execute();
+			
+			if(isSuccess){
+				
+				ps = conn.prepareStatement("insert into temp_log(user_id,log_time,log_content) values(?,?,?)");
+				
+				ps.setInt(1, userID);
+				ps.setLong(2, System.currentTimeMillis());
+				ps.setString(3, "卖出" + keyCode + "兑换码");
+				
+				int result_2 = ps.executeUpdate();
+				
+				if (result_2 > 0) {
+
+					PosLogger.log.info("Insert into log success");
+
+
+				} else {
+					
+					PosLogger.log.error("Insert into database error");
+					isSuccess = false;
+					conn.setAutoCommit(true);
+					return isSuccess;
+
+				}
+				
+				
+			}else{
+				
+				PosLogger.log.error("updata database error");
+				isSuccess = false;
+				conn.setAutoCommit(true);
+				return isSuccess;
+				
+			}
+			
+			PrintHandler print = new PrintHandler();
+			//打印
+			boolean printIsSuccess = print.PrintPos(userID, servicesName, content, keyCode, address, phone, name);
+			
+			if(printIsSuccess){
+				
+				conn.commit();
+			}
+			
+		} catch (SQLException e) {
+			PosLogger.log.error(e.getMessage());
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				
+				PosLogger.log.error(e1.getMessage());
+				
+			}
+			return false;
+		} finally {
+
+			// 关闭资源
+
+			this.closeConnection();
+
+		}
+		
+		return isSuccess;
+		
 	}
 	
 	/**
