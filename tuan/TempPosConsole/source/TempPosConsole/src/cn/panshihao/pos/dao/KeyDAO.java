@@ -283,7 +283,7 @@ public class KeyDAO extends SuperDAO {
 		
 		try {
 			ps = conn.prepareStatement("select * from temp_key where tuan_id=" + tuanID + 
-							" and user_status=1 limit " + start + "," + count);
+							" and key_status=1 limit " + start + "," + count);
 			
 			rs = ps.executeQuery();
 			
@@ -347,7 +347,7 @@ public class KeyDAO extends SuperDAO {
 		
 		try {
 			ps = conn.prepareStatement("select * from temp_key where tuan_id=" + tuanID + 
-							" and user_status=0 limit " + start + "," + count);
+							" and key_status=0 limit " + start + "," + count);
 			
 			rs = ps.executeQuery();
 			
@@ -476,6 +476,8 @@ public class KeyDAO extends SuperDAO {
 			if(printIsSuccess){
 				
 				conn.commit();
+			}else{
+				isSuccess = false;
 			}
 			
 		} catch (SQLException e) {
