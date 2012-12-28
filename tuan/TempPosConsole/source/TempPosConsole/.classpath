@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/QRCode"/>
 	<classpathentry kind="lib" path="lib/swt"/>
 	<classpathentry kind="lib" path="lib/jacob"/>
+	<classpathentry kind="lib" path="lib/printStatus"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

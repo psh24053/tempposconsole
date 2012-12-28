@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.util.PrinterStatus;
+
 import cn.panshihao.pos.handler.PrintHandler;
 import cn.panshihao.pos.model.Key;
 import cn.panshihao.pos.tools.GenerateKeyCode;
@@ -775,7 +777,9 @@ public class KeyDAO extends SuperDAO {
 //		dao.updateKey(f,1);
 //		System.out.println(dao.GenerateUniqueCode());
 //		System.out.println(dao.addAfterKey(2, 10, 1));
-		dao.updateKeyStatusAndPrint(1, "\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司",null);
+//		dao.updateKeyStatusAndPrint(1, "\\\\Pc-20121019mbtd\\pos58", "火锅大酬宾5折随便吃", "123456FJSDLKFSDG", "新北小区新乐中街玲珑蓝宇199号", "15008224403","四川南方高新公司有限有限公司",null);
+		System.out.println(PrinterStatus.getPrinterStatus("\\\\Pc-20121019mbtd\\pos58"));
+		System.out.println(PrinterStatus.getState(PrinterStatus.getPrinterStatus("\\\\Pc-20121019mbtd\\pos58")));
 		
 	}
 	
