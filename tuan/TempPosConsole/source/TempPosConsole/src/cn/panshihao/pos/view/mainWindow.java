@@ -5,6 +5,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -794,6 +795,17 @@ public class mainWindow extends superWindow {
 		
 		main_search_text = new Text(main_search, SWT.BORDER);
 		main_search_text.setBounds(main_search_combo.getBounds().width + marginWidthValue , main_search_combo.getBounds().y, marginWidthValue * 20, (int)(marginHeightValue * 3.5));
+		main_search_text.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.keyCode == 13){
+					searchTuan();
+				}
+				
+			}
+		});
+		
 		
 		main_search_button = new Button(main_search, SWT.NONE);
 		main_search_button.setText("搜索");
@@ -911,6 +923,11 @@ public class mainWindow extends superWindow {
 	 * @throws JSONException 
 	 */
 	private void changeSearchData(JSONObject data) throws JSONException{
+		
+		if(!data.has("list")){
+			alert(getShell(), "提示", "没有搜索到团购信息");
+			return;
+		}
 		
 		JSONArray list = data.getJSONArray("list");
 		

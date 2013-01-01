@@ -159,7 +159,7 @@ public class selectPrintWindow extends superWindow {
 			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
 				// TODO Auto-generated method stub
-				if(listener != null){
+				if(listener != null && selectPrint_list.getSelectionCount() > 0){
 					listener.onResult(selectPrint_list.getSelection()[0]);
 				}
 			}
