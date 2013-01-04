@@ -202,7 +202,7 @@ public class mainWindow extends superWindow {
 			public void run() {
 				// TODO Auto-generated method stub
 				
-				while(!isDisposed()){
+				while(!isDisposed() && !getDisplay().isDisposed()){
 					final String timeValue = "当前时间 "+ TransDate.convertTime(System.currentTimeMillis());;
 					
 					
@@ -1069,7 +1069,7 @@ public class mainWindow extends superWindow {
 			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
 				// TODO Auto-generated method stub
-				if(!logout){
+				if(!logout && !getDisplay().isDisposed()){
 					getDisplay().dispose();
 				}
 			}
